@@ -318,8 +318,141 @@ input[type=range]{width:100%;}
   </main>
 </div>
 
-<script src="js/translations.js"></script>
-<script src="js/data.js"></script>
-<script src="js/admin.js"></script>
+<script src="translations.js"></script>
+<script src="data.js"></script>
+<script src="admin.js"></script>
+<!-- استدعاء Firebase الإصدار 10 -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const firebaseConfig = {
+    apiKey: "AIzaSyAMLeRa5BeV6YQf7rqLx0JQd3fb_LhbeSU",
+    authDomain: "portfolio-2933c.firebaseapp.com",
+    projectId: "portfolio-2933c",
+    storageBucket: "portfolio-2933c.firebasestorage.app",
+    messagingSenderId: "599965326470",
+    appId: "1:599965326470:web:ff465c87d42bb0ab188507",
+    measurementId: "G-WBTPVJLRF4"
+  };
+
+  // تهيئة فايربيس
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // عناصر واجهة المستخدم
+  const loginScreen = document.getElementById('loginScreen');
+  const appShell = document.getElementById('app');
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const loginMsg = document.getElementById('loginMsg');
+  
+  // 1. مراقبة حالة تسجيل الدخول
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // تم تسجيل الدخول بنجاح
+      loginScreen.style.display = 'none';
+      appShell.classList.add('show');
+      loadDataFromFirebase(); // جلب البيانات عند الدخول
+    } else {
+      // غير مسجل الدخول
+      loginScreen.style.display = 'flex';
+      appShell.classList.remove('show');
+    }
+  });
+
+  // 2. عملية تسجيل الدخول
+  loginBtn.addEventListener('click', () => {
+    const email = document.getElementById('loginUser').value; // استخدم الإيميل بدلاً من اليوزرنيم
+    const pass = document.getElementById('loginPass').value;
+    
+    loginBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
+    
+    signInWithEmailAndPassword(auth, email, pass)
+      .then(() => {
+        loginMsg.className = 'status-msg ok';
+        loginMsg.innerText = "Login successful!";
+        loginBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In';
+      })
+      .catch((error) => {
+        loginMsg.className = 'status-msg err';
+        loginMsg.innerText = "Error: " + error.message;
+        loginBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In';
+      });
+  });
+
+  // 3. تسجيل الخروج
+  logoutBtn.addEventListener('click', () => {
+    signOut(auth);
+  });
+
+  // 4. جلب البيانات من قاعدة البيانات وعرضها في الحقول
+  async function loadDataFromFirebase() {
+    try {
+      const docRef = doc(db, "portfolio", "content");
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        // مثال: تعبئة حقول الـ Hero بالبيانات المحفوظة
+        if(data.heroEn) {
+            document.getElementById('f_hero_eyebrow').value = data.heroEn.eyebrow || "";
+            document.getElementById('f_hero_title1').value = data.heroEn.title1 || "";
+            document.getElementById('f_hero_lead').value = data.heroEn.lead || "";
+        }
+        if(data.experienceData) {
+            document.getElementById('json_experience').value = JSON.stringify(data.experienceData, null, 2);
+        }
+        // ... يمكنك إضافة باقي الحقول هنا بنفس الطريقة
+      }
+    } catch (e) {
+      console.error("Error loading data: ", e);
+    }
+  }
+
+  // 5. حفظ التعديلات إلى قاعدة البيانات
+  document.getElementById('saveHero').addEventListener('click', async () => {
+    const heroMsg = document.getElementById('heroMsg');
+    heroMsg.className = 'status-msg';
+    heroMsg.innerText = 'Saving...';
+    heroMsg.style.display = 'block';
+
+    try {
+      // نستخدم { merge: true } حتى لا نحذف البيانات الأخرى
+      await setDoc(doc(db, "portfolio", "content"), {
+        heroEn: {
+          eyebrow: document.getElementById('f_hero_eyebrow').value,
+          title1: document.getElementById('f_hero_title1').value,
+          lead: document.getElementById('f_hero_lead').value
+        }
+      }, { merge: true });
+      
+      heroMsg.className = 'status-msg ok';
+      heroMsg.innerText = 'Saved to Firebase successfully!';
+    } catch (error) {
+      heroMsg.className = 'status-msg err';
+      heroMsg.innerText = 'Error saving: ' + error.message;
+    }
+  });
+
+  // مثال: حفظ قسم الخبرات
+  document.getElementById('saveExperience').addEventListener('click', async () => {
+    const expMsg = document.getElementById('experienceMsg');
+    try {
+      const parsedData = JSON.parse(document.getElementById('json_experience').value);
+      await setDoc(doc(db, "portfolio", "content"), {
+        experienceData: parsedData
+      }, { merge: true });
+      
+      expMsg.className = 'status-msg ok';
+      expMsg.innerText = 'Experience saved to Firebase!';
+    } catch (error) {
+      expMsg.className = 'status-msg err';
+      expMsg.innerText = 'Invalid JSON or Error: ' + error.message;
+    }
+  });
+
+</script>
 </body>
 </html>

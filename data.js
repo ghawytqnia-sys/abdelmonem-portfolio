@@ -3,7 +3,7 @@
    admin.html writes overrides to localStorage "portfolio_data_overrides"
    which fully replaces this object if present.
    ============================================================ */
-const SITE_DATA = {
+window SITE_DATA = {
   en: {
     experience: [
       {

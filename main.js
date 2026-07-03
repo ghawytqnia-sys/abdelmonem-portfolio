@@ -1,3 +1,50 @@
+<!-- استدعاء Firebase للزوار (قراءة فقط) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAMLeRa5BeV6YQf7rqLx0JQd3fb_LhbeSU",
+  authDomain: "portfolio-2933c.firebaseapp.com",
+  projectId: "portfolio-2933c",
+  storageBucket: "portfolio-2933c.firebasestorage.app",
+  messagingSenderId: "599965326470",
+  appId: "1:599965326470:web:ff465c87d42bb0ab188507",
+  measurementId: "G-WBTPVJLRF4"
+};
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // دالة لجلب البيانات وتطبيقها قبل إخفاء شاشة التحميل
+  window.fetchFirebaseData = async function() {
+    try {
+      const docRef = doc(db, "portfolio", "content");
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const dbData = docSnap.data();
+        
+        // 1. تطبيق نصوص الـ Hero إذا تم تعديلها
+        if(dbData.heroEn) {
+            TRANSLATIONS.en.hero.eyebrow = dbData.heroEn.eyebrow;
+            TRANSLATIONS.en.hero.title1 = dbData.heroEn.title1;
+            TRANSLATIONS.en.hero.lead = dbData.heroEn.lead;
+        }
+
+        // 2. تطبيق بيانات الـ Experience إذا تم تعديلها
+        if(dbData.experienceData) {
+            SITE_DATA.en.experience = dbData.experienceData;
+        }
+
+        // يمكنك إضافة دمج باقي الأقسام هنا...
+        console.log("Firebase data loaded successfully!");
+      }
+    } catch (error) {
+      console.warn("Could not load Firebase data, falling back to local data.", error);
+    }
+  };
+</script>
 /* ============================================================
    MAIN SITE LOGIC
    ============================================================ */

@@ -528,7 +528,7 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
+  
   const firebaseConfig = {
     apiKey: "AIzaSyAMLeRa5BeV6YQf7rqLx0JQd3fb_LhbeSU",
     authDomain: "portfolio-2933c.firebaseapp.com",
@@ -542,6 +542,7 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
+  // دالة لجلب البيانات وتطبيقها قبل إخفاء شاشة التحميل
   window.fetchFirebaseData = async function() {
     try {
       const docRef = doc(db, "portfolio", "content");
@@ -549,18 +550,83 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
 
       if (docSnap.exists()) {
         const dbData = docSnap.data();
+        
+        // 1. تطبيق نصوص الافتتاحية (إنجليزي)
         if(dbData.heroEn) {
-            TRANSLATIONS.en.hero.eyebrow = dbData.heroEn.eyebrow;
-            TRANSLATIONS.en.hero.title1 = dbData.heroEn.title1;
-            TRANSLATIONS.en.hero.lead = dbData.heroEn.lead;
+            TRANSLATIONS.en.hero.eyebrow = dbData.heroEn.eyebrow || TRANSLATIONS.en.hero.eyebrow;
+            TRANSLATIONS.en.hero.title1 = dbData.heroEn.title1 || TRANSLATIONS.en.hero.title1;
+            TRANSLATIONS.en.hero.lead = dbData.heroEn.lead || TRANSLATIONS.en.hero.lead;
         }
+        if(dbData.aboutEn) {
+            TRANSLATIONS.en.about.title = dbData.aboutEn.title || TRANSLATIONS.en.about.title;
+            TRANSLATIONS.en.about.p1 = dbData.aboutEn.p1 || TRANSLATIONS.en.about.p1;
+        }
+
+        // 2. تطبيق نصوص الافتتاحية (عربي)
+        if(dbData.heroAr) {
+            TRANSLATIONS.ar.hero.eyebrow = dbData.heroAr.eyebrow || TRANSLATIONS.ar.hero.eyebrow;
+            TRANSLATIONS.ar.hero.title1 = dbData.heroAr.title1 || TRANSLATIONS.ar.hero.title1;
+            TRANSLATIONS.ar.hero.lead = dbData.heroAr.lead || TRANSLATIONS.ar.hero.lead;
+        }
+        if(dbData.aboutAr) {
+            TRANSLATIONS.ar.about.title = dbData.aboutAr.title || TRANSLATIONS.ar.about.title;
+            TRANSLATIONS.ar.about.p1 = dbData.aboutAr.p1 || TRANSLATIONS.ar.about.p1;
+        }
+
+        // 3. تطبيق المصفوفات المعقدة للغتين
         if(dbData.experienceData) {
             SITE_DATA.en.experience = dbData.experienceData;
+            SITE_DATA.ar.experience = dbData.experienceData;
         }
-        console.log("Firebase data loaded successfully!");
+        if(dbData.projectsData) {
+            SITE_DATA.en.projects = dbData.projectsData;
+            SITE_DATA.ar.projects = dbData.projectsData;
+        }
+        if(dbData.skillCatsData) {
+            SITE_DATA.en.skillCats = dbData.skillCatsData;
+            SITE_DATA.ar.skillCats = dbData.skillCatsData;
+        }
+        if(dbData.certsElarabyData) {
+            SITE_DATA.en.certsElaraby = dbData.certsElarabyData;
+            SITE_DATA.ar.certsElaraby = dbData.certsElarabyData;
+        }
+        if(dbData.certsAlmentorData) {
+            SITE_DATA.en.certsAlmentor = dbData.certsAlmentorData;
+            SITE_DATA.ar.certsAlmentor = dbData.certsAlmentorData;
+        }
+
+        // 4. تطبيق المظهر والألوان
+        if(dbData.themeData) {
+            const html = document.documentElement;
+            if(dbData.themeData.gold) html.style.setProperty('--gold', dbData.themeData.gold);
+            if(dbData.themeData.teal) html.style.setProperty('--teal', dbData.themeData.teal);
+        }
+
+        // 5. تطبيق وسائل الاتصال لايف
+        if(dbData.contactData) {
+            const emailSpan = document.querySelector('#copyEmail span:not(.copy-flag)');
+            const phoneSpan = document.querySelector('#copyPhone span:not(.copy-flag)');
+            const locItem = document.querySelector('.fa-location-dot').closest('.contact-item');
+
+            if (emailSpan && dbData.contactData.email) emailSpan.textContent = dbData.contactData.email;
+            if (phoneSpan && dbData.contactData.phone) phoneSpan.textContent = dbData.contactData.phone;
+            if (locItem && dbData.contactData.location) locItem.querySelector('span').textContent = dbData.contactData.location;
+
+            // تحديث رابط الواتساب الديناميكي
+            const waLink = document.querySelector('a[href^="https://wa.me/"]');
+            if (waLink && dbData.contactData.phone) {
+                let cleanPhone = dbData.contactData.phone.replace(/[^0-9+]/g,'');
+                waLink.href = "https://wa.me/" + cleanPhone.replace('+', '');
+            }
+            
+            // حفظ الداتا دي عالمياً لزرار النسخ (Copy)
+            window.dynamicContact = dbData.contactData;
+        }
+
+        console.log("تم سحب وتوزيع كافة بيانات Firebase بنجاح!");
       }
     } catch (error) {
-      console.warn("Could not load Firebase data, falling back to local data.", error);
+      console.warn("تعذر سحب البيانات، سيتم الاعتماد على الملف المحلي.", error);
     }
   };
 </script>
@@ -877,13 +943,19 @@ const TRANSLATIONS = {
     });
   }
 
+  /* ---------- CLIPBOARD ---------- */
   function initCopy(){
     const map = { copyEmail: 'abdosultan306@gmail.com', copyPhone: '+20 111 455 0112' };
     Object.keys(map).forEach(id=>{
       const el = document.getElementById(id);
       if(!el) return;
       el.addEventListener('click', ()=>{
-        navigator.clipboard.writeText(map[id]).then(()=>{
+        // التأكد من نسخ الرقم أو الإيميل الجديد المرفوع من لوحة التحكم
+        const textToCopy = (window.dynamicContact && id === 'copyEmail') ? window.dynamicContact.email : 
+                           (window.dynamicContact && id === 'copyPhone') ? window.dynamicContact.phone : 
+                           map[id];
+        
+        navigator.clipboard.writeText(textToCopy).then(()=>{
           el.classList.add('copied');
           setTimeout(()=> el.classList.remove('copied'), 1600);
         });

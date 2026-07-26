@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>AbdElMoneim Sultan — Sales Executive & Digital Product Builder</title>
+<title>AbdElMoneim Sultan — Sales Executive &amp; Digital Product Builder</title>
 <meta name="description" content="AbdElMoneim Sultan — Sales Executive at Elaraby Group with 4+ years in retail, now building AI-powered digital products with no-code/low-code tools.">
 <meta name="theme-color" content="#0B1220">
 
@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 
 <style>
-/* ============ DESIGN TOKENS ============ */
+/* ============ DESIGN TOKENS & DYNAMIC THEMING ============ */
 :root{
   --ink:#0B1220; --ink-2:#121B2E; --gold:#C08B3D; --gold-l:#E3B36B; 
   --teal:#1F8A70; --teal-l:#38C9A6; --cream:#F7F4EE; --paper:#FFFFFF; 
@@ -114,9 +114,9 @@ html[dir="rtl"] .mobile-menu.open{transform:translateX(0);}
 .hero-portrait{position:relative; justify-self:center;}
 .portrait-ring{width:min(360px,80vw); aspect-ratio:1/1.05; border-radius:28px; position:relative; overflow:hidden; border:1px solid var(--border); box-shadow:var(--shadow-soft); background:var(--surface-solid);}
 .portrait-ring img{width:100%; height:100%; object-fit:cover;}
-.portrait-badge{position:absolute; bottom:-18px; left:50%; transform:translateX(-50%); background:var(--surface-solid); border:1px solid var(--border); border-radius:14px; padding:12px 20px; display:flex; align-items:center; gap:10px; box-shadow:var(--shadow-soft); font-size:13px; font-weight:600; white-space:nowrap; z-index:5;}
+.portrait-badge{position:absolute; bottom:-18px; left:50%; transform:translateX(-50%); background:var(--surface-solid); border:1px solid var(--border); border-radius:14px; padding:12px 20px; display:flex; align-items:center; gap:10px; box-shadow:var(--shadow-soft); font-size:13px; font-weight:600; white-space:nowrap;}
 .portrait-badge i{color:var(--teal-l);}
-.float-chip{position:absolute; background:var(--surface-solid); border:1px solid var(--border); border-radius:12px; padding:10px 14px; font-size:12.5px; font-weight:600; box-shadow:var(--shadow-soft); display:flex; align-items:center; gap:8px; animation:floaty 5s ease-in-out infinite; z-index:5;}
+.float-chip{position:absolute; background:var(--surface-solid); border:1px solid var(--border); border-radius:12px; padding:10px 14px; font-size:12.5px; font-weight:600; box-shadow:var(--shadow-soft); display:flex; align-items:center; gap:8px; animation:floaty 5s ease-in-out infinite;}
 .float-chip.c1{top:6%; left:-8%; animation-delay:0s;}
 .float-chip.c2{top:38%; right:-12%; animation-delay:1.2s;}
 .float-chip i{color:var(--gold);}
@@ -177,22 +177,17 @@ html[dir="rtl"] .tl-body li::before{left:auto; right:0;}
 .tl-toggle i{transition:.3s ease;}
 .tl-card.open .tl-toggle i{transform:rotate(180deg);}
 
-/* ============ PROJECTS ============ */
 .proj-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:26px;}
-.proj-card{border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface); transition:.35s ease; position:relative; display:flex; flex-direction:column;}
+.proj-card{border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface); transition:.35s ease; position:relative;}
 .proj-card:hover{transform:translateY(-6px); border-color:var(--teal-l); box-shadow:var(--shadow-soft);}
 .proj-media{aspect-ratio:16/9; background:linear-gradient(135deg,var(--ink-2),#1c2740); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;}
-.proj-media i{font-size:44px; color:var(--gold-l); opacity:.85; z-index:1; position:relative;}
-.proj-cover{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.75; transition:transform .5s ease, opacity .5s ease;}
-.proj-card:hover .proj-cover{transform:scale(1.05); opacity:0.9;}
-.proj-status{position:absolute; top:14px; right:14px; font-size:11px; font-weight:700; padding:5px 11px; border-radius:100px; background:rgba(31,138,112,.25); color:var(--teal-l); border:1px solid rgba(31,138,112,.5); text-transform:uppercase; letter-spacing:.05em; z-index:2; backdrop-filter:blur(4px);}
+.proj-media img{width:100%; height:100%; object-fit:cover;}
+.proj-media i{font-size:44px; color:var(--gold-l); opacity:.85;}
+.proj-status{position:absolute; top:14px; right:14px; font-size:11px; font-weight:700; padding:5px 11px; border-radius:100px; background:rgba(31,138,112,.18); color:var(--teal-l); border:1px solid rgba(31,138,112,.4); text-transform:uppercase; letter-spacing:.05em;}
 html[dir="rtl"] .proj-status{right:auto; left:14px;}
-.proj-link-btn{position:absolute; bottom:14px; right:14px; z-index:2; background:var(--surface-solid); border:1px solid var(--border); color:var(--text); padding:8px 14px; border-radius:8px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:6px; box-shadow:var(--shadow-soft); transition:0.25s;}
-.proj-link-btn:hover{border-color:var(--gold); color:var(--gold);}
-html[dir="rtl"] .proj-link-btn{right:auto; left:14px;}
-.proj-body{padding:24px 24px 26px; flex:1; display:flex; flex-direction:column;}
+.proj-body{padding:24px 24px 26px;}
 .proj-body h3{font-size:19px; margin-bottom:10px;}
-.proj-body p{color:var(--text-dim); font-size:14.5px; line-height:1.7; margin-bottom:16px; flex:1;}
+.proj-body p{color:var(--text-dim); font-size:14.5px; line-height:1.7; margin-bottom:16px;}
 .proj-tags{display:flex; flex-wrap:wrap; gap:8px;}
 .tag{font-size:11.5px; padding:5px 11px; border-radius:100px; border:1px solid var(--border); color:var(--text-dim);}
 
@@ -235,7 +230,6 @@ html[dir="rtl"] .proj-link-btn{right:auto; left:14px;}
 .copy-flag{margin-left:auto; font-size:11px; color:var(--teal-l); opacity:0; transition:.25s ease;}
 html[dir="rtl"] .copy-flag{margin-left:0; margin-right:auto;}
 .contact-item.copied .copy-flag{opacity:1;}
-.social-row{display:flex; gap:12px; margin-top:24px;}
 .form-field{margin-bottom:16px;}
 .form-field label{display:block; font-size:13px; margin-bottom:7px; color:var(--text-dim); font-weight:500;}
 .form-field input, .form-field textarea{width:100%; padding:13px 16px; border-radius:10px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-family:inherit; font-size:14.5px; transition:.25s ease;}
@@ -243,7 +237,7 @@ html[dir="rtl"] .copy-flag{margin-left:0; margin-right:auto;}
 .form-msg{font-size:13px; margin-top:12px; display:none;}
 .form-msg.show{display:block;}
 
-/* ============ FOOTER & MISC ============ */
+/* ============ FOOTER ============ */
 footer{padding:50px 0 34px; border-top:1px solid var(--border);}
 .footer-inner{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
 .footer-inner p{font-size:13px; color:var(--text-dim);}
@@ -336,9 +330,9 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
       <div class="float-chip c1"><i class="fa-solid fa-chart-line"></i> <span data-i18n="hero.chip1">Sales Growth Focus</span></div>
       <div class="float-chip c2"><i class="fa-solid fa-robot"></i> <span data-i18n="hero.chip2">AI-Powered Builder</span></div>
       <div class="portrait-ring">
-        <img src="assets/portrait.jpg" id="heroProfileImg" alt="AbdElMoneim Sultan portrait" loading="lazy">
+        <img id="dom_profile_img" src="assets/portrait.jpg" alt="AbdElMoneim Sultan portrait" loading="lazy">
       </div>
-      <div class="portrait-badge"><i class="fa-solid fa-location-dot"></i> <span id="heroLocationTxt">Cairo, Egypt</span></div>
+      <div class="portrait-badge"><i class="fa-solid fa-location-dot"></i> <span id="dom_location_badge">Cairo, Egypt</span></div>
     </div>
   </div>
   <div class="scroll-cue"><span data-i18n="hero.scroll">Scroll</span><div class="line"></div></div>
@@ -355,7 +349,7 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
         <p data-i18n="about.p1">I'm a 31-year-old professional with over four years of experience in the retail sector...</p>
         <p data-i18n="about.p2">In parallel, I've been building hands-on experience with AI tools...</p>
         <div class="about-facts">
-          <div class="fact"><span data-i18n="about.f1l">Based in</span><b id="aboutLocationTxt">Cairo, Egypt</b></div>
+          <div class="fact"><span data-i18n="about.f1l">Based in</span><b id="dom_about_location">Cairo, Egypt</b></div>
           <div class="fact"><span data-i18n="about.f2l">Current Role</span><b data-i18n="about.f2v">Sales Executive, Elaraby Group</b></div>
           <div class="fact"><span data-i18n="about.f3l">Languages</span><b data-i18n="about.f3v">Arabic (Native), English (B1)</b></div>
           <div class="fact"><span data-i18n="about.f4l">Focus</span><b data-i18n="about.f4v">Sales · AI Tools · Product Design</b></div>
@@ -474,23 +468,23 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
     </div>
     <div class="contact-grid">
       <div data-aos="fade-up">
-        <div class="contact-item" id="copyEmail" data-val="abdosultan306@gmail.com">
+        <div class="contact-item" id="copyEmail">
           <div class="ic"><i class="fa-solid fa-envelope"></i></div>
-          <div class="txt"><b data-i18n="contact.email">Email</b><span>abdosultan306@gmail.com</span></div>
+          <div class="txt"><b data-i18n="contact.email">Email</b><span id="dom_contact_email">abdosultan306@gmail.com</span></div>
           <span class="copy-flag" data-i18n="contact.copied">Copied!</span>
         </div>
-        <div class="contact-item" id="copyPhone" data-val="+201114550112">
+        <div class="contact-item" id="copyPhone">
           <div class="ic"><i class="fa-solid fa-phone"></i></div>
-          <div class="txt"><b data-i18n="contact.phone">Phone</b><span>+20 111 455 0112</span></div>
+          <div class="txt"><b data-i18n="contact.phone">Phone</b><span id="dom_contact_phone">+20 111 455 0112</span></div>
           <span class="copy-flag" data-i18n="contact.copied">Copied!</span>
         </div>
-        <a class="contact-item" id="whatsappLink" href="https://wa.me/2001114550112" target="_blank" rel="noopener">
+        <a class="contact-item" id="dom_whatsapp_link" href="https://wa.me/2001114550112" target="_blank" rel="noopener">
           <div class="ic"><i class="fa-brands fa-whatsapp"></i></div>
           <div class="txt"><b data-i18n="contact.whatsapp">WhatsApp</b><span data-i18n="contact.whatsappSub">Chat directly</span></div>
         </a>
         <div class="contact-item">
           <div class="ic"><i class="fa-solid fa-location-dot"></i></div>
-          <div class="txt"><b data-i18n="contact.location">Location</b><span id="contactLocationTxt" data-i18n="contact.locationSub">Madinat El-Salam, Cairo, Egypt</span></div>
+          <div class="txt"><b data-i18n="contact.location">Location</b><span id="dom_contact_location">Madinat El-Salam, Cairo, Egypt</span></div>
         </div>
       </div>
       <form data-aos="fade-up" data-aos-delay="100" id="contactForm">
@@ -531,11 +525,9 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 
-<script src="data.js"></script>
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAMLeRa5BeV6YQf7rqLx0JQd3fb_LhbeSU",
@@ -550,7 +542,118 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  window.DB_THEME_MODE = null; // Store DB mode
+  function processDocData(dbData) {
+    if(!dbData) return;
+
+    // Translations
+    if(dbData.heroEn) {
+      if(dbData.heroEn.eyebrow) TRANSLATIONS.en.hero.eyebrow = dbData.heroEn.eyebrow;
+      if(dbData.heroEn.title1) TRANSLATIONS.en.hero.title1 = dbData.heroEn.title1;
+      if(dbData.heroEn.lead) TRANSLATIONS.en.hero.lead = dbData.heroEn.lead;
+    }
+    if(dbData.aboutEn) {
+      if(dbData.aboutEn.title) TRANSLATIONS.en.about.title = dbData.aboutEn.title;
+      if(dbData.aboutEn.p1) TRANSLATIONS.en.about.p1 = dbData.aboutEn.p1;
+    }
+    if(dbData.heroAr) {
+      if(dbData.heroAr.eyebrow) TRANSLATIONS.ar.hero.eyebrow = dbData.heroAr.eyebrow;
+      if(dbData.heroAr.title1) TRANSLATIONS.ar.hero.title1 = dbData.heroAr.title1;
+      if(dbData.heroAr.lead) TRANSLATIONS.ar.hero.lead = dbData.heroAr.lead;
+    }
+    if(dbData.aboutAr) {
+      if(dbData.aboutAr.title) TRANSLATIONS.ar.about.title = dbData.aboutAr.title;
+      if(dbData.aboutAr.p1) TRANSLATIONS.ar.about.p1 = dbData.aboutAr.p1;
+    }
+
+    // Profile Img
+    if(dbData.aboutData?.profileImg) {
+      const imgEl = document.getElementById('dom_profile_img');
+      if(imgEl) imgEl.src = dbData.aboutData.profileImg;
+    }
+
+    // Dynamic Lists
+    if(dbData.experienceData && dbData.experienceData.length > 0) {
+      SITE_DATA.en.experience = dbData.experienceData;
+      SITE_DATA.ar.experience = dbData.experienceData;
+    }
+    if(dbData.projectsData && dbData.projectsData.length > 0) {
+      SITE_DATA.en.projects = dbData.projectsData;
+      SITE_DATA.ar.projects = dbData.projectsData;
+    }
+    if(dbData.skillCatsData && dbData.skillCatsData.length > 0) {
+      SITE_DATA.en.skillCats = dbData.skillCatsData;
+      SITE_DATA.ar.skillCats = dbData.skillCatsData;
+    }
+    if(dbData.certsElarabyData) {
+      SITE_DATA.en.certsElaraby = dbData.certsElarabyData;
+      SITE_DATA.ar.certsElaraby = dbData.certsElarabyData;
+    }
+    if(dbData.certsAlmentorData) {
+      SITE_DATA.en.certsAlmentor = dbData.certsAlmentorData;
+      SITE_DATA.ar.certsAlmentor = dbData.certsAlmentorData;
+    }
+
+    // Contact Data
+    if(dbData.contactData) {
+      if(dbData.contactData.email) {
+        const el = document.getElementById('dom_contact_email');
+        if(el) el.innerText = dbData.contactData.email;
+      }
+      if(dbData.contactData.phone) {
+        const el = document.getElementById('dom_contact_phone');
+        if(el) el.innerText = dbData.contactData.phone;
+        const wa = document.getElementById('dom_whatsapp_link');
+        if(wa) wa.href = "https://wa.me/" + dbData.contactData.phone.replace(/[^0-9]/g, '');
+      }
+      if(dbData.contactData.location) {
+        const lang = localStorage.getItem('portfolio_lang') || 'en';
+        const locStr = (lang === 'ar' && dbData.contactData.locationAr) ? dbData.contactData.locationAr : dbData.contactData.location;
+        const el = document.getElementById('dom_contact_location');
+        if(el) el.innerText = locStr;
+        const b = document.getElementById('dom_location_badge');
+        if(b) b.innerText = locStr;
+        const ab = document.getElementById('dom_about_location');
+        if(ab) ab.innerText = locStr;
+      }
+    }
+
+    // Theme Engine & Visual Controls
+    if(dbData.themeData) {
+      const theme = dbData.themeData;
+      const html = document.documentElement;
+      if(theme.mode) html.setAttribute('data-theme', theme.mode);
+      if(theme.gold) html.style.setProperty('--gold', theme.gold);
+      if(theme.goldLight) html.style.setProperty('--gold-l', theme.goldLight);
+      if(theme.teal) html.style.setProperty('--teal', theme.teal);
+      if(theme.tealLight) html.style.setProperty('--teal-l', theme.tealLight);
+      if(theme.bg) html.style.setProperty('--bg', theme.bg);
+      if(theme.surface) html.style.setProperty('--surface', theme.surface);
+      if(theme.radius) html.style.setProperty('--radius', theme.radius + 'px');
+      if(theme.font) {
+        html.style.setProperty('--font-display', theme.font);
+        html.style.setProperty('--font-body', theme.font);
+      }
+
+      // Section Visibility Toggles
+      if(theme.sectionVisibility) {
+        const vis = theme.sectionVisibility;
+        const toggleSec = (id, visible) => {
+          const el = document.getElementById(id);
+          if(el) el.style.display = visible ? 'block' : 'none';
+        };
+        toggleSec('home', vis.hero !== false);
+        toggleSec('about', vis.about !== false);
+        toggleSec('experience', vis.experience !== false);
+        toggleSec('projects', vis.projects !== false);
+        toggleSec('skills', vis.skills !== false);
+        toggleSec('education', vis.education !== false);
+        toggleSec('contact', vis.contact !== false);
+      }
+    }
+
+    const currentLang = localStorage.getItem('portfolio_lang') || 'en';
+    if(window.refreshAppUI) window.refreshAppUI(currentLang);
+  }
 
   window.fetchFirebaseData = async function() {
     try {
@@ -558,97 +661,17 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        const dbData = docSnap.data();
-
-        // 1. Text & Copy
-        if(dbData.heroEn) {
-            TRANSLATIONS.en.hero.eyebrow = dbData.heroEn.eyebrow;
-            TRANSLATIONS.en.hero.title1 = dbData.heroEn.title1;
-            TRANSLATIONS.en.hero.lead = dbData.heroEn.lead;
-        }
-        if(dbData.heroAr) {
-            TRANSLATIONS.ar.hero.eyebrow = dbData.heroAr.eyebrow;
-            TRANSLATIONS.ar.hero.title1 = dbData.heroAr.title1;
-            TRANSLATIONS.ar.hero.lead = dbData.heroAr.lead;
-        }
-        if(dbData.aboutEn) {
-            TRANSLATIONS.en.about.title = dbData.aboutEn.title;
-            TRANSLATIONS.en.about.p1 = dbData.aboutEn.p1;
-        }
-        if(dbData.aboutAr) {
-            TRANSLATIONS.ar.about.title = dbData.aboutAr.title;
-            TRANSLATIONS.ar.about.p1 = dbData.aboutAr.p1;
-        }
-        
-        // 2. Profile Image & Contact Info
-        if(dbData.aboutData?.profileImg) {
-            document.getElementById('heroProfileImg').src = dbData.aboutData.profileImg;
-        }
-        if(dbData.contactData) {
-            const c = dbData.contactData;
-            if(c.email) {
-                document.querySelector('#copyEmail .txt span').textContent = c.email;
-                document.getElementById('copyEmail').dataset.val = c.email;
-            }
-            if(c.phone) {
-                document.querySelector('#copyPhone .txt span').textContent = c.phone;
-                document.getElementById('copyPhone').dataset.val = c.phone;
-                document.getElementById('whatsappLink').href = `https://wa.me/${c.phone.replace(/[^0-9]/g,'')}`;
-            }
-            if(c.location) {
-                document.getElementById('contactLocationTxt').textContent = c.location;
-                document.getElementById('aboutLocationTxt').textContent = c.location;
-                document.getElementById('heroLocationTxt').textContent = c.location;
-            }
-        }
-
-        // 3. Unified Collections mapping
-        // Our new Admin writes a unified array for Projects and Experience (with properties like titleEn, titleAr)
-        if(dbData.experienceData) {
-            SITE_DATA.en.experience = dbData.experienceData;
-            SITE_DATA.ar.experience = dbData.experienceData;
-        }
-        if(dbData.projectsData) {
-            SITE_DATA.en.projects = dbData.projectsData;
-            SITE_DATA.ar.projects = dbData.projectsData;
-        }
-        if(dbData.skillCatsData) {
-            SITE_DATA.en.skillCats = dbData.skillCatsData;
-            SITE_DATA.ar.skillCats = dbData.skillCatsData;
-        }
-        if(dbData.certsElarabyData) {
-            SITE_DATA.en.certsElaraby = dbData.certsElarabyData;
-            SITE_DATA.ar.certsElaraby = dbData.certsElarabyData;
-        }
-        if(dbData.certsAlmentorData) {
-            SITE_DATA.en.certsAlmentor = dbData.certsAlmentorData;
-            SITE_DATA.ar.certsAlmentor = dbData.certsAlmentorData;
-        }
-
-        // 4. Global Theme overrides
-        if(dbData.themeData) {
-            const t = dbData.themeData;
-            window.DB_THEME_MODE = t.mode; // Saves DB mode to take priority over cached local mode
-            const html = document.documentElement;
-            html.setAttribute('data-theme', t.mode || 'dark');
-            if(t.gold) html.style.setProperty('--gold', t.gold);
-            if(t.teal) html.style.setProperty('--teal', t.teal);
-            if(t.bg) html.style.setProperty('--bg', t.bg);
-            if(t.surface) {
-              html.style.setProperty('--surface-solid', t.surface);
-              html.style.setProperty('--bg-2', t.surface);
-            }
-            if(t.radius) html.style.setProperty('--radius', t.radius + 'px');
-            if(t.font) {
-              html.style.setProperty('--font-display', t.font);
-              html.style.setProperty('--font-body', t.font);
-            }
-        }
-
-        console.log("Firebase Dashboard Data successfully loaded & applied!");
+        processDocData(docSnap.data());
       }
+
+      // Setup Real-time Snapshot Listener
+      onSnapshot(docRef, (snapshot) => {
+        if(snapshot.exists()) {
+          processDocData(snapshot.data());
+        }
+      });
     } catch (error) {
-      console.warn("Could not load Firebase data, falling back to local data.", error);
+      console.warn("Could not load Firebase data, falling back to default SITE_DATA.", error);
     }
   };
 </script>
@@ -740,19 +763,14 @@ const TRANSLATIONS = {
 };
 </script>
 
+<script src="data.js"></script>
+
 <script>
 (function(){
   const STORE_LANG = 'portfolio_lang';
   const STORE_THEME = 'portfolio_theme';
   const STORE_COOKIE = 'portfolio_cookie_ack';
   const html = document.documentElement;
-
-  /* ---------- ERROR BOUNDARY ---------- */
-  if (typeof SITE_DATA === 'undefined') {
-      console.error("⚠️ Error: data.js is missing or failed to load.");
-      document.getElementById('loader').innerHTML = '<div style="color:#e07a7a;text-align:center;font-family:sans-serif;"><b>Failed to load data.js</b><br><small>Please check the file path.</small></div>';
-      return; 
-  }
 
   function getLang(){ return localStorage.getItem(STORE_LANG) || 'en'; }
 
@@ -778,8 +796,6 @@ const TRANSLATIONS = {
   }
 
   function getTheme(){
-    // DB preference strictly overrides local cache if available 
-    if(window.DB_THEME_MODE) return window.DB_THEME_MODE;
     const stored = localStorage.getItem(STORE_THEME);
     if(stored) return stored;
     return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
@@ -792,67 +808,53 @@ const TRANSLATIONS = {
     localStorage.setItem(STORE_THEME, theme);
   }
   
-  function toggleTheme(){
-    window.DB_THEME_MODE = null; // Free DB lock upon manual user override
-    applyTheme(getTheme() === 'dark' ? 'light' : 'dark'); 
-  }
+  function toggleTheme(){ applyTheme(getTheme() === 'dark' ? 'light' : 'dark'); }
 
   function renderDynamicContent(lang){
-    const d = SITE_DATA[lang];
+    const d = SITE_DATA[lang] || SITE_DATA['en'];
 
-    // EXPERIENCE (Handles both legacy localized objects and unified arrays from Admin)
+    // Experience
     const tl = document.getElementById('timelineList');
     if(tl && d.experience) {
-        tl.innerHTML = d.experience.map((item, i) => {
-          const role = item[`role${lang.charAt(0).toUpperCase() + lang.slice(1)}`] || item.role || item.roleEn;
-          const comp = item[`company${lang.charAt(0).toUpperCase() + lang.slice(1)}`] || item.company || item.companyEn;
-          const period = item[`period${lang.charAt(0).toUpperCase() + lang.slice(1)}`] || item.period || item.periodEn;
-          const bullets = item[`bullets${lang.charAt(0).toUpperCase() + lang.slice(1)}`] || item.bullets || item.bulletsEn || [];
-          return `
+        tl.innerHTML = d.experience.map((item, i) => `
           <div class="tl-item">
             <div class="tl-dot"></div>
             <div class="tl-card" data-idx="${i}">
               <div class="tl-top">
-                <div><div class="tl-role">${role}</div><div class="tl-company">${comp}</div></div>
-                <div class="tl-period">${period}</div>
+                <div><div class="tl-role">${item.role}</div><div class="tl-company">${item.company}</div></div>
+                <div class="tl-period">${item.period}</div>
               </div>
               <div class="tl-toggle"><i class="fa-solid fa-chevron-down"></i> ${lang==='ar' ? 'عرض التفاصيل' : 'View details'}</div>
-              <div class="tl-body"><ul>${bullets.map(b=>`<li>${b}</li>`).join('')}</ul></div>
+              <div class="tl-body"><ul>${item.bullets.map(b=>`<li>${b}</li>`).join('')}</ul></div>
             </div>
           </div>
-        `}).join('');
+        `).join('');
         tl.querySelectorAll('.tl-card').forEach(card=> card.addEventListener('click', ()=> card.classList.toggle('open')));
     }
 
-    // PROJECTS (Handles both legacy arrays and new unified graphical array schema)
+    // Projects
     const pg = document.getElementById('projGrid');
     if(pg && d.projects) {
-        pg.innerHTML = d.projects.map(p => {
-          const Suffix = lang.charAt(0).toUpperCase() + lang.slice(1);
-          const title = p[`title${Suffix}`] || p.title || p.titleEn;
-          const desc = p[`desc${Suffix}`] || p.desc || p.descEn;
-          const status = p[`status${Suffix}`] || p.status || p.statusEn || "Shipped";
-          const tags = Array.isArray(p.tags) ? p.tags : (typeof p.tags === 'string' ? p.tags.split(',') : []);
-          const coverHtml = p.image ? `<img src="${p.image}" alt="${title}" class="proj-cover">` : '';
-          const urlHtml = p.url ? `<a href="${p.url}" target="_blank" rel="noopener noreferrer" class="proj-link-btn" title="View Project"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : '';
-          const iconHtml = p.icon ? `<i class="fa-solid ${p.icon}"></i>` : `<i class="fa-solid fa-layer-group"></i>`;
-          return `
+        pg.innerHTML = d.projects.filter(p => p.hidden !== true).map(p => `
           <div class="proj-card" data-aos="fade-up">
-            <div class="proj-media">${coverHtml}${iconHtml}<span class="proj-status">${status}</span>${urlHtml}</div>
+            <div class="proj-media">
+              ${p.img ? `<img src="${p.img}" alt="${p.title}">` : `<i class="fa-solid ${p.icon || 'fa-diagram-project'}"></i>`}
+              <span class="proj-status">${p.status || 'Active'}</span>
+            </div>
             <div class="proj-body">
-              <h3>${title}</h3><p>${desc}</p>
-              <div class="proj-tags">${tags.map(t=>`<span class="tag">${t.trim()}</span>`).join('')}</div>
+              <h3>${p.title}</h3><p>${p.desc}</p>
+              <div class="proj-tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
             </div>
           </div>
-        `}).join('');
+        `).join('');
     }
 
-    // SKILLS
+    // Skills
     const sc = document.getElementById('skillCats');
     if(sc && d.skillCats) {
         sc.innerHTML = d.skillCats.map(cat => `
           <div class="skill-cat">
-            <h4><i class="fa-solid ${cat.icon}"></i> ${cat.name}</h4>
+            <h4><i class="fa-solid ${cat.icon || 'fa-layer-group'}"></i> ${cat.name}</h4>
             ${cat.skills.map(s => `
               <div class="skill-row">
                 <div class="lbl"><span>${s.label}</span><span>${s.value}%</span></div>
@@ -863,7 +865,7 @@ const TRANSLATIONS = {
         `).join('');
     }
 
-    // CERTS
+    // Certs
     const cElaraby = document.getElementById('certsElaraby');
     const cAlmentor = document.getElementById('certsAlmentor');
     if(cElaraby && d.certsElaraby) cElaraby.innerHTML = d.certsElaraby.map(c=>`<div class="cert-pill"><i class="fa-solid fa-circle-check"></i>${c}</div>`).join('');
@@ -965,16 +967,15 @@ const TRANSLATIONS = {
   }
 
   function initCopy(){
-    ['copyEmail', 'copyPhone'].forEach(id=>{
-      const el = document.getElementById(id);
-      if(!el) return;
-      el.addEventListener('click', ()=>{
-        // Read directly from dataset.val set by Firebase to ensure it copies the updated data
-        const textToCopy = el.dataset.val; 
-        navigator.clipboard.writeText(textToCopy).then(()=>{
-          el.classList.add('copied');
-          setTimeout(()=> el.classList.remove('copied'), 1600);
-        });
+    document.querySelectorAll('.contact-item').forEach(el => {
+      el.addEventListener('click', () => {
+        const txt = el.querySelector('.txt span')?.innerText;
+        if(txt) {
+          navigator.clipboard.writeText(txt).then(()=>{
+            el.classList.add('copied');
+            setTimeout(()=> el.classList.remove('copied'), 1600);
+          });
+        }
       });
     });
   }
@@ -1002,17 +1003,14 @@ const TRANSLATIONS = {
     });
   }
 
-  function initNavShrink(){
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', ()=>{
-      if(nav) nav.style.boxShadow = window.scrollY > 40 ? '0 8px 30px -12px rgba(0,0,0,.3)' : 'none';
-    });
-  }
+  window.refreshAppUI = function(lang) {
+    applyI18n(lang);
+    renderDynamicContent(lang);
+  };
 
   window.addEventListener('DOMContentLoaded', async ()=>{
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Must fetch data and apply layout variables BEFORE rendering
     if(typeof window.fetchFirebaseData === 'function') {
        await window.fetchFirebaseData();
     }
@@ -1037,7 +1035,6 @@ const TRANSLATIONS = {
     initCopy();
     initForm();
     initCookie();
-    initNavShrink();
 
     setTimeout(() => {
       const loader = document.getElementById('loader');

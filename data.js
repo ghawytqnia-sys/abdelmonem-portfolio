@@ -1,7 +1,7 @@
+
 /* ============================================================
-   CONTENT DATA — sourced from CV, bilingual (en/ar)
-   admin.html writes overrides to localStorage "portfolio_data_overrides"
-   which fully replaces this object if present.
+   CONTENT DATA — Default fallback data for bilingual portfolio
+   Sourced from Firestore `portfolio/content` or data overrides
    ============================================================ */
 const SITE_DATA = {
   en: {
@@ -15,21 +15,21 @@ const SITE_DATA = {
         ]
       },
       {
-        role: "Sales Officer", company: "B.Tech", period: "June 2022 – 2023",
+        role: "Sales Officer", company: "B.Tech", period: "June 2022 – 2023", current: false,
         bullets: [
           "Promoted company products and achieved consistent sales growth.",
           "Assisted customers in selecting suitable products based on their needs and preferences."
         ]
       },
       {
-        role: "Assistant Warehouse Manager", company: "Al-Ansar Marketing", period: "February 2020 – February 2022",
+        role: "Assistant Warehouse Manager", company: "Al-Ansar Marketing", period: "February 2020 – February 2022", current: false,
         bullets: [
           "Supervised daily warehouse operations, ensuring inventory accuracy and timely order fulfillment.",
           "Coordinated with suppliers and logistics teams to streamline supply chain activities."
         ]
       },
       {
-        role: "Data Entry Specialist", company: "Orascom Construction", period: "2018 – 2019",
+        role: "Data Entry Specialist", company: "Orascom Construction", period: "2018 – 2019", current: false,
         bullets: [
           "Entered and verified project-related data with high accuracy.",
           "Supported the reporting process for construction projects.",
@@ -37,7 +37,7 @@ const SITE_DATA = {
         ]
       },
       {
-        role: "Accountant", company: "Omega Advertising", period: "2017 – 2018",
+        role: "Accountant", company: "Omega Advertising", period: "2017 – 2018", current: false,
         bullets: [
           "Prepared and maintained financial records in compliance with accounting principles.",
           "Collaborated with management to support financial decision-making."
@@ -46,17 +46,21 @@ const SITE_DATA = {
     ],
     projects: [
       {
+        id: "proj_1",
         title: "Know Your Product (PWA)",
         desc: "Co-designed and developed a Progressive Web App built to support sales representatives during the sales process with smart selling tools.",
         tags: ["PWA", "UX Design", "Sales Enablement", "No-Code"],
-        status: "Shipped", icon: "fa-mobile-screen-button",
+        status: "Shipped", icon: "fa-mobile-screen-button", img: "", category: "PWA",
+        featured: true, hidden: false, liveUrl: "#", githubUrl: "#",
         details: "Contributed to the project concept, user experience planning, and interface design — including product presentation, detailed specifications, product comparison features, and customer needs tracking notes."
       },
       {
+        id: "proj_2",
         title: "AI-Powered Chatbot",
         desc: "Contributing to the development of an AI chatbot focused on smarter, more automated customer engagement.",
         tags: ["AI", "Chatbot", "Workflow Design", "Customer Engagement"],
-        status: "In Progress", icon: "fa-robot",
+        status: "In Progress", icon: "fa-robot", img: "", category: "AI Tools",
+        featured: true, hidden: false, liveUrl: "#", githubUrl: "#",
         details: "Focused on idea development, workflow improvement, and creating smarter user interaction experiences to support automated communication."
       }
     ],
@@ -103,21 +107,21 @@ const SITE_DATA = {
         ]
       },
       {
-        role: "مسؤول مبيعات", company: "بي تك", period: "يونيو 2022 – 2023",
+        role: "مسؤول مبيعات", company: "بي تك", period: "يونيو 2022 – 2023", current: false,
         bullets: [
           "الترويج لمنتجات الشركة وتحقيق نمو مستمر في المبيعات.",
-          "مساعدة العملاء في اختيار المنتجات المناسبة وفقًا لاحتياجاتهم وتفضيلاتهم."
+          "مساعدة العملاء في اختيار المنتجات المناسبة وفقًا لااحتياجاتهم وتفضيلاتهم."
         ]
       },
       {
-        role: "مساعد مدير مستودع", company: "الأنصار للتسويق", period: "فبراير 2020 – فبراير 2022",
+        role: "مساعد مدير مستودع", company: "الأنصار للتسويق", period: "فبراير 2020 – فبراير 2022", current: false,
         bullets: [
           "الإشراف على العمليات اليومية للمستودع وضمان دقة المخزون وتنفيذ الطلبات في وقتها.",
           "التنسيق مع الموردين وفرق اللوجستيات لتبسيط أنشطة سلسلة التوريد."
         ]
       },
       {
-        role: "أخصائي إدخال بيانات", company: "أوراسكوم للإنشاءات", period: "2018 – 2019",
+        role: "أخصائي إدخال بيانات", company: "أوراسكوم للإنشاءات", period: "2018 – 2019", current: false,
         bullets: [
           "إدخال والتحقق من بيانات المشاريع بدقة عالية.",
           "دعم عملية إعداد التقارير الخاصة بمشاريع الإنشاءات.",
@@ -125,7 +129,7 @@ const SITE_DATA = {
         ]
       },
       {
-        role: "محاسب", company: "أوميغا للإعلان", period: "2017 – 2018",
+        role: "محاسب", company: "أوميغا للإعلان", period: "2017 – 2018", current: false,
         bullets: [
           "إعداد وحفظ السجلات المالية وفقًا للمبادئ المحاسبية.",
           "التعاون مع الإدارة لدعم اتخاذ القرارات المالية."
@@ -134,17 +138,21 @@ const SITE_DATA = {
     ],
     projects: [
       {
+        id: "proj_1",
         title: "تطبيق Know Your Product (PWA)",
         desc: "شارك في تصميم وتطوير تطبيق ويب تقدمي (PWA) لدعم مندوبي المبيعات أثناء عملية البيع بأدوات بيع ذكية.",
         tags: ["PWA", "تصميم تجربة المستخدم", "دعم المبيعات", "No-Code"],
-        status: "منجز", icon: "fa-mobile-screen-button",
+        status: "منجز", icon: "fa-mobile-screen-button", img: "", category: "PWA",
+        featured: true, hidden: false, liveUrl: "#", githubUrl: "#",
         details: "ساهم في فكرة المشروع وتخطيط تجربة المستخدم وتصميم الواجهة — بما يشمل عرض المنتج والمواصفات التفصيلية وميزات مقارنة المنتجات وملاحظات تتبع احتياجات العملاء."
       },
       {
+        id: "proj_2",
         title: "روبوت محادثة بالذكاء الاصطناعي",
         desc: "يساهم في تطوير روبوت محادثة بالذكاء الاصطناعي يركز على تفاعل أذكى وأكثر أتمتة مع العملاء.",
         tags: ["ذكاء اصطناعي", "روبوت محادثة", "تصميم سير العمل", "تفاعل العملاء"],
-        status: "قيد التنفيذ", icon: "fa-robot",
+        status: "قيد التنفيذ", icon: "fa-robot", img: "", category: "AI Tools",
+        featured: true, hidden: false, liveUrl: "#", githubUrl: "#",
         details: "التركيز على تطوير الأفكار وتحسين سير العمل وبناء تجارب تفاعل أذكى لدعم التواصل الآلي."
       }
     ],
@@ -181,14 +189,15 @@ const SITE_DATA = {
   }
 };
 
-// Allow admin.html to fully override the content set.
 (function applyDataOverrides(){
-  try{
+  try {
     const raw = localStorage.getItem('portfolio_data_overrides');
     if(!raw) return;
     const overrides = JSON.parse(raw);
     for(const locale of Object.keys(overrides)){
-      SITE_DATA[locale] = Object.assign({}, SITE_DATA[locale], overrides[locale]);
+      if(SITE_DATA[locale]) {
+        Object.assign(SITE_DATA[locale], overrides[locale]);
+      }
     }
-  }catch(e){ console.warn('data overrides skipped:', e); }
+  } catch(e) { console.warn('Data overrides skipped:', e); }
 })();

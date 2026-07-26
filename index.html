@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>AbdElMoneim Sultan — Sales Executive &amp; Digital Product Builder</title>
+<title>AbdElMoneim Sultan — Sales Executive & Digital Product Builder</title>
 <meta name="description" content="AbdElMoneim Sultan — Sales Executive at Elaraby Group with 4+ years in retail, now building AI-powered digital products with no-code/low-code tools.">
 <meta name="theme-color" content="#0B1220">
 
@@ -14,7 +14,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&family=Cairo:wght@500;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&family=Cairo:wght@500;600;700;800&family=Tajawal:wght@400;500;700&family=Alexandria:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 
@@ -86,7 +86,7 @@ header#nav{position:fixed; top:0; left:0; right:0; z-index:900; backdrop-filter:
 .btn-ghost:hover{border-color:var(--teal-l); color:var(--teal-l);}
 .burger{display:none; width:40px; height:40px; border-radius:10px; border:1px solid var(--border); background:var(--surface); align-items:center; justify-content:center; font-size:17px;}
 
-/* === MOBILE MENU (WITH RTL FIX) === */
+/* === MOBILE MENU === */
 .mobile-menu{position:fixed; inset:0; z-index:890; background:var(--bg); transform:translateX(100%); transition:transform .4s ease; display:flex; flex-direction:column; padding:100px 32px 40px; gap:26px;}
 html[dir="rtl"] .mobile-menu{transform:translateX(-100%);}
 .mobile-menu.open{transform:translateX(0);}
@@ -114,9 +114,9 @@ html[dir="rtl"] .mobile-menu.open{transform:translateX(0);}
 .hero-portrait{position:relative; justify-self:center;}
 .portrait-ring{width:min(360px,80vw); aspect-ratio:1/1.05; border-radius:28px; position:relative; overflow:hidden; border:1px solid var(--border); box-shadow:var(--shadow-soft); background:var(--surface-solid);}
 .portrait-ring img{width:100%; height:100%; object-fit:cover;}
-.portrait-badge{position:absolute; bottom:-18px; left:50%; transform:translateX(-50%); background:var(--surface-solid); border:1px solid var(--border); border-radius:14px; padding:12px 20px; display:flex; align-items:center; gap:10px; box-shadow:var(--shadow-soft); font-size:13px; font-weight:600; white-space:nowrap;}
+.portrait-badge{position:absolute; bottom:-18px; left:50%; transform:translateX(-50%); background:var(--surface-solid); border:1px solid var(--border); border-radius:14px; padding:12px 20px; display:flex; align-items:center; gap:10px; box-shadow:var(--shadow-soft); font-size:13px; font-weight:600; white-space:nowrap; z-index:5;}
 .portrait-badge i{color:var(--teal-l);}
-.float-chip{position:absolute; background:var(--surface-solid); border:1px solid var(--border); border-radius:12px; padding:10px 14px; font-size:12.5px; font-weight:600; box-shadow:var(--shadow-soft); display:flex; align-items:center; gap:8px; animation:floaty 5s ease-in-out infinite;}
+.float-chip{position:absolute; background:var(--surface-solid); border:1px solid var(--border); border-radius:12px; padding:10px 14px; font-size:12.5px; font-weight:600; box-shadow:var(--shadow-soft); display:flex; align-items:center; gap:8px; animation:floaty 5s ease-in-out infinite; z-index:5;}
 .float-chip.c1{top:6%; left:-8%; animation-delay:0s;}
 .float-chip.c2{top:38%; right:-12%; animation-delay:1.2s;}
 .float-chip i{color:var(--gold);}
@@ -177,16 +177,22 @@ html[dir="rtl"] .tl-body li::before{left:auto; right:0;}
 .tl-toggle i{transition:.3s ease;}
 .tl-card.open .tl-toggle i{transform:rotate(180deg);}
 
+/* ============ PROJECTS ============ */
 .proj-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:26px;}
-.proj-card{border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface); transition:.35s ease; position:relative;}
+.proj-card{border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface); transition:.35s ease; position:relative; display:flex; flex-direction:column;}
 .proj-card:hover{transform:translateY(-6px); border-color:var(--teal-l); box-shadow:var(--shadow-soft);}
 .proj-media{aspect-ratio:16/9; background:linear-gradient(135deg,var(--ink-2),#1c2740); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;}
-.proj-media i{font-size:44px; color:var(--gold-l); opacity:.85;}
-.proj-status{position:absolute; top:14px; right:14px; font-size:11px; font-weight:700; padding:5px 11px; border-radius:100px; background:rgba(31,138,112,.18); color:var(--teal-l); border:1px solid rgba(31,138,112,.4); text-transform:uppercase; letter-spacing:.05em;}
+.proj-media i{font-size:44px; color:var(--gold-l); opacity:.85; z-index:1; position:relative;}
+.proj-cover{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.75; transition:transform .5s ease, opacity .5s ease;}
+.proj-card:hover .proj-cover{transform:scale(1.05); opacity:0.9;}
+.proj-status{position:absolute; top:14px; right:14px; font-size:11px; font-weight:700; padding:5px 11px; border-radius:100px; background:rgba(31,138,112,.25); color:var(--teal-l); border:1px solid rgba(31,138,112,.5); text-transform:uppercase; letter-spacing:.05em; z-index:2; backdrop-filter:blur(4px);}
 html[dir="rtl"] .proj-status{right:auto; left:14px;}
-.proj-body{padding:24px 24px 26px;}
+.proj-link-btn{position:absolute; bottom:14px; right:14px; z-index:2; background:var(--surface-solid); border:1px solid var(--border); color:var(--text); padding:8px 14px; border-radius:8px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:6px; box-shadow:var(--shadow-soft); transition:0.25s;}
+.proj-link-btn:hover{border-color:var(--gold); color:var(--gold);}
+html[dir="rtl"] .proj-link-btn{right:auto; left:14px;}
+.proj-body{padding:24px 24px 26px; flex:1; display:flex; flex-direction:column;}
 .proj-body h3{font-size:19px; margin-bottom:10px;}
-.proj-body p{color:var(--text-dim); font-size:14.5px; line-height:1.7; margin-bottom:16px;}
+.proj-body p{color:var(--text-dim); font-size:14.5px; line-height:1.7; margin-bottom:16px; flex:1;}
 .proj-tags{display:flex; flex-wrap:wrap; gap:8px;}
 .tag{font-size:11.5px; padding:5px 11px; border-radius:100px; border:1px solid var(--border); color:var(--text-dim);}
 
@@ -330,9 +336,9 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
       <div class="float-chip c1"><i class="fa-solid fa-chart-line"></i> <span data-i18n="hero.chip1">Sales Growth Focus</span></div>
       <div class="float-chip c2"><i class="fa-solid fa-robot"></i> <span data-i18n="hero.chip2">AI-Powered Builder</span></div>
       <div class="portrait-ring">
-        <img src="assets/portrait.jpg" alt="AbdElMoneim Sultan portrait" loading="lazy">
+        <img src="assets/portrait.jpg" id="heroProfileImg" alt="AbdElMoneim Sultan portrait" loading="lazy">
       </div>
-      <div class="portrait-badge"><i class="fa-solid fa-location-dot"></i> Cairo, Egypt</div>
+      <div class="portrait-badge"><i class="fa-solid fa-location-dot"></i> <span id="heroLocationTxt">Cairo, Egypt</span></div>
     </div>
   </div>
   <div class="scroll-cue"><span data-i18n="hero.scroll">Scroll</span><div class="line"></div></div>
@@ -349,7 +355,7 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
         <p data-i18n="about.p1">I'm a 31-year-old professional with over four years of experience in the retail sector...</p>
         <p data-i18n="about.p2">In parallel, I've been building hands-on experience with AI tools...</p>
         <div class="about-facts">
-          <div class="fact"><span data-i18n="about.f1l">Based in</span><b>Cairo, Egypt</b></div>
+          <div class="fact"><span data-i18n="about.f1l">Based in</span><b id="aboutLocationTxt">Cairo, Egypt</b></div>
           <div class="fact"><span data-i18n="about.f2l">Current Role</span><b data-i18n="about.f2v">Sales Executive, Elaraby Group</b></div>
           <div class="fact"><span data-i18n="about.f3l">Languages</span><b data-i18n="about.f3v">Arabic (Native), English (B1)</b></div>
           <div class="fact"><span data-i18n="about.f4l">Focus</span><b data-i18n="about.f4v">Sales · AI Tools · Product Design</b></div>
@@ -468,23 +474,23 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
     </div>
     <div class="contact-grid">
       <div data-aos="fade-up">
-        <div class="contact-item" id="copyEmail">
+        <div class="contact-item" id="copyEmail" data-val="abdosultan306@gmail.com">
           <div class="ic"><i class="fa-solid fa-envelope"></i></div>
           <div class="txt"><b data-i18n="contact.email">Email</b><span>abdosultan306@gmail.com</span></div>
           <span class="copy-flag" data-i18n="contact.copied">Copied!</span>
         </div>
-        <div class="contact-item" id="copyPhone">
+        <div class="contact-item" id="copyPhone" data-val="+201114550112">
           <div class="ic"><i class="fa-solid fa-phone"></i></div>
           <div class="txt"><b data-i18n="contact.phone">Phone</b><span>+20 111 455 0112</span></div>
           <span class="copy-flag" data-i18n="contact.copied">Copied!</span>
         </div>
-        <a class="contact-item" href="https://wa.me/2001114550112" target="_blank" rel="noopener">
+        <a class="contact-item" id="whatsappLink" href="https://wa.me/2001114550112" target="_blank" rel="noopener">
           <div class="ic"><i class="fa-brands fa-whatsapp"></i></div>
           <div class="txt"><b data-i18n="contact.whatsapp">WhatsApp</b><span data-i18n="contact.whatsappSub">Chat directly</span></div>
         </a>
         <div class="contact-item">
           <div class="ic"><i class="fa-solid fa-location-dot"></i></div>
-          <div class="txt"><b data-i18n="contact.location">Location</b><span data-i18n="contact.locationSub">Madinat El-Salam, Cairo, Egypt</span></div>
+          <div class="txt"><b data-i18n="contact.location">Location</b><span id="contactLocationTxt" data-i18n="contact.locationSub">Madinat El-Salam, Cairo, Egypt</span></div>
         </div>
       </div>
       <form data-aos="fade-up" data-aos-delay="100" id="contactForm">
@@ -525,10 +531,12 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 
+<script src="data.js"></script>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-  
+
   const firebaseConfig = {
     apiKey: "AIzaSyAMLeRa5BeV6YQf7rqLx0JQd3fb_LhbeSU",
     authDomain: "portfolio-2933c.firebaseapp.com",
@@ -542,7 +550,8 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // دالة لجلب البيانات وتطبيقها قبل إخفاء شاشة التحميل
+  window.DB_THEME_MODE = null; // Store DB mode
+
   window.fetchFirebaseData = async function() {
     try {
       const docRef = doc(db, "portfolio", "content");
@@ -550,30 +559,51 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
 
       if (docSnap.exists()) {
         const dbData = docSnap.data();
-        
-        // 1. تطبيق نصوص الافتتاحية (إنجليزي)
+
+        // 1. Text & Copy
         if(dbData.heroEn) {
-            TRANSLATIONS.en.hero.eyebrow = dbData.heroEn.eyebrow || TRANSLATIONS.en.hero.eyebrow;
-            TRANSLATIONS.en.hero.title1 = dbData.heroEn.title1 || TRANSLATIONS.en.hero.title1;
-            TRANSLATIONS.en.hero.lead = dbData.heroEn.lead || TRANSLATIONS.en.hero.lead;
+            TRANSLATIONS.en.hero.eyebrow = dbData.heroEn.eyebrow;
+            TRANSLATIONS.en.hero.title1 = dbData.heroEn.title1;
+            TRANSLATIONS.en.hero.lead = dbData.heroEn.lead;
+        }
+        if(dbData.heroAr) {
+            TRANSLATIONS.ar.hero.eyebrow = dbData.heroAr.eyebrow;
+            TRANSLATIONS.ar.hero.title1 = dbData.heroAr.title1;
+            TRANSLATIONS.ar.hero.lead = dbData.heroAr.lead;
         }
         if(dbData.aboutEn) {
-            TRANSLATIONS.en.about.title = dbData.aboutEn.title || TRANSLATIONS.en.about.title;
-            TRANSLATIONS.en.about.p1 = dbData.aboutEn.p1 || TRANSLATIONS.en.about.p1;
-        }
-
-        // 2. تطبيق نصوص الافتتاحية (عربي)
-        if(dbData.heroAr) {
-            TRANSLATIONS.ar.hero.eyebrow = dbData.heroAr.eyebrow || TRANSLATIONS.ar.hero.eyebrow;
-            TRANSLATIONS.ar.hero.title1 = dbData.heroAr.title1 || TRANSLATIONS.ar.hero.title1;
-            TRANSLATIONS.ar.hero.lead = dbData.heroAr.lead || TRANSLATIONS.ar.hero.lead;
+            TRANSLATIONS.en.about.title = dbData.aboutEn.title;
+            TRANSLATIONS.en.about.p1 = dbData.aboutEn.p1;
         }
         if(dbData.aboutAr) {
-            TRANSLATIONS.ar.about.title = dbData.aboutAr.title || TRANSLATIONS.ar.about.title;
-            TRANSLATIONS.ar.about.p1 = dbData.aboutAr.p1 || TRANSLATIONS.ar.about.p1;
+            TRANSLATIONS.ar.about.title = dbData.aboutAr.title;
+            TRANSLATIONS.ar.about.p1 = dbData.aboutAr.p1;
+        }
+        
+        // 2. Profile Image & Contact Info
+        if(dbData.aboutData?.profileImg) {
+            document.getElementById('heroProfileImg').src = dbData.aboutData.profileImg;
+        }
+        if(dbData.contactData) {
+            const c = dbData.contactData;
+            if(c.email) {
+                document.querySelector('#copyEmail .txt span').textContent = c.email;
+                document.getElementById('copyEmail').dataset.val = c.email;
+            }
+            if(c.phone) {
+                document.querySelector('#copyPhone .txt span').textContent = c.phone;
+                document.getElementById('copyPhone').dataset.val = c.phone;
+                document.getElementById('whatsappLink').href = `https://wa.me/${c.phone.replace(/[^0-9]/g,'')}`;
+            }
+            if(c.location) {
+                document.getElementById('contactLocationTxt').textContent = c.location;
+                document.getElementById('aboutLocationTxt').textContent = c.location;
+                document.getElementById('heroLocationTxt').textContent = c.location;
+            }
         }
 
-        // 3. تطبيق المصفوفات المعقدة للغتين
+        // 3. Unified Collections mapping
+        // Our new Admin writes a unified array for Projects and Experience (with properties like titleEn, titleAr)
         if(dbData.experienceData) {
             SITE_DATA.en.experience = dbData.experienceData;
             SITE_DATA.ar.experience = dbData.experienceData;
@@ -595,38 +625,30 @@ footer{padding:50px 0 34px; border-top:1px solid var(--border);}
             SITE_DATA.ar.certsAlmentor = dbData.certsAlmentorData;
         }
 
-        // 4. تطبيق المظهر والألوان
+        // 4. Global Theme overrides
         if(dbData.themeData) {
+            const t = dbData.themeData;
+            window.DB_THEME_MODE = t.mode; // Saves DB mode to take priority over cached local mode
             const html = document.documentElement;
-            if(dbData.themeData.gold) html.style.setProperty('--gold', dbData.themeData.gold);
-            if(dbData.themeData.teal) html.style.setProperty('--teal', dbData.themeData.teal);
-        }
-
-        // 5. تطبيق وسائل الاتصال لايف
-        if(dbData.contactData) {
-            const emailSpan = document.querySelector('#copyEmail span:not(.copy-flag)');
-            const phoneSpan = document.querySelector('#copyPhone span:not(.copy-flag)');
-            const locItem = document.querySelector('.fa-location-dot').closest('.contact-item');
-
-            if (emailSpan && dbData.contactData.email) emailSpan.textContent = dbData.contactData.email;
-            if (phoneSpan && dbData.contactData.phone) phoneSpan.textContent = dbData.contactData.phone;
-            if (locItem && dbData.contactData.location) locItem.querySelector('span').textContent = dbData.contactData.location;
-
-            // تحديث رابط الواتساب الديناميكي
-            const waLink = document.querySelector('a[href^="https://wa.me/"]');
-            if (waLink && dbData.contactData.phone) {
-                let cleanPhone = dbData.contactData.phone.replace(/[^0-9+]/g,'');
-                waLink.href = "https://wa.me/" + cleanPhone.replace('+', '');
+            html.setAttribute('data-theme', t.mode || 'dark');
+            if(t.gold) html.style.setProperty('--gold', t.gold);
+            if(t.teal) html.style.setProperty('--teal', t.teal);
+            if(t.bg) html.style.setProperty('--bg', t.bg);
+            if(t.surface) {
+              html.style.setProperty('--surface-solid', t.surface);
+              html.style.setProperty('--bg-2', t.surface);
             }
-            
-            // حفظ الداتا دي عالمياً لزرار النسخ (Copy)
-            window.dynamicContact = dbData.contactData;
+            if(t.radius) html.style.setProperty('--radius', t.radius + 'px');
+            if(t.font) {
+              html.style.setProperty('--font-display', t.font);
+              html.style.setProperty('--font-body', t.font);
+            }
         }
 
-        console.log("تم سحب وتوزيع كافة بيانات Firebase بنجاح!");
+        console.log("Firebase Dashboard Data successfully loaded & applied!");
       }
     } catch (error) {
-      console.warn("تعذر سحب البيانات، سيتم الاعتماد على الملف المحلي.", error);
+      console.warn("Could not load Firebase data, falling back to local data.", error);
     }
   };
 </script>
@@ -716,31 +738,7 @@ const TRANSLATIONS = {
     cookie: { text: "يستخدم هذا الموقع التخزين المحلي لحفظ تفضيلات اللغة والمظهر.", accept: "حسنًا" }
   }
 };
-
-(function applyOverrides(){
-  try{
-    const raw = localStorage.getItem('portfolio_i18n_overrides');
-    if(!raw) return;
-    const overrides = JSON.parse(raw);
-    for(const locale of Object.keys(overrides)){
-      TRANSLATIONS[locale] = TRANSLATIONS[locale] || {};
-      deepMerge(TRANSLATIONS[locale], overrides[locale]);
-    }
-  }catch(e){ console.warn('i18n overrides skipped:', e); }
-  function deepMerge(target, src){
-    for(const k of Object.keys(src)){
-      if(src[k] && typeof src[k] === 'object' && !Array.isArray(src[k])){
-        target[k] = target[k] || {};
-        deepMerge(target[k], src[k]);
-      } else {
-        target[k] = src[k];
-      }
-    }
-  }
-})();
 </script>
-
-<script src="data.js"></script>
 
 <script>
 (function(){
@@ -780,6 +778,8 @@ const TRANSLATIONS = {
   }
 
   function getTheme(){
+    // DB preference strictly overrides local cache if available 
+    if(window.DB_THEME_MODE) return window.DB_THEME_MODE;
     const stored = localStorage.getItem(STORE_THEME);
     if(stored) return stored;
     return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
@@ -792,42 +792,62 @@ const TRANSLATIONS = {
     localStorage.setItem(STORE_THEME, theme);
   }
   
-  function toggleTheme(){ applyTheme(getTheme() === 'dark' ? 'light' : 'dark'); }
+  function toggleTheme(){
+    window.DB_THEME_MODE = null; // Free DB lock upon manual user override
+    applyTheme(getTheme() === 'dark' ? 'light' : 'dark'); 
+  }
 
   function renderDynamicContent(lang){
     const d = SITE_DATA[lang];
 
+    // EXPERIENCE (Handles both legacy localized objects and unified arrays from Admin)
     const tl = document.getElementById('timelineList');
     if(tl && d.experience) {
-        tl.innerHTML = d.experience.map((item, i) => `
+        tl.innerHTML = d.experience.map((item, i) => {
+          const role = item[`role${lang.charAt(0).toUpperCase() + lang.slice(1)}`] || item.role || item.roleEn;
+          const comp = item[`company${lang.charAt(0).toUpperCase() + lang.slice(1)}`] || item.company || item.companyEn;
+          const period = item[`period${lang.charAt(0).toUpperCase() + lang.slice(1)}`] || item.period || item.periodEn;
+          const bullets = item[`bullets${lang.charAt(0).toUpperCase() + lang.slice(1)}`] || item.bullets || item.bulletsEn || [];
+          return `
           <div class="tl-item">
             <div class="tl-dot"></div>
             <div class="tl-card" data-idx="${i}">
               <div class="tl-top">
-                <div><div class="tl-role">${item.role}</div><div class="tl-company">${item.company}</div></div>
-                <div class="tl-period">${item.period}</div>
+                <div><div class="tl-role">${role}</div><div class="tl-company">${comp}</div></div>
+                <div class="tl-period">${period}</div>
               </div>
               <div class="tl-toggle"><i class="fa-solid fa-chevron-down"></i> ${lang==='ar' ? 'عرض التفاصيل' : 'View details'}</div>
-              <div class="tl-body"><ul>${item.bullets.map(b=>`<li>${b}</li>`).join('')}</ul></div>
+              <div class="tl-body"><ul>${bullets.map(b=>`<li>${b}</li>`).join('')}</ul></div>
             </div>
           </div>
-        `).join('');
+        `}).join('');
         tl.querySelectorAll('.tl-card').forEach(card=> card.addEventListener('click', ()=> card.classList.toggle('open')));
     }
 
+    // PROJECTS (Handles both legacy arrays and new unified graphical array schema)
     const pg = document.getElementById('projGrid');
     if(pg && d.projects) {
-        pg.innerHTML = d.projects.map(p => `
+        pg.innerHTML = d.projects.map(p => {
+          const Suffix = lang.charAt(0).toUpperCase() + lang.slice(1);
+          const title = p[`title${Suffix}`] || p.title || p.titleEn;
+          const desc = p[`desc${Suffix}`] || p.desc || p.descEn;
+          const status = p[`status${Suffix}`] || p.status || p.statusEn || "Shipped";
+          const tags = Array.isArray(p.tags) ? p.tags : (typeof p.tags === 'string' ? p.tags.split(',') : []);
+          const coverHtml = p.image ? `<img src="${p.image}" alt="${title}" class="proj-cover">` : '';
+          const urlHtml = p.url ? `<a href="${p.url}" target="_blank" rel="noopener noreferrer" class="proj-link-btn" title="View Project"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : '';
+          const iconHtml = p.icon ? `<i class="fa-solid ${p.icon}"></i>` : `<i class="fa-solid fa-layer-group"></i>`;
+          return `
           <div class="proj-card" data-aos="fade-up">
-            <div class="proj-media"><i class="fa-solid ${p.icon}"></i><span class="proj-status">${p.status}</span></div>
+            <div class="proj-media">${coverHtml}${iconHtml}<span class="proj-status">${status}</span>${urlHtml}</div>
             <div class="proj-body">
-              <h3>${p.title}</h3><p>${p.desc}</p>
-              <div class="proj-tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+              <h3>${title}</h3><p>${desc}</p>
+              <div class="proj-tags">${tags.map(t=>`<span class="tag">${t.trim()}</span>`).join('')}</div>
             </div>
           </div>
-        `).join('');
+        `}).join('');
     }
 
+    // SKILLS
     const sc = document.getElementById('skillCats');
     if(sc && d.skillCats) {
         sc.innerHTML = d.skillCats.map(cat => `
@@ -843,6 +863,7 @@ const TRANSLATIONS = {
         `).join('');
     }
 
+    // CERTS
     const cElaraby = document.getElementById('certsElaraby');
     const cAlmentor = document.getElementById('certsAlmentor');
     if(cElaraby && d.certsElaraby) cElaraby.innerHTML = d.certsElaraby.map(c=>`<div class="cert-pill"><i class="fa-solid fa-circle-check"></i>${c}</div>`).join('');
@@ -943,18 +964,13 @@ const TRANSLATIONS = {
     });
   }
 
-  /* ---------- CLIPBOARD ---------- */
   function initCopy(){
-    const map = { copyEmail: 'abdosultan306@gmail.com', copyPhone: '+20 111 455 0112' };
-    Object.keys(map).forEach(id=>{
+    ['copyEmail', 'copyPhone'].forEach(id=>{
       const el = document.getElementById(id);
       if(!el) return;
       el.addEventListener('click', ()=>{
-        // التأكد من نسخ الرقم أو الإيميل الجديد المرفوع من لوحة التحكم
-        const textToCopy = (window.dynamicContact && id === 'copyEmail') ? window.dynamicContact.email : 
-                           (window.dynamicContact && id === 'copyPhone') ? window.dynamicContact.phone : 
-                           map[id];
-        
+        // Read directly from dataset.val set by Firebase to ensure it copies the updated data
+        const textToCopy = el.dataset.val; 
         navigator.clipboard.writeText(textToCopy).then(()=>{
           el.classList.add('copied');
           setTimeout(()=> el.classList.remove('copied'), 1600);
@@ -993,23 +1009,10 @@ const TRANSLATIONS = {
     });
   }
 
-  function applyCustomColors(){
-    try{
-      const raw = localStorage.getItem('portfolio_theme_custom');
-      if(!raw) return;
-      const c = JSON.parse(raw);
-      if(c.gold) html.style.setProperty('--gold', c.gold);
-      if(c.goldLight) html.style.setProperty('--gold-l', c.goldLight);
-      if(c.teal) html.style.setProperty('--teal', c.teal);
-      if(c.tealLight) html.style.setProperty('--teal-l', c.tealLight);
-      if(c.radius) html.style.setProperty('--radius', c.radius + 'px');
-    }catch(e){ console.warn('theme override skipped:', e); }
-  }
-
   window.addEventListener('DOMContentLoaded', async ()=>{
     document.getElementById('year').textContent = new Date().getFullYear();
-    applyCustomColors();
 
+    // Must fetch data and apply layout variables BEFORE rendering
     if(typeof window.fetchFirebaseData === 'function') {
        await window.fetchFirebaseData();
     }

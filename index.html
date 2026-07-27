@@ -27,6 +27,7 @@
       /* Colors */
       --ink: #0B1220; 
       --ink-2: #121B2E; 
+      --ink-surface: #141D30; 
       --gold: #C08B3D; 
       --gold-l: #E3B36B; 
       --teal: #1F8A70; 
@@ -50,16 +51,18 @@
       --font-body: 'Cairo', sans-serif; 
     }
 
+    /* DARK MODE (Default & Admin Customizable) */
     [data-theme="dark"] {
       --bg: var(--ink); 
       --bg-2: var(--ink-2); 
       --surface: rgba(255,255,255,0.04);
-      --surface-solid: #141D30; 
+      --surface-solid: var(--ink-surface); 
       --text: #EDEFF3; 
       --text-dim: #A6ADBB; 
       --border: rgba(255,255,255,0.09);
     }
 
+    /* LIGHT MODE (Native Overrides) */
     [data-theme="light"] {
       --bg: var(--cream); 
       --bg-2: #FFFFFF; 
@@ -108,8 +111,10 @@
     /* ============ NAV ============ */
     header#nav { position: fixed; top: 0; left: 0; right: 0; z-index: 900; backdrop-filter: blur(16px) saturate(140%); background: color-mix(in srgb, var(--bg) 78%, transparent); border-bottom: 1px solid var(--border); transition: background .4s ease; }
     .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; max-width: var(--maxw); margin: 0 auto; }
-    .brand { font-family: var(--font-display); font-weight: 800; font-size: 19px; letter-spacing: .02em; display: flex; align-items: center; gap: 10px; }
-    .brand .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px rgba(192,139,61,.18); }
+    
+    .brand { font-family: var(--font-display); font-weight: 800; font-size: clamp(15px, 3.5vw, 19px); letter-spacing: .02em; display: flex; align-items: center; gap: 10px; white-space: normal; line-height: 1.25; word-break: break-word; max-width: 55%; }
+    .brand .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px rgba(192,139,61,.18); flex-shrink: 0; }
+    
     .nav-links { display: flex; gap: 30px; align-items: center; }
     .nav-links a { font-size: 14.5px; font-weight: 500; color: var(--text-dim); position: relative; padding: 4px 0; }
     .nav-links a::after { content: ''; position: absolute; left: 0; bottom: -2px; width: 0; height: 2px; background: var(--gold); transition: width .3s ease; }
@@ -117,7 +122,7 @@
     .nav-links a:hover::after { width: 100%; }
     
     .nav-actions { display: flex; align-items: center; gap: 12px; }
-    .icon-btn { width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; color: var(--text); font-size: 14px; transition: .25s ease; }
+    .icon-btn { width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; color: var(--text); font-size: 14px; transition: .25s ease; flex-shrink: 0; cursor: pointer; }
     .icon-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-1px); }
     .lang-btn { font-family: var(--font-display); font-weight: 700; font-size: 12.5px; }
     
@@ -127,15 +132,24 @@
     .btn-ghost { border-color: var(--border); color: var(--text); background: var(--surface); }
     .btn-ghost:hover { border-color: var(--teal-l); color: var(--teal-l); }
     
-    .burger { display: none; width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); align-items: center; justify-content: center; font-size: 17px; }
+    .burger { display: none; width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
 
-    /* === MOBILE MENU === */
-    .mobile-menu { position: fixed; inset: 0; z-index: 890; background: var(--bg); transform: translateX(100%); transition: transform .4s ease; display: flex; flex-direction: column; padding: 100px 32px 40px; gap: 26px; }
-    html[dir="rtl"] .mobile-menu { transform: translateX(-100%); }
-    .mobile-menu.open { transform: translateX(0); }
-    html[dir="rtl"] .mobile-menu.open { transform: translateX(0); }
-    .mobile-menu a { font-family: var(--font-display); font-size: 24px; font-weight: 600; }
-    .mobile-menu .btn { align-self: flex-start; margin-top: 10px; }
+    /* SIDEBAR / MOBILE MENU */
+    .mobile-menu { 
+      position: absolute; top: 76px; right: 24px; left: auto; bottom: auto; 
+      width: auto; min-width: 220px; background: var(--surface-solid); 
+      border: 1px solid var(--border); border-radius: var(--radius); 
+      box-shadow: var(--shadow-soft); display: flex; flex-direction: column; 
+      padding: 20px; gap: 16px; transform: translateY(-10px) scale(0.95); 
+      opacity: 0; visibility: hidden; transition: all .3s cubic-bezier(0.4, 0, 0.2, 1); 
+      z-index: 890; max-height: calc(100vh - 100px); overflow-y: auto; 
+    }
+    .mobile-menu.open { transform: translateY(0) scale(1); opacity: 1; visibility: visible; }
+    html[dir="rtl"] .mobile-menu { right: auto; left: 24px; }
+    
+    .mobile-menu a { font-family: var(--font-display); font-size: 16px; font-weight: 600; padding: 8px 12px; border-radius: 8px; transition: .2s; }
+    .mobile-menu a:hover { background: var(--surface); color: var(--gold-l); }
+    .mobile-menu .btn { align-self: stretch; margin-top: 10px; justify-content: center; }
 
     /* ============ HERO ============ */
     .hero { position: relative; min-height: 100vh; display: flex; align-items: center; padding: 150px 0 100px; overflow: hidden; }
@@ -164,14 +178,14 @@
     .portrait-ring { width: min(360px, 80vw); aspect-ratio: 1/1.05; border-radius: 28px; position: relative; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-soft); background: var(--surface-solid); }
     .portrait-ring img { width: 100%; height: 100%; object-fit: cover; }
     
-    .portrait-badge { position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); background: var(--surface-solid); border: 1px solid var(--border); border-radius: 14px; padding: 12px 20px; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-soft); font-size: 13px; font-weight: 600; white-space: nowrap; }
+    .portrait-badge { position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); background: var(--surface-solid); border: 1px solid var(--border); border-radius: 14px; padding: 12px 20px; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-soft); font-size: 13px; font-weight: 600; white-space: nowrap; z-index: 10; }
     .portrait-badge i { color: var(--teal-l); }
     
     /* Dynamic Hero Chips */
     .float-chip { position: absolute; background: var(--surface-solid); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; font-size: 12.5px; font-weight: 600; box-shadow: var(--shadow-soft); display: flex; align-items: center; gap: 8px; animation: floaty 5s ease-in-out infinite; z-index: 10; }
     .float-chip.c1 { top: 6%; left: -8%; animation-delay: 0s; }
     .float-chip.c2 { top: 38%; right: -12%; animation-delay: 1.2s; }
-    .float-chip.c3 { bottom: 10%; left: -5%; animation-delay: 0.6s; } /* In case of 3 chips */
+    .float-chip.c3 { bottom: 10%; left: -5%; animation-delay: 0.6s; } 
     .float-chip i { color: var(--gold); }
     @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
     
@@ -313,6 +327,7 @@
       .proj-grid, .two-col, .cert-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
       .burger { display: flex; }
+      .brand { max-width: 65%; } 
     }
     @media(max-width:560px) {
       .hero { padding-top: 130px; }
@@ -333,7 +348,7 @@
 <!-- Navigation Header -->
 <header id="nav">
   <div class="nav-inner">
-    <a href="#home" class="brand"><span class="dot"></span><span data-i18n="nav.brand">AbdElMoneim Sultan</span></a>
+    <a href="#home" class="brand"><span class="dot"></span><span id="dom_brand_name" data-i18n="nav.brand">AbdElMoneim Sultan</span></a>
     <nav class="nav-links">
       <a href="#about" data-i18n="nav.about">About</a>
       <a href="#experience" data-i18n="nav.experience">Experience</a>
@@ -344,14 +359,17 @@
     </nav>
     <div class="nav-actions">
       <button class="icon-btn lang-btn" id="langToggle" aria-label="Switch language">EN</button>
+      
+      <!-- DAY/NIGHT TOGGLE BUTTON -->
       <button class="icon-btn" id="themeToggle" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
-      <a href="#contact" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> <span data-i18n="nav.hire">Hire Me</span></a>
+      
+      <a href="#contact" class="btn btn-primary" style="display:none;" id="btnHireDesktop"><i class="fa-solid fa-paper-plane"></i> <span data-i18n="nav.hire">Hire Me</span></a>
       <button class="burger" id="burgerBtn" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
     </div>
   </div>
 </header>
 
-<!-- Mobile Dropdown Menu -->
+<!-- Floating Dropdown Menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#about" data-i18n="nav.about">About</a>
   <a href="#experience" data-i18n="nav.experience">Experience</a>
@@ -359,13 +377,13 @@
   <a href="#skills" data-i18n="nav.skills">Skills</a>
   <a href="#education" data-i18n="nav.education">Education</a>
   <a href="#contact" data-i18n="nav.contact">Contact</a>
+  <a href="#contact" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> <span data-i18n="nav.hire">Hire Me</span></a>
 </div>
 
 <!-- Main Hero Section -->
 <section class="hero" id="home">
   <div class="hero-bg">
     <div class="grain"></div>
-    <!-- Decorative SVG Arc -->
     <svg width="900" height="600" style="top:-80px; right:-200px;" viewBox="0 0 900 600" fill="none">
       <path d="M50 500 C 200 500, 200 380, 340 380 S 480 260, 600 260 S 760 140, 850 100" stroke="url(#g1)" stroke-width="2" stroke-dasharray="6 8"/>
       <defs>
@@ -402,17 +420,15 @@
       
       <!-- Dynamic Hero Counters Grid -->
       <div class="hero-stats" id="dom_hero_stats" data-aos="fade-up" data-aos-delay="260">
-        <!-- Will be populated dynamically from Firestore -->
+        <!-- Filled via JS -->
       </div>
     </div>
     
     <div class="hero-portrait" data-aos="fade-left" data-aos-delay="120">
       <!-- Dynamic Floating Chips -->
-      <div id="dom_hero_chips">
-        <!-- Will be populated dynamically -->
-      </div>
+      <div id="dom_hero_chips"></div>
       <div class="portrait-ring">
-        <img id="dom_profile_img" src="assets/portrait.jpg" alt="AbdElMoneim Sultan portrait" loading="lazy">
+        <img id="dom_profile_img" src="assets/portrait.jpg" alt="Portrait" loading="lazy">
       </div>
       <div class="portrait-badge">
         <i class="fa-solid fa-location-dot"></i> <span id="dom_location_badge">Cairo, Egypt</span>
@@ -434,16 +450,10 @@
     </div>
     <div class="about-grid">
       <div class="about-copy" data-aos="fade-up">
-        <p data-i18n="about.p1">I'm a professional with over four years of experience in the retail sector...</p>
-        <!-- Dynamic Facts Grid -->
-        <div class="about-facts" id="dom_about_facts">
-          <!-- Will be populated dynamically -->
-        </div>
+        <p data-i18n="about.p1">I'm a professional with over four years of experience...</p>
+        <div class="about-facts" id="dom_about_facts"></div>
       </div>
-      <!-- Dynamic Career Arc Timeline -->
-      <div class="about-arc" id="dom_about_arc" data-aos="fade-up" data-aos-delay="100">
-        <!-- Will be populated dynamically -->
-      </div>
+      <div class="about-arc" id="dom_about_arc" data-aos="fade-up" data-aos-delay="100"></div>
     </div>
   </div>
 </section>
@@ -456,7 +466,6 @@
       <h2 data-i18n="exp.title">Five roles, one throughline: reliability</h2>
       <p data-i18n="exp.sub">Tap any role to see responsibilities and achievements.</p>
     </div>
-    <!-- Dynamic Timeline List -->
     <div class="timeline" id="timelineList"></div>
   </div>
 </section>
@@ -468,7 +477,6 @@
       <div class="eyebrow"><i class="fa-solid fa-diagram-project"></i> <span data-i18n="proj.eyebrow">Projects</span></div>
       <h2 data-i18n="proj.title">Practical contributions beyond the sales floor</h2>
     </div>
-    <!-- Dynamic Projects Grid -->
     <div class="proj-grid" id="projGrid"></div>
   </div>
 </section>
@@ -481,10 +489,7 @@
       <h2 data-i18n="skills.title">Sales expertise, backed by digital fluency</h2>
     </div>
     <div class="skills-wrap">
-      <!-- Dynamic Progress Bars -->
       <div class="skill-cats" id="skillCats"></div>
-      
-      <!-- Radar Chart -->
       <div class="chart-card" data-aos="fade-up">
         <canvas id="radarChart" height="300"></canvas>
       </div>
@@ -500,12 +505,8 @@
       <h2 data-i18n="edu.title">Formal foundation, continuous learning</h2>
     </div>
     
-    <!-- Dynamic Education Cards -->
-    <div class="two-col" id="dom_education_cards">
-       <!-- Will be populated dynamically -->
-    </div>
+    <div class="two-col" id="dom_education_cards"></div>
 
-    <!-- Dynamic Certificates -->
     <div style="margin-top:50px;">
       <div class="cert-platform" data-aos="fade-up">
         <h4 data-i18n="edu.plat1">Elaraby E-Learning Platform</h4>
@@ -549,7 +550,6 @@
         </div>
       </div>
       
-      <!-- Email Form -->
       <form data-aos="fade-up" data-aos-delay="100" id="contactForm">
         <div class="form-field">
           <label data-i18n="contact.formName">Full Name</label>
@@ -575,7 +575,7 @@
 <!-- Footer -->
 <footer>
   <div class="container footer-inner">
-    <p>&copy; <span id="year"></span> AbdElMoneim Sultan. <span data-i18n="footer.rights">All rights reserved.</span></p>
+    <p>&copy; <span id="year"></span> <span id="dom_footer_name">AbdElMoneim Sultan</span>. <span data-i18n="footer.rights">All rights reserved.</span></p>
     <a href="#home" class="back-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></a>
   </div>
 </footer>
@@ -590,101 +590,37 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-
-<!-- Static Data Fallbacks (if Firebase fails) -->
 <script src="data.js"></script>
 
 <!-- Translation Core Object -->
 <script>
 const TRANSLATIONS = {
   en: {
-    nav: { 
-      brand: "AbdElMoneim Sultan", about: "About", experience: "Experience", 
-      projects: "Projects", skills: "Skills", education: "Education", 
-      contact: "Contact", hire: "Hire Me" 
-    },
-    hero: { 
-      eyebrow: "Sales Executive → Digital Product Builder", 
-      title1: "Turning client trust into", title2: "measurable growth", title3: ".", 
-      lead: "A professional sales executive...", 
-      ctaHire: "Hire Me", ctaCv: "Download CV", ctaWork: "View Work", 
-      scroll: "Scroll", 
-      typed: ["Sales Executive", "Client Relationship Manager", "AI Tools Explorer"] 
-    },
-    about: { 
-      eyebrow: "About Me", title: "A sales career built on trust...", p1: "I'm a professional..." 
-    },
-    exp: { 
-      eyebrow: "Career Journey", title: "Five roles, one throughline: reliability", 
-      sub: "Tap any role to see responsibilities and achievements." 
-    },
-    proj: { 
-      eyebrow: "Projects", title: "Practical contributions beyond the sales floor" 
-    },
-    skills: { 
-      eyebrow: "Skills", title: "Sales expertise, backed by digital fluency" 
-    },
-    edu: { 
-      eyebrow: "Education & Certification", title: "Formal foundation, continuous learning", 
-      plat1: "Elaraby E-Learning Platform", plat2: "Almentor Online Learning Platform" 
-    },
-    contact: { 
-      eyebrow: "Get In Touch", title: "Let's talk about your next hire", 
-      sub: "Open to sales leadership roles and digital product collaborations.", 
-      email: "Email", phone: "Phone", whatsapp: "WhatsApp", whatsappSub: "Chat directly", 
-      location: "Location", copied: "Copied!", 
-      formName: "Full Name", formEmail: "Email Address", formMsg: "Message", 
-      formSend: "Send Message", formSuccess: "Thanks — your message has been noted." 
-    },
-    footer: { rights: "All rights reserved." }, 
-    cookie: { text: "This site uses local storage.", accept: "Got it" }
+    nav: { brand: "AbdElMoneim Sultan", about: "About", experience: "Experience", projects: "Projects", skills: "Skills", education: "Education", contact: "Contact", hire: "Hire Me" },
+    hero: { eyebrow: "Sales Executive → Digital Product Builder", title1: "Turning client trust into", title2: "measurable growth", title3: ".", lead: "A professional sales executive...", ctaHire: "Hire Me", ctaCv: "Download CV", ctaWork: "View Work", scroll: "Scroll", typed: ["Sales Executive", "Client Relationship Manager", "AI Tools Explorer"] },
+    about: { eyebrow: "About Me", title: "A sales career built on trust...", p1: "I'm a professional..." },
+    exp: { eyebrow: "Career Journey", title: "Five roles, one throughline: reliability", sub: "Tap any role to see responsibilities and achievements." },
+    proj: { eyebrow: "Projects", title: "Practical contributions beyond the sales floor" },
+    skills: { eyebrow: "Skills", title: "Sales expertise, backed by digital fluency" },
+    edu: { eyebrow: "Education & Certification", title: "Formal foundation, continuous learning", plat1: "Elaraby E-Learning Platform", plat2: "Almentor Online Learning Platform" },
+    contact: { eyebrow: "Get In Touch", title: "Let's talk about your next hire", sub: "Open to sales leadership roles and digital product collaborations.", email: "Email", phone: "Phone", whatsapp: "WhatsApp", whatsappSub: "Chat directly", location: "Location", copied: "Copied!", formName: "Full Name", formEmail: "Email Address", formMsg: "Message", formSend: "Send Message", formSuccess: "Thanks — your message has been noted." },
+    footer: { rights: "All rights reserved." }, cookie: { text: "This site uses local storage.", accept: "Got it" }
   },
   ar: {
-    nav: { 
-      brand: "عبدالمنعم سلطان", about: "نبذة عني", experience: "الخبرات", 
-      projects: "المشاريع", skills: "المهارات", education: "التعليم", 
-      contact: "تواصل معي", hire: "وظفني" 
-    },
-    hero: { 
-      eyebrow: "تنفيذي مبيعات ← بناء منتجات رقمية", 
-      title1: "أحوّل ثقة العملاء إلى", title2: "نمو ملموس", title3: ".", 
-      lead: "محترف مبيعات بخبرة تتجاوز 4 سنوات...", 
-      ctaHire: "وظفني", ctaCv: "تحميل السيرة الذاتية", ctaWork: "عرض الأعمال", 
-      scroll: "مرر لأسفل", 
-      typed: ["تنفيذي مبيعات", "مدير علاقات عملاء", "مستكشف ذكاء اصطناعي"] 
-    },
-    about: { 
-      eyebrow: "نبذة عني", title: "مسيرة مبيعات قائمة على الثقة...", p1: "أنا محترف مبيعات..." 
-    },
-    exp: { 
-      eyebrow: "المسيرة المهنية", title: "خمس وظائف، وخيط واحد يربطها: الموثوقية", 
-      sub: "اضغط على أي وظيفة لعرض التفاصيل." 
-    },
-    proj: { 
-      eyebrow: "المشاريع", title: "مساهمات عملية تتجاوز أرضية المبيعات" 
-    },
-    skills: { 
-      eyebrow: "المهارات", title: "خبرة مبيعات مدعومة بإجادة رقمية" 
-    },
-    edu: { 
-      eyebrow: "التعليم والشهادات", title: "أساس أكاديمي وتعلّم مستمر", 
-      plat1: "منصة العربي للتعلّم الإلكتروني", plat2: "منصة Almentor للتعلّم عبر الإنترنت" 
-    },
-    contact: { 
-      eyebrow: "تواصل معي", title: "لنتحدث عن فرصتك القادمة", 
-      sub: "متاح لأدوار قيادة مبيعات وتعاونات في المنتجات الرقمية.", 
-      email: "البريد الإلكتروني", phone: "الهاتف", whatsapp: "واتساب", whatsappSub: "تواصل مباشر", 
-      location: "الموقع", copied: "تم النسخ!", 
-      formName: "الاسم الكامل", formEmail: "البريد الإلكتروني", formMsg: "الرسالة", 
-      formSend: "إرسال الرسالة", formSuccess: "شكرًا — تم استلام رسالتك." 
-    },
-    footer: { rights: "جميع الحقوق محفوظة." }, 
-    cookie: { text: "يستخدم هذا الموقع التخزين المحلي.", accept: "حسنًا" }
+    nav: { brand: "عبدالمنعم سلطان", about: "نبذة عني", experience: "الخبرات", projects: "المشاريع", skills: "المهارات", education: "التعليم", contact: "تواصل معي", hire: "وظفني" },
+    hero: { eyebrow: "تنفيذي مبيعات ← بناء منتجات رقمية", title1: "أحوّل ثقة العملاء إلى", title2: "نمو ملموس", title3: ".", lead: "محترف مبيعات بخبرة تتجاوز 4 سنوات...", ctaHire: "وظفني", ctaCv: "تحميل السيرة الذاتية", ctaWork: "عرض الأعمال", scroll: "مرر لأسفل", typed: ["تنفيذي مبيعات", "مدير علاقات عملاء", "مستكشف ذكاء اصطناعي"] },
+    about: { eyebrow: "نبذة عني", title: "مسيرة مبيعات قائمة على الثقة...", p1: "أنا محترف مبيعات..." },
+    exp: { eyebrow: "المسيرة المهنية", title: "خمس وظائف، وخيط واحد يربطها: الموثوقية", sub: "اضغط على أي وظيفة لعرض التفاصيل." },
+    proj: { eyebrow: "المشاريع", title: "مساهمات عملية تتجاوز أرضية المبيعات" },
+    skills: { eyebrow: "المهارات", title: "خبرة مبيعات مدعومة بإجادة رقمية" },
+    edu: { eyebrow: "التعليم والشهادات", title: "أساس أكاديمي وتعلّم مستمر", plat1: "منصة العربي للتعلّم الإلكتروني", plat2: "منصة Almentor للتعلّم عبر الإنترنت" },
+    contact: { eyebrow: "تواصل معي", title: "لنتحدث عن فرصتك القادمة", sub: "متاح لأدوار قيادة مبيعات وتعاونات في المنتجات الرقمية.", email: "البريد الإلكتروني", phone: "الهاتف", whatsapp: "واتساب", whatsappSub: "تواصل مباشر", location: "الموقع", copied: "تم النسخ!", formName: "الاسم الكامل", formEmail: "البريد الإلكتروني", formMsg: "الرسالة", formSend: "إرسال الرسالة", formSuccess: "شكرًا — تم استلام رسالتك." },
+    footer: { rights: "جميع الحقوق محفوظة." }, cookie: { text: "يستخدم هذا الموقع التخزين المحلي.", accept: "حسنًا" }
   }
 };
 </script>
 
-<!-- Firebase Connection & Synchronization Engine -->
+<!-- Firebase Synchronization Engine -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getFirestore, doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -701,137 +637,35 @@ const TRANSLATIONS = {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  function processDocData(dbData) {
-    if(!dbData) return;
-
-    // 1. Bilingual Core & Hero Injection
-    if(dbData.heroEn) {
-      if(dbData.heroEn.eyebrow) TRANSLATIONS.en.hero.eyebrow = dbData.heroEn.eyebrow;
-      if(dbData.heroEn.title1) TRANSLATIONS.en.hero.title1 = dbData.heroEn.title1;
-      if(dbData.heroEn.lead) TRANSLATIONS.en.hero.lead = dbData.heroEn.lead;
-      if(dbData.heroEn.typed && dbData.heroEn.typed.length) TRANSLATIONS.en.hero.typed = dbData.heroEn.typed;
-      if(dbData.heroEn.stats) SITE_DATA.en.heroStats = dbData.heroEn.stats;
-      if(dbData.heroEn.chips) SITE_DATA.en.heroChips = dbData.heroEn.chips;
-    }
-    if(dbData.heroAr) {
-      if(dbData.heroAr.eyebrow) TRANSLATIONS.ar.hero.eyebrow = dbData.heroAr.eyebrow;
-      if(dbData.heroAr.title1) TRANSLATIONS.ar.hero.title1 = dbData.heroAr.title1;
-      if(dbData.heroAr.lead) TRANSLATIONS.ar.hero.lead = dbData.heroAr.lead;
-      if(dbData.heroAr.typed && dbData.heroAr.typed.length) TRANSLATIONS.ar.hero.typed = dbData.heroAr.typed;
-      if(dbData.heroAr.stats) SITE_DATA.ar.heroStats = dbData.heroAr.stats;
-      if(dbData.heroAr.chips) SITE_DATA.ar.heroChips = dbData.heroAr.chips;
-    }
-    
-    // 2. About Section Injection
-    if(dbData.aboutEn) {
-      if(dbData.aboutEn.title) TRANSLATIONS.en.about.title = dbData.aboutEn.title;
-      if(dbData.aboutEn.p1) TRANSLATIONS.en.about.p1 = dbData.aboutEn.p1;
-      if(dbData.aboutEn.facts) SITE_DATA.en.aboutFacts = dbData.aboutEn.facts;
-      if(dbData.aboutEn.arc) SITE_DATA.en.aboutArc = dbData.aboutEn.arc;
-    }
-    if(dbData.aboutAr) {
-      if(dbData.aboutAr.title) TRANSLATIONS.ar.about.title = dbData.aboutAr.title;
-      if(dbData.aboutAr.p1) TRANSLATIONS.ar.about.p1 = dbData.aboutAr.p1;
-      if(dbData.aboutAr.facts) SITE_DATA.ar.aboutFacts = dbData.aboutAr.facts;
-      if(dbData.aboutAr.arc) SITE_DATA.ar.aboutArc = dbData.aboutAr.arc;
-    }
-
-    // 3. Education Details
-    if(dbData.educationEn) SITE_DATA.en.education = dbData.educationEn;
-    if(dbData.educationAr) SITE_DATA.ar.education = dbData.educationAr;
-
-    // 4. Contact & Profile Setup
-    if(dbData.aboutData?.profileImg) {
-      document.getElementById('dom_profile_img').src = dbData.aboutData.profileImg;
-    }
-    if(dbData.contactData) {
-      if(dbData.contactData.cvLink) document.getElementById('dom_cv_link').href = dbData.contactData.cvLink;
-      if(dbData.contactData.email) document.getElementById('dom_contact_email').innerText = dbData.contactData.email;
-      if(dbData.contactData.phone) {
-        document.getElementById('dom_contact_phone').innerText = dbData.contactData.phone;
-        document.getElementById('dom_whatsapp_link').href = "https://wa.me/" + dbData.contactData.phone.replace(/[^0-9]/g, '');
-      }
-      if(dbData.contactData.location) {
-        const lang = localStorage.getItem('portfolio_lang') || 'en';
-        const locStr = (lang === 'ar' && dbData.contactData.locationAr) ? dbData.contactData.locationAr : dbData.contactData.location;
-        document.getElementById('dom_contact_location').innerText = locStr;
-        document.getElementById('dom_location_badge').innerText = locStr;
-      }
-    }
-
-    // 5. Dynamic Lists / Matrices Sync
-    if(dbData.experienceData) { 
-      SITE_DATA.en.experience = dbData.experienceData; 
-      SITE_DATA.ar.experience = dbData.experienceData; 
-    }
-    if(dbData.projectsData) { 
-      SITE_DATA.en.projects = dbData.projectsData; 
-      SITE_DATA.ar.projects = dbData.projectsData; 
-    }
-    if(dbData.skillCatsData) { 
-      SITE_DATA.en.skillCats = dbData.skillCatsData; 
-      SITE_DATA.ar.skillCats = dbData.skillCatsData; 
-    }
-    if(dbData.certsElarabyData) { 
-      SITE_DATA.en.certsElaraby = dbData.certsElarabyData; 
-      SITE_DATA.ar.certsElaraby = dbData.certsElarabyData; 
-    }
-    if(dbData.certsAlmentorData) { 
-      SITE_DATA.en.certsAlmentor = dbData.certsAlmentorData; 
-      SITE_DATA.ar.certsAlmentor = dbData.certsAlmentorData; 
-    }
-
-    // 6. Advanced Theme Engine Injection
-    if(dbData.themeData) {
-      const theme = dbData.themeData;
-      const html = document.documentElement;
-      
-      if(theme.mode) html.setAttribute('data-theme', theme.mode);
-      if(theme.font) { 
-        html.style.setProperty('--font-display', theme.font); 
-        html.style.setProperty('--font-body', theme.font); 
-      }
-      if(theme.gold) html.style.setProperty('--gold', theme.gold);
-      if(theme.goldLight) html.style.setProperty('--gold-l', theme.goldLight);
-      if(theme.teal) html.style.setProperty('--teal', theme.teal);
-      if(theme.tealLight) html.style.setProperty('--teal-l', theme.tealLight);
-      if(theme.bg) html.style.setProperty('--bg', theme.bg);
-      if(theme.surface) html.style.setProperty('--surface', theme.surface);
-      if(theme.radius) html.style.setProperty('--radius', theme.radius + 'px');
-
-      // Sections Visibility Manager
-      if(theme.sectionVisibility) {
-        const vis = theme.sectionVisibility;
-        ['home', 'about', 'experience', 'projects', 'skills', 'education', 'contact'].forEach(id => {
-          const el = document.getElementById(id);
-          if(el) {
-            el.style.display = (vis[id] !== false) ? 'block' : 'none';
-          }
-        });
-      }
-    }
-
-    // Re-render UI securely after data fetch
-    const currentLang = localStorage.getItem('portfolio_lang') || 'en';
-    if(window.refreshAppUI) window.refreshAppUI(currentLang);
-  }
+  window.DB_STATE = { global: {}, en: {}, ar: {} };
 
   window.fetchFirebaseData = async function() {
     try {
-      const docRef = doc(db, "portfolio", "content");
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        processDocData(docSnap.data());
-      }
+      const [gSnap, enSnap, arSnap] = await Promise.all([
+        getDoc(doc(db, "portfolio", "global")),
+        getDoc(doc(db, "portfolio", "en")),
+        getDoc(doc(db, "portfolio", "ar"))
+      ]);
       
-      // Listen for Live Updates
-      onSnapshot(docRef, (snapshot) => {
-        if(snapshot.exists()) {
-          processDocData(snapshot.data());
-        }
-      });
+      if (gSnap.exists() || enSnap.exists() || arSnap.exists()) {
+        if(gSnap.exists()) window.DB_STATE.global = gSnap.data();
+        if(enSnap.exists()) window.DB_STATE.en = enSnap.data();
+        if(arSnap.exists()) window.DB_STATE.ar = arSnap.data();
+        window.refreshAppUI(window.getLang());
+      } else {
+        throw new Error("Documents do not exist yet.");
+      }
+
+      onSnapshot(doc(db, "portfolio", "global"), (d) => { if(d.exists()){ window.DB_STATE.global = d.data(); window.refreshAppUI(window.getLang()); }});
+      onSnapshot(doc(db, "portfolio", "en"), (d) => { if(d.exists()){ window.DB_STATE.en = d.data(); window.refreshAppUI(window.getLang()); }});
+      onSnapshot(doc(db, "portfolio", "ar"), (d) => { if(d.exists()){ window.DB_STATE.ar = d.data(); window.refreshAppUI(window.getLang()); }});
+
     } catch (error) {
-      console.warn("Could not load Firebase data, utilizing hardcoded Fallbacks.", error);
+      console.warn("Firebase fetch failed. Resorting to data.js fallback.", error);
+      if (typeof window.SITE_DATA !== 'undefined' && window.SITE_DATA.global) {
+        window.DB_STATE = window.SITE_DATA; 
+      }
+      window.refreshAppUI(window.getLang());
     }
   };
 </script>
@@ -843,8 +677,7 @@ const TRANSLATIONS = {
   const STORE_THEME = 'portfolio_theme';
   const html = document.documentElement;
 
-  // Translation Functions
-  function getLang() { return localStorage.getItem(STORE_LANG) || 'en'; }
+  window.getLang = function() { return localStorage.getItem(STORE_LANG) || 'en'; }
 
   function applyI18n(lang) {
     const dict = TRANSLATIONS[lang];
@@ -868,7 +701,7 @@ const TRANSLATIONS = {
     restartTyped(next);
   }
 
-  // Theme Function
+  // --- RESTORED DAY/NIGHT TOGGLE LOGIC ---
   function applyTheme(theme) {
     html.setAttribute('data-theme', theme);
     const icon = document.querySelector('#themeToggle i');
@@ -878,104 +711,141 @@ const TRANSLATIONS = {
     localStorage.setItem(STORE_THEME, theme);
   }
 
-  // Content Renderer (The engine that generates HTML from SITE_DATA)
   function renderDynamicContent(lang) {
-    const d = SITE_DATA[lang] || SITE_DATA['en'];
+    if(!window.DB_STATE) return;
 
-    // 1. Hero Stats
+    const st = window.DB_STATE[lang] || {};
+    const gl = window.DB_STATE.global || {};
+
+    // --- APPLY THEME DATA (SAFELY) ---
+    if(gl.themeData) {
+      const t = gl.themeData;
+      
+      // Respect user's local day/night preference over admin default
+      if (t.mode && !localStorage.getItem(STORE_THEME)) {
+        applyTheme(t.mode);
+      }
+      
+      if(t.font) { html.style.setProperty('--font-display', t.font); html.style.setProperty('--font-body', t.font); }
+      if(t.gold) html.style.setProperty('--gold', t.gold);
+      if(t.goldLight) html.style.setProperty('--gold-l', t.goldLight);
+      if(t.teal) html.style.setProperty('--teal', t.teal);
+      if(t.tealLight) html.style.setProperty('--teal-l', t.tealLight);
+      
+      // ROOT FIX: Redirect admin's custom colors to the Dark Mode base variables (--ink).
+      // This ensures that when the user toggles to Light Mode, the CSS native white/cream colors apply perfectly without being overridden by inline --bg styles.
+      if(t.bg) {
+        html.style.setProperty('--ink', t.bg);
+      }
+      if(t.surface) {
+        html.style.setProperty('--ink-2', t.surface);
+        html.style.setProperty('--ink-surface', t.surface);
+      }
+      
+      if(t.radius) html.style.setProperty('--radius', t.radius + 'px');
+      
+      if(t.sectionVisibility) {
+        ['home','about','experience','projects','skills','education','contact'].forEach(id => {
+          const el = document.getElementById(id);
+          if(el) el.style.display = (t.sectionVisibility[id] !== false) ? 'block' : 'none';
+        });
+      }
+    }
+
+    // --- GLOBALS ---
+    if(gl.aboutData?.profileImg) document.getElementById('dom_profile_img').src = gl.aboutData.profileImg;
+    if(gl.contactData?.cvLink) document.getElementById('dom_cv_link').href = gl.contactData.cvLink;
+    if(gl.contactData?.email) document.getElementById('dom_contact_email').innerText = gl.contactData.email;
+    if(gl.contactData?.phone) {
+      document.getElementById('dom_contact_phone').innerText = gl.contactData.phone;
+      document.getElementById('dom_whatsapp_link').href = "https://wa.me/" + gl.contactData.phone.replace(/[^0-9]/g, '');
+    }
+
+    // --- LOCALIZED DATA ---
+    const locName = st.hero?.brandName || (lang === 'en' ? 'AbdElMoneim Sultan' : 'عبدالمنعم سلطان');
+    document.getElementById('dom_brand_name').textContent = locName;
+    document.getElementById('dom_footer_name').textContent = locName;
+    document.getElementById('dom_contact_location').innerText = st.contact?.location || '';
+    document.getElementById('dom_location_badge').innerText = st.contact?.location || '';
+
+    if(st.hero) {
+      if(st.hero.eyebrow) TRANSLATIONS[lang].hero.eyebrow = st.hero.eyebrow;
+      if(st.hero.title1) TRANSLATIONS[lang].hero.title1 = st.hero.title1;
+      if(st.hero.lead) TRANSLATIONS[lang].hero.lead = st.hero.lead;
+    }
+    if(st.typed && st.typed.length) TRANSLATIONS[lang].hero.typed = st.typed;
+    if(st.about) {
+      if(st.about.title) TRANSLATIONS[lang].about.title = st.about.title;
+      if(st.about.p1) TRANSLATIONS[lang].about.p1 = st.about.p1;
+    }
+    applyI18n(lang);
+
+    // Dynamic Lists
     const statsContainer = document.getElementById('dom_hero_stats');
-    if (statsContainer && d.heroStats) {
-      statsContainer.innerHTML = d.heroStats.map(s => `
-        <div class="stat">
-          <b data-count="${s.value}">0</b>
-          <span>${s.label}</span>
-        </div>
+    if (statsContainer && st.stats) {
+      statsContainer.innerHTML = st.stats.map(s => `
+        <div class="stat"><b data-count="${s.value}">0</b><span>${s.label}</span></div>
       `).join('');
     }
     
-    // 2. Hero Floating Chips
     const chipsContainer = document.getElementById('dom_hero_chips');
-    if (chipsContainer && d.heroChips) {
-      chipsContainer.innerHTML = d.heroChips.map((c, i) => `
-        <div class="float-chip c${i+1}">
-          <i class="fa-solid ${c.icon}"></i> 
-          <span>${c.label}</span>
-        </div>
+    if (chipsContainer && st.chips) {
+      chipsContainer.innerHTML = st.chips.map((c, i) => `
+        <div class="float-chip c${i+1}"><i class="fa-solid ${c.icon}"></i><span>${c.label}</span></div>
       `).join('');
     }
 
-    // 3. About Facts
     const factsContainer = document.getElementById('dom_about_facts');
-    if (factsContainer && d.aboutFacts) {
-      factsContainer.innerHTML = d.aboutFacts.map(f => `
-        <div class="fact">
-          <span>${f.label}</span>
-          <b>${f.value}</b>
-        </div>
+    if (factsContainer && st.facts) {
+      factsContainer.innerHTML = st.facts.map(f => `
+        <div class="fact"><span>${f.label}</span><b>${f.value}</b></div>
       `).join('');
     }
     
-    // 4. Career Arc
     const arcContainer = document.getElementById('dom_about_arc');
-    if (arcContainer && d.aboutArc) {
-      arcContainer.innerHTML = d.aboutArc.map(a => `
-        <div class="arc-item">
-          <h4>${a.title}</h4>
-          <p>${a.desc}</p>
-        </div>
+    if (arcContainer && st.arc) {
+      arcContainer.innerHTML = st.arc.map(a => `
+        <div class="arc-item"><h4>${a.title}</h4><p>${a.desc}</p></div>
       `).join('');
     }
 
-    // 5. Education Cards
     const eduContainer = document.getElementById('dom_education_cards');
-    if (eduContainer && d.education) {
+    if (eduContainer && st.education) {
       eduContainer.innerHTML = `
         <div class="card" data-aos="fade-up">
           <div class="ic"><i class="fa-solid fa-graduation-cap"></i></div>
-          <h4>${d.education.degreeTitle}</h4>
-          <div class="meta">${d.education.degreeMeta}</div>
+          <h4>${st.education.degreeTitle || ''}</h4>
+          <div class="meta">${st.education.degreeMeta || ''}</div>
         </div>
         <div class="card" data-aos="fade-up" data-aos-delay="80">
           <div class="ic"><i class="fa-solid fa-certificate"></i></div>
-          <h4>${d.education.icdlTitle}</h4>
-          <div class="meta">${d.education.icdlMeta}</div>
+          <h4>${st.education.icdlTitle || ''}</h4>
+          <div class="meta">${st.education.icdlMeta || ''}</div>
         </div>
       `;
     }
 
-    // 6. Experience Timeline
     const tl = document.getElementById('timelineList');
-    if (tl && d.experience) {
-      tl.innerHTML = d.experience.map((item, i) => `
+    if (tl && st.experience) {
+      tl.innerHTML = st.experience.map((item, i) => `
         <div class="tl-item">
           <div class="tl-dot"></div>
           <div class="tl-card">
             <div class="tl-top">
-              <div>
-                <div class="tl-role">${item.role}</div>
-                <div class="tl-company">${item.company}</div>
-              </div>
+              <div><div class="tl-role">${item.role}</div><div class="tl-company">${item.company}</div></div>
               <div class="tl-period">${item.period}</div>
             </div>
-            <div class="tl-toggle">
-              <i class="fa-solid fa-chevron-down"></i> ${lang === 'ar' ? 'عرض التفاصيل' : 'View details'}
-            </div>
-            <div class="tl-body">
-              <ul>
-                ${item.bullets.map(b => `<li>${b}</li>`).join('')}
-              </ul>
-            </div>
+            <div class="tl-toggle"><i class="fa-solid fa-chevron-down"></i> ${lang === 'ar' ? 'عرض التفاصيل' : 'View details'}</div>
+            <div class="tl-body"><ul>${(item.bullets||[]).map(b => `<li>${b}</li>`).join('')}</ul></div>
           </div>
         </div>
       `).join('');
-      // Attach click events for expansion
       tl.querySelectorAll('.tl-card').forEach(card => card.addEventListener('click', () => card.classList.toggle('open')));
     }
 
-    // 7. Projects Grid
     const pg = document.getElementById('projGrid');
-    if (pg && d.projects) {
-      pg.innerHTML = d.projects.filter(p => p.hidden !== true).map(p => `
+    if (pg && st.projects) {
+      pg.innerHTML = st.projects.filter(p => p.hidden !== true).map(p => `
         <div class="proj-card" data-aos="fade-up">
           <div class="proj-media">
             ${p.img ? `<img src="${p.img}" alt="${p.title}">` : `<i class="fa-solid ${p.icon || 'fa-diagram-project'}"></i>`}
@@ -984,58 +854,43 @@ const TRANSLATIONS = {
           <div class="proj-body">
             <h3>${p.title}</h3>
             <p>${p.desc}</p>
-            <div class="proj-tags">
-              ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
-            </div>
+            <div class="proj-tags">${(p.tags||[]).map(t => `<span class="tag">${t}</span>`).join('')}</div>
           </div>
         </div>
       `).join('');
     }
 
-    // 8. Skills Matrix & Radar Chart
     const sc = document.getElementById('skillCats');
-    if (sc && d.skillCats) {
-      sc.innerHTML = d.skillCats.map(cat => `
+    if (sc && st.skillCats) {
+      sc.innerHTML = st.skillCats.map(cat => `
         <div class="skill-cat">
           <h4><i class="fa-solid ${cat.icon || 'fa-layer-group'}"></i> ${cat.name}</h4>
-          ${cat.skills.map(s => `
+          ${(cat.skills||[]).map(s => `
             <div class="skill-row">
-              <div class="lbl">
-                <span>${s.label}</span>
-                <span>${s.value}%</span>
-              </div>
-              <div class="bar-track">
-                <div class="bar-fill" data-width="${s.value}"></div>
-              </div>
+              <div class="lbl"><span>${s.label}</span><span>${s.value}%</span></div>
+              <div class="bar-track"><div class="bar-fill" data-width="${s.value}"></div></div>
             </div>
           `).join('')}
         </div>
       `).join('');
+      
+      const radarLabels = [], radarVals = [];
+      st.skillCats.forEach(cat => {
+        (cat.skills||[]).forEach(s => { radarLabels.push(s.label); radarVals.push(s.value); });
+      });
+      renderRadar(radarLabels.slice(0,6), radarVals.slice(0,6), lang);
     }
 
-    // 9. Continuous Certifications
     const cElaraby = document.getElementById('certsElaraby');
-    if (cElaraby && d.certsElaraby) {
-      cElaraby.innerHTML = d.certsElaraby.map(c => `
-        <div class="cert-pill"><i class="fa-solid fa-circle-check"></i> ${c}</div>
-      `).join('');
+    if (cElaraby && st.certsElaraby) {
+      cElaraby.innerHTML = st.certsElaraby.map(c => `<div class="cert-pill"><i class="fa-solid fa-circle-check"></i> ${c}</div>`).join('');
     }
     const cAlmentor = document.getElementById('certsAlmentor');
-    if (cAlmentor && d.certsAlmentor) {
-      cAlmentor.innerHTML = d.certsAlmentor.map(c => `
-        <div class="cert-pill"><i class="fa-solid fa-circle-check"></i> ${c}</div>
-      `).join('');
-    }
-
-    // Trigger radar update if datasets exist
-    if (d.radarLabels && d.radarValues) {
-      renderRadar(d.radarLabels, d.radarValues, lang);
+    if (cAlmentor && st.certsAlmentor) {
+      cAlmentor.innerHTML = st.certsAlmentor.map(c => `<div class="cert-pill"><i class="fa-solid fa-circle-check"></i> ${c}</div>`).join('');
     }
     
-    // Initiate observers for skill bars
     observeBars();
-    
-    // Always trigger counter animation securely after DOM rewrite
     setTimeout(() => animateCounters(), 100); 
   }
 
@@ -1053,10 +908,7 @@ const TRANSLATIONS = {
         datasets: [{ 
           label: lang === 'ar' ? 'مستوى المهارة' : 'Skill Level', 
           data: values, 
-          backgroundColor: 'rgba(192,139,61,0.18)', 
-          borderColor: '#C08B3D', 
-          pointBackgroundColor: '#1F8A70', 
-          borderWidth: 2 
+          backgroundColor: 'rgba(192,139,61,0.18)', borderColor: '#C08B3D', pointBackgroundColor: '#1F8A70', borderWidth: 2 
         }] 
       },
       options: { 
@@ -1065,9 +917,7 @@ const TRANSLATIONS = {
             angleLines: { color: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' }, 
             grid: { color: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' }, 
             pointLabels: { color: isDark ? '#A6ADBB' : '#5B6472', font: { size: 11 } }, 
-            ticks: { display: false, maxTicksLimit: 4 }, 
-            suggestedMin: 0, 
-            suggestedMax: 100 
+            ticks: { display: false, maxTicksLimit: 4 }, suggestedMin: 0, suggestedMax: 100 
           } 
         }, 
         plugins: { legend: { display: false } } 
@@ -1109,46 +959,45 @@ const TRANSLATIONS = {
     if (typedInstance) typedInstance.destroy();
     typedInstance = new Typed('#typed', { 
       strings: TRANSLATIONS[lang].hero.typed, 
-      typeSpeed: 45, 
-      backSpeed: 25, 
-      backDelay: 1400, 
-      loop: true, 
-      smartBackspace: true 
+      typeSpeed: 45, backSpeed: 25, backDelay: 1400, loop: true, smartBackspace: true 
     });
   }
 
-  // Exposed to global for Firebase callback
   window.refreshAppUI = function(lang) {
     applyI18n(lang);
     renderDynamicContent(lang);
     restartTyped(lang);
   };
 
-  // Main Init
+  // Event Listeners initialization
   window.addEventListener('DOMContentLoaded', async () => {
-    // Current Year Setup
     const yearEl = document.getElementById('year');
     if(yearEl) yearEl.textContent = new Date().getFullYear();
     
-    // UI Event Handlers Binding
-    const langToggleBtn = document.getElementById('langToggle');
-    if(langToggleBtn) langToggleBtn.addEventListener('click', toggleLang);
+    document.getElementById('langToggle')?.addEventListener('click', toggleLang);
     
-    const themeToggleBtn = document.getElementById('themeToggle');
-    if(themeToggleBtn) {
-      themeToggleBtn.addEventListener('click', () => {
-        const th = localStorage.getItem(STORE_THEME) === 'dark' ? 'light' : 'dark';
-        applyTheme(th);
-        if (SITE_DATA[getLang()].radarLabels) {
-          renderRadar(SITE_DATA[getLang()].radarLabels, SITE_DATA[getLang()].radarValues, getLang());
+    // RESTORED DAY/NIGHT FIX: Toggle local theme, re-render chart safely.
+    document.getElementById('themeToggle')?.addEventListener('click', () => {
+      const th = localStorage.getItem(STORE_THEME) === 'dark' ? 'light' : 'dark';
+      applyTheme(th);
+      
+      if (window.DB_STATE && window.DB_STATE[window.getLang()]) {
+        const st = window.DB_STATE[window.getLang()];
+        if (st.skillCats) {
+          const radarLabels = [], radarVals = [];
+          st.skillCats.forEach(cat => {
+            (cat.skills||[]).forEach(s => { radarLabels.push(s.label); radarVals.push(s.value); });
+          });
+          renderRadar(radarLabels.slice(0,6), radarVals.slice(0,6), window.getLang());
         }
-      });
-    }
+      }
+    });
 
     const burger = document.getElementById('burgerBtn');
     const menu = document.getElementById('mobileMenu');
     if (burger && menu) {
-      burger.addEventListener('click', () => {
+      burger.addEventListener('click', (e) => {
+        e.stopPropagation();
         menu.classList.toggle('open');
         burger.innerHTML = menu.classList.contains('open') ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
       });
@@ -1156,32 +1005,29 @@ const TRANSLATIONS = {
         menu.classList.remove('open'); 
         burger.innerHTML = '<i class="fa-solid fa-bars"></i>'; 
       }));
+      document.addEventListener('click', (e) => {
+        if(!menu.contains(e.target) && e.target !== burger) {
+          menu.classList.remove('open');
+          burger.innerHTML = '<i class="fa-solid fa-bars"></i>'; 
+        }
+      });
     }
     
-    // Cookie Handling
     const cookieBar = document.getElementById('cookieBar');
     const cookieBtn = document.getElementById('cookieAccept');
     if(cookieBar && cookieBtn) {
-      if(!localStorage.getItem('portfolio_cookie_ack')) {
-        setTimeout(() => cookieBar.classList.add('show'), 1200);
-      }
-      cookieBtn.addEventListener('click', () => {
-        localStorage.setItem('portfolio_cookie_ack', '1');
-        cookieBar.classList.remove('show');
-      });
+      if(!localStorage.getItem('portfolio_cookie_ack')) { setTimeout(() => cookieBar.classList.add('show'), 1200); }
+      cookieBtn.addEventListener('click', () => { localStorage.setItem('portfolio_cookie_ack', '1'); cookieBar.classList.remove('show'); });
     }
 
-    // Scroll Progress
     const scrollBar = document.getElementById('scroll-progress');
     if(scrollBar) {
       window.addEventListener('scroll', () => {
         const docHtml = document.documentElement;
-        const pct = (docHtml.scrollTop) / (docHtml.scrollHeight - docHtml.clientHeight) * 100;
-        scrollBar.style.width = pct + '%';
+        scrollBar.style.width = ((docHtml.scrollTop) / (docHtml.scrollHeight - docHtml.clientHeight) * 100) + '%';
       });
     }
 
-    // Copy Contact Details
     document.querySelectorAll('.contact-item').forEach(el => {
       el.addEventListener('click', () => {
         const txt = el.querySelector('.txt span')?.innerText;
@@ -1194,7 +1040,6 @@ const TRANSLATIONS = {
       });
     });
 
-    // Form Submissions
     const contactForm = document.getElementById('contactForm');
     const formMsg = document.getElementById('formMsg');
     if(contactForm && formMsg) {
@@ -1206,24 +1051,21 @@ const TRANSLATIONS = {
       });
     }
 
-    // Await Firebase Fetch if available
+    // Initialization Sequence
     if (typeof window.fetchFirebaseData === 'function') {
       await window.fetchFirebaseData();
+    } else {
+      window.DB_STATE = (typeof window.SITE_DATA !== 'undefined') ? window.SITE_DATA : null;
+      window.refreshAppUI(window.getLang());
     }
 
-    // Initialization Sequence
-    const lang = getLang();
-    applyI18n(lang);
-    applyTheme(localStorage.getItem(STORE_THEME) || 'dark');
-    renderDynamicContent(lang);
-    restartTyped(lang);
+    // FINAL DAY/NIGHT RESTORATION (Ensures default applies properly on very first load)
+    const savedTheme = localStorage.getItem(STORE_THEME);
+    const adminTheme = window.DB_STATE?.global?.themeData?.mode || 'dark';
+    applyTheme(savedTheme || adminTheme);
 
-    // Initialize Scroll Animations
-    if(typeof AOS !== 'undefined') {
-      AOS.init({ duration: 700, once: true, easing: 'ease-out-cubic', offset: 60 });
-    }
+    if(typeof AOS !== 'undefined') AOS.init({ duration: 700, once: true, easing: 'ease-out-cubic', offset: 60 });
 
-    // Remove Loader
     setTimeout(() => { 
       const loader = document.getElementById('loader'); 
       if (loader) loader.classList.add('hide'); 

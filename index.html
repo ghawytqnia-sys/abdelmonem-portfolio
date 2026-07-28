@@ -189,8 +189,8 @@
     .float-chip i { color: var(--gold); }
     @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
     
-    .scroll-cue { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text-dim); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
-    .scroll-cue .line { width: 1px; height: 34px; background: linear-gradient(var(--gold), transparent); animation: scrolldown 1.8s ease infinite; }
+    .scroll-cue { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text-dim); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; }
+    .scroll-cue .line { width: 1px; height: 15px; background: linear-gradient(var(--gold), transparent); animation: scrolldown 1.8s ease infinite; }
     @keyframes scrolldown { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 
     /* ============ SECTION SHELL ============ */
@@ -600,7 +600,7 @@ const TRANSLATIONS = {
     hero: { eyebrow: "Sales Executive → Digital Product Builder", title1: "Turning client trust into", title2: "measurable growth", title3: ".", lead: "A professional sales executive...", ctaHire: "Hire Me", ctaCv: "Download CV", ctaWork: "View Work", scroll: "Scroll", typed: ["Sales Executive", "Client Relationship Manager", "AI Tools Explorer"] },
     about: { eyebrow: "About Me", title: "A sales career built on trust...", p1: "I'm a professional..." },
     exp: { eyebrow: "Career Journey", title: "Five roles, one throughline: reliability", sub: "Tap any role to see responsibilities and achievements." },
-    proj: { eyebrow: "Projects", title: "Practical contributions beyond the sales floor" },
+proj: { eyebrow: "Projects", title: "Practical contributions beyond the sales floor", link: "View Project" },
     skills: { eyebrow: "Skills", title: "Sales expertise, backed by digital fluency" },
     edu: { eyebrow: "Education & Certification", title: "Formal foundation, continuous learning", plat1: "Elaraby E-Learning Platform", plat2: "Almentor Online Learning Platform" },
     contact: { eyebrow: "Get In Touch", title: "Let's talk about your next hire", sub: "Open to sales leadership roles and digital product collaborations.", email: "Email", phone: "Phone", whatsapp: "WhatsApp", whatsappSub: "Chat directly", location: "Location", copied: "Copied!", formName: "Full Name", formEmail: "Email Address", formMsg: "Message", formSend: "Send Message", formSuccess: "Thanks — your message has been noted." },
@@ -611,7 +611,7 @@ const TRANSLATIONS = {
     hero: { eyebrow: "تنفيذي مبيعات ← بناء منتجات رقمية", title1: "أحوّل ثقة العملاء إلى", title2: "نمو ملموس", title3: ".", lead: "محترف مبيعات بخبرة تتجاوز 4 سنوات...", ctaHire: "وظفني", ctaCv: "تحميل السيرة الذاتية", ctaWork: "عرض الأعمال", scroll: "مرر لأسفل", typed: ["تنفيذي مبيعات", "مدير علاقات عملاء", "مستكشف ذكاء اصطناعي"] },
     about: { eyebrow: "نبذة عني", title: "مسيرة مبيعات قائمة على الثقة...", p1: "أنا محترف مبيعات..." },
     exp: { eyebrow: "المسيرة المهنية", title: "خمس وظائف، وخيط واحد يربطها: الموثوقية", sub: "اضغط على أي وظيفة لعرض التفاصيل." },
-    proj: { eyebrow: "المشاريع", title: "مساهمات عملية " },
+proj: { eyebrow: "المشاريع", title: "مساهمات عملية تتجاوز أرضية المبيعات", link: "زيارة المشروع" },
     skills: { eyebrow: "المهارات", title: "مقياس المهارات" },
     edu: { eyebrow: "التعليم والشهادات", title: "أساس أكاديمي وتعلّم مستمر", plat1: "منصة العربي للتعلّم الإلكتروني", plat2: "منصة Almentor للتعلّم عبر الإنترنت" },
     contact: { eyebrow: "تواصل معي", title: "لنتحدث عن فرصتك القادمة", sub: "متاح لأدوار قيادة مبيعات وتعاونات في المنتجات الرقمية.", email: "البريد الإلكتروني", phone: "الهاتف", whatsapp: "واتساب", whatsappSub: "تواصل مباشر", location: "الموقع", copied: "تم النسخ!", formName: "الاسم الكامل", formEmail: "البريد الإلكتروني", formMsg: "الرسالة", formSend: "إرسال الرسالة", formSuccess: "شكرًا — تم استلام رسالتك." },
@@ -768,7 +768,8 @@ const TRANSLATIONS = {
     document.getElementById('dom_contact_location').innerText = st.contact?.location || '';
     document.getElementById('dom_location_badge').innerText = st.contact?.location || '';
 
-    if(st.hero) {
+if(st.hero) {
+      if(st.hero.brandName) TRANSLATIONS[lang].nav.brand = st.hero.brandName; 
       if(st.hero.eyebrow) TRANSLATIONS[lang].hero.eyebrow = st.hero.eyebrow;
       if(st.hero.title1) TRANSLATIONS[lang].hero.title1 = st.hero.title1;
       if(st.hero.lead) TRANSLATIONS[lang].hero.lead = st.hero.lead;
@@ -851,10 +852,11 @@ const TRANSLATIONS = {
             ${p.img ? `<img src="${p.img}" alt="${p.title}">` : `<i class="fa-solid ${p.icon || 'fa-diagram-project'}"></i>`}
             <span class="proj-status">${p.status || 'Active'}</span>
           </div>
-          <div class="proj-body">
+<div class="proj-body">
             <h3>${p.title}</h3>
             <p>${p.desc}</p>
-            <div class="proj-tags">${(p.tags||[]).map(t => `<span class="tag">${t}</span>`).join('')}</div>
+            <div class="proj-tags" style="margin-bottom: 18px;">${(p.tags||[]).map(t => `<span class="tag">${t}</span>`).join('')}</div>
+            ${p.link ? `<a href="${p.link}" target="_blank" class="btn btn-ghost btn-small"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${TRANSLATIONS[lang].proj.link}</a>` : ''}
           </div>
         </div>
       `).join('');

@@ -679,13 +679,23 @@ proj: { eyebrow: "المشاريع", title: "مساهمات عملية تتجا�
 
   window.getLang = function() { return localStorage.getItem(STORE_LANG) || 'en'; }
 
-  function applyI18n(lang) {
+function applyI18n(lang) {
     const dict = TRANSLATIONS[lang];
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const path = el.getAttribute('data-i18n').split('.');
       let val = dict;
       for (const p of path) { val = val && val[p]; }
-      if (typeof val === 'string') el.textContent = val;
+      if (typeof val === 'string') {
+        el.textContent = val;
+        
+        // خوارزمية الحذف النهائي: إذا مسحت العنوان من لوحة التحكم، يختفي من الموقع بالكامل
+        const targetEl = el.parentElement.classList.contains('eyebrow') ? el.parentElement : el;
+        if (val.trim() === '') {
+          targetEl.style.display = 'none';
+        } else {
+          targetEl.style.display = ''; // العودة للوضع الطبيعي
+        }
+      }
     });
     
     html.lang = lang;
@@ -775,9 +785,27 @@ if(st.hero) {
       if(st.hero.lead) TRANSLATIONS[lang].hero.lead = st.hero.lead;
     }
     if(st.typed && st.typed.length) TRANSLATIONS[lang].hero.typed = st.typed;
-    if(st.about) {
-      if(st.about.title) TRANSLATIONS[lang].about.title = st.about.title;
-      if(st.about.p1) TRANSLATIONS[lang].about.p1 = st.about.p1;
+if(st.exp) {
+      if(st.exp.eyebrow !== undefined) TRANSLATIONS[lang].exp.eyebrow = st.exp.eyebrow;
+      if(st.exp.title !== undefined) TRANSLATIONS[lang].exp.title = st.exp.title;
+      if(st.exp.sub !== undefined) TRANSLATIONS[lang].exp.sub = st.exp.sub;
+    }
+    if(st.proj) {
+      if(st.proj.eyebrow !== undefined) TRANSLATIONS[lang].proj.eyebrow = st.proj.eyebrow;
+      if(st.proj.title !== undefined) TRANSLATIONS[lang].proj.title = st.proj.title;
+    }
+    if(st.skills) {
+      if(st.skills.eyebrow !== undefined) TRANSLATIONS[lang].skills.eyebrow = st.skills.eyebrow;
+      if(st.skills.title !== undefined) TRANSLATIONS[lang].skills.title = st.skills.title;
+    }
+    if(st.education) {
+      if(st.education.eyebrow !== undefined) TRANSLATIONS[lang].edu.eyebrow = st.education.eyebrow;
+      if(st.education.title !== undefined) TRANSLATIONS[lang].edu.title = st.education.title;
+    }
+    if(st.contact) {
+      if(st.contact.eyebrow !== undefined) TRANSLATIONS[lang].contact.eyebrow = st.contact.eyebrow;
+      if(st.contact.title !== undefined) TRANSLATIONS[lang].contact.title = st.contact.title;
+      if(st.contact.sub !== undefined) TRANSLATIONS[lang].contact.sub = st.contact.sub;
     }
     applyI18n(lang);
 

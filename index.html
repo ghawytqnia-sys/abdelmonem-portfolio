@@ -785,7 +785,11 @@ if(st.hero) {
       if(st.hero.lead) TRANSLATIONS[lang].hero.lead = st.hero.lead;
     }
     if(st.typed && st.typed.length) TRANSLATIONS[lang].hero.typed = st.typed;
-if(st.exp) {
+    if(st.about) {
+      if(st.about.title) TRANSLATIONS[lang].about.title = st.about.title;
+      if(st.about.p1) TRANSLATIONS[lang].about.p1 = st.about.p1;
+    }
+    if(st.exp) {
       if(st.exp.eyebrow !== undefined) TRANSLATIONS[lang].exp.eyebrow = st.exp.eyebrow;
       if(st.exp.title !== undefined) TRANSLATIONS[lang].exp.title = st.exp.title;
       if(st.exp.sub !== undefined) TRANSLATIONS[lang].exp.sub = st.exp.sub;

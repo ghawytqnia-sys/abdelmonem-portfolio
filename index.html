@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr" data-theme="dark">
 <head>
 <meta charset="UTF-8">
+<base target="_self">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title id="docTitle">Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +15,7 @@
     --surface-light: #FFFFFF;
     --text-light: #0F172A;
     --muted-light: #64748B;
-    --border-light: rgba(0,0,0,0.06);
+    --border-light: rgba(0,0,0,0.08);
 
     --bg-dark: #0B1220;
     --surface-dark: #121B2E;
@@ -31,7 +32,7 @@
     --text: var(--text-light);
     --text-muted: var(--muted-light);
     --border: var(--border-light);
-    --card-shadow: 0 4px 20px -2px rgba(0,0,0,0.04);
+    --card-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.03);
   }
   [data-theme="dark"] {
     --bg: var(--bg-dark);
@@ -39,7 +40,7 @@
     --text: var(--text-dark);
     --text-muted: var(--muted-dark);
     --border: var(--border-dark);
-    --card-shadow: 0 4px 20px -2px rgba(0,0,0,0.3);
+    --card-shadow: 0 10px 25px -5px rgba(0,0,0,0.4);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -47,33 +48,36 @@
     font-family: var(--font);
     background: var(--bg);
     color: var(--text);
-    line-height: 1.6;
+    line-height: 1.75;
     overflow-x: hidden;
     transition: background .25s ease, color .25s ease;
+    user-select: text;
+    -webkit-user-select: text;
   }
   a { text-decoration: none; color: inherit; }
-
-  /* Top Navigation Bar */
   .p-nav {
     position: sticky; top: 0; z-index: 1000;
     background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border);
-    padding: 14px 48px;
+    padding: 16px 48px;
     display: flex; justify-content: space-between; align-items: center;
     transition: background .25s ease;
   }
   [data-theme="dark"] .p-nav { background: rgba(18, 27, 46, 0.92); }
-  .p-logo { font-size: 19px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+  .p-logo { font-size: 20px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; cursor: pointer; }
   [data-theme="dark"] .p-logo { color: #fff; }
-  .p-nav-links { display: flex; align-items: center; gap: 20px; font-weight: 600; font-size: 14px; color: var(--text-muted); }
-  .p-nav-links a { transition: color .2s; }
+  .p-nav-links { display: flex; align-items: center; gap: 24px; font-weight: 600; font-size: 14.5px; color: var(--text-muted); }
+  .p-nav-links a { transition: color .2s ease; position: relative; padding: 4px 0; cursor: pointer; }
   .p-nav-links a:hover, .p-nav-links a.active { color: var(--accent); }
+  .p-nav-links a.active::after {
+    content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px;
+    background: var(--accent); border-radius: 2px;
+  }
   .p-nav-actions { display: flex; align-items: center; gap: 12px; }
-  
   .p-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 9px 20px; border-radius: 8px; font-weight: 700; font-size: 13.5px;
+    padding: 10px 22px; border-radius: 9px; font-weight: 700; font-size: 14px;
     cursor: pointer; transition: all 0.2s ease; border: 1px solid transparent;
   }
   .p-btn-primary { background: var(--primary); color: #fff; }
@@ -83,165 +87,174 @@
 
   .lang-select-btn {
     background: transparent; border: 1px solid var(--border);
-    color: var(--text); padding: 7px 12px; border-radius: 8px;
-    font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;
+    color: var(--text); padding: 7px 14px; border-radius: 8px;
+    font-size: 13.5px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;
   }
   .theme-toggle-btn {
-    background: transparent; border: none; font-size: 16px; color: var(--text-muted); cursor: pointer; padding: 6px;
+    background: transparent; border: none; font-size: 17px; color: var(--text-muted); cursor: pointer; padding: 6px;
   }
-
-  /* Two Column Main Architecture */
+  .p-mobile-menu-btn {
+    display: none; background: transparent; border: 1px solid var(--border);
+    color: var(--text); padding: 8px 12px; border-radius: 8px; font-size: 18px; cursor: pointer;
+  }
+  .p-mobile-drawer {
+    display: none; position: fixed; top: 68px; left: 0; right: 0; background: var(--surface);
+    border-bottom: 1px solid var(--border); padding: 20px 24px; box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+    z-index: 999; flex-direction: column; gap: 14px; animation: slideDown 0.25s ease;
+  }
+  .p-mobile-drawer.open { display: flex; }
+  .p-mobile-drawer a { font-size: 15px; font-weight: 600; color: var(--text); padding: 8px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
   .p-wrapper {
-    max-width: 1240px; margin: 36px auto; padding: 0 24px;
-    display: grid; grid-template-columns: 340px 1fr; gap: 36px;
+    max-width: 1320px; margin: 44px auto; padding: 0 32px;
+    display: grid; grid-template-columns: minmax(320px, 360px) 1fr; gap: 40px;
+    align-items: start;
   }
-  html[dir="rtl"] .p-wrapper { grid-template-columns: 1fr 340px; }
-
-  /* Hero Column & Sticky Card */
-  .p-sidebar { height: fit-content; }
+  html[dir="rtl"] .p-wrapper { grid-template-columns: 1fr minmax(320px, 360px); }
+  .p-sidebar { height: fit-content; position: sticky; top: 100px; }
   .p-profile-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 34px 24px;
+    padding: 38px 28px;
     text-align: center;
     box-shadow: var(--card-shadow);
   }
   .p-avatar-wrap {
-    width: 200px; height: 200px; margin: 0 auto 20px;
+    width: 210px; height: 210px; margin: 0 auto 24px;
     border-radius: 50%; overflow: hidden;
     background: radial-gradient(circle at 50% 50%, #1F4056 0%, #102636 100%);
-    box-shadow: 0 10px 25px rgba(14,165,233,0.25);
+    box-shadow: 0 12px 30px rgba(14,165,233,0.25);
     display: flex; align-items: center; justify-content: center;
   }
   .p-avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }
-  .p-profile-card h1 { font-size: 24px; color: var(--primary); margin-bottom: 6px; font-weight: 800; }
+  .p-profile-card h1 { font-size: clamp(1.4rem, 2vw, 1.75rem); color: var(--primary); margin-bottom: 8px; font-weight: 800; line-height: 1.25; }
   [data-theme="dark"] .p-profile-card h1 { color: #fff; }
-  .p-profile-card h2 { font-size: 15px; color: var(--text-muted); font-weight: 600; margin-bottom: 14px; }
-  .p-profile-card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 22px; }
-  .p-profile-actions { display: flex; gap: 10px; justify-content: center; margin-bottom: 18px; flex-wrap: wrap; }
-  .p-social-row { display: flex; justify-content: center; gap: 14px; font-size: 18px; color: var(--text-muted); }
-  .p-social-row a:hover { color: var(--accent); }
-
-  /* Floating Chips in Portfolio */
-  .p-chips-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
-  .p-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; background: rgba(14,165,233,0.08); color: var(--accent); font-size: 12px; font-weight: 600; }
-
-  /* Content Cards */
-  .p-content { display: flex; flex-direction: column; gap: 28px; }
+  .p-profile-card h2 { font-size: 15px; color: var(--accent); font-weight: 600; margin-bottom: 16px; line-height: 1.4; }
+  .p-profile-card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
+  .p-profile-actions { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+  .p-social-row { display: flex; justify-content: center; gap: 16px; font-size: 20px; color: var(--text-muted); }
+  .p-social-row a:hover { color: var(--accent); transform: scale(1.1); transition: transform 0.2s; }
+  .p-chips-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+  .p-chip { display: inline-flex; align-items: center; gap: 7px; padding: 5px 14px; border-radius: 20px; background: rgba(14,165,233,0.08); color: var(--accent); font-size: 12.5px; font-weight: 600; }
+  .p-content { display: flex; flex-direction: column; gap: 32px; min-width: 0; }
   .p-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 30px;
+    padding: 34px;
     box-shadow: var(--card-shadow);
   }
-  .p-section-head { font-size: 19px; font-weight: 800; color: var(--primary); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  .p-section-head { font-size: clamp(1.2rem, 1.5vw, 1.45rem); font-weight: 800; color: var(--primary); margin-bottom: 22px; display: flex; align-items: center; gap: 10px; }
   [data-theme="dark"] .p-section-head { color: #fff; }
-
-  /* Empty state placeholder within sections */
   .p-empty-state {
-    padding: 24px; text-align: center; color: var(--text-muted); font-size: 13px; font-style: italic; border: 1px dashed var(--border); border-radius: 8px;
+    padding: 26px; text-align: center; color: var(--text-muted); font-size: 13.5px; font-style: italic; border: 1px dashed var(--border); border-radius: 8px;
   }
-
-  /* 4 Stat Boxes Matrix */
-  .p-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 20px; }
+  .p-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px; }
   .p-stat-box {
-    border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 16px; text-align: center; background: var(--bg);
+    border: 1px solid var(--border); border-radius: calc(var(--radius) - 4px);
+    padding: 18px 12px; text-align: center; background: var(--bg);
   }
-  .p-stat-box b { display: block; font-size: 26px; font-weight: 800; color: var(--primary); line-height: 1.1; }
+  .p-stat-box b { display: block; font-size: 28px; font-weight: 800; color: var(--primary); line-height: 1.1; }
   [data-theme="dark"] .p-stat-box b { color: #fff; }
-  .p-stat-box span { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-top: 4px; display: block; }
-
-  /* Timeline */
-  .p-timeline { position: relative; margin-top: 8px; }
+  .p-stat-box span { font-size: 12.5px; color: var(--text-muted); font-weight: 600; margin-top: 6px; display: block; }
+  .p-timeline { position: relative; margin-top: 10px; }
   .p-timeline-item {
     position: relative;
-    padding-inline-start: 24px;
+    padding-inline-start: 28px;
     border-inline-start: 2px solid var(--border);
-    padding-bottom: 24px;
+    padding-bottom: 28px;
   }
   .p-timeline-item:last-child { padding-bottom: 0; }
   .p-timeline-item::before {
     content: ""; position: absolute;
-    inset-inline-start: -6px; top: 4px;
+    inset-inline-start: -6px; top: 6px;
     width: 10px; height: 10px; border-radius: 50%;
     background: var(--accent);
   }
-  .p-timeline-role { font-size: 15.5px; font-weight: 700; color: var(--primary); }
+  .p-timeline-role { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
   [data-theme="dark"] .p-timeline-role { color: #fff; }
-  .p-timeline-meta { font-size: 12.5px; color: var(--text-muted); font-weight: 600; margin-bottom: 6px; }
-  .p-timeline-bullets { list-style: disc; margin-inline-start: 18px; font-size: 13px; color: var(--text-muted); }
-
-  /* Certifications Grid (matching reference image) */
-  .p-certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 8px; }
+  .p-timeline-meta { font-size: 13px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; }
+  .p-timeline-bullets { list-style: disc; margin-inline-start: 20px; font-size: 13.5px; color: var(--text-muted); }
+  .p-certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; margin-top: 10px; }
   .p-cert-card {
-    border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 20px; background: var(--surface); display: flex; flex-direction: column;
-    justify-content: space-between; gap: 12px; transition: transform .2s ease, box-shadow .2s ease;
+    border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px);
+    padding: 22px; background: var(--surface); display: flex; flex-direction: column;
+    justify-content: space-between; gap: 14px; transition: transform .2s ease, box-shadow .2s ease;
   }
   .p-cert-card:hover { transform: translateY(-2px); box-shadow: var(--card-shadow); border-color: var(--accent); }
-  .p-cert-header { display: flex; align-items: flex-start; gap: 12px; }
+  .p-cert-header { display: flex; align-items: flex-start; gap: 14px; }
   .p-cert-icon {
-    width: 38px; height: 38px; border-radius: 8px; flex-shrink: 0;
+    width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
     background: rgba(14,165,233,0.1); color: var(--accent);
-    display: flex; align-items: center; justify-content: center; font-size: 16px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
   }
-  .p-cert-title { font-size: 14px; font-weight: 700; color: var(--primary); line-height: 1.4; }
+  .p-cert-title { font-size: 14.5px; font-weight: 700; color: var(--primary); line-height: 1.45; }
   [data-theme="dark"] .p-cert-title { color: #fff; }
   .p-cert-badge {
-    align-self: flex-start; font-size: 11px; font-weight: 700;
-    padding: 4px 10px; border-radius: 6px;
+    align-self: flex-start; font-size: 11.5px; font-weight: 700;
+    padding: 4px 11px; border-radius: 6px;
     background: rgba(14,165,233,0.12); color: var(--accent);
     display: inline-flex; align-items: center; gap: 6px;
   }
-
-  /* Projects Grid */
-  .p-projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+  .p-projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
   .p-project-card {
-    border: 1px solid var(--border); border-radius: var(--radius);
+    border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px);
     overflow: hidden; background: var(--surface); display: flex; flex-direction: column;
   }
-  .p-project-img { width: 100%; height: 150px; object-fit: cover; background: var(--bg); }
-  .p-project-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
-  .p-project-title { font-size: 15.5px; font-weight: 700; color: var(--primary); margin-bottom: 5px; }
+  .p-project-img { width: 100%; height: 160px; object-fit: cover; background: var(--bg); }
+  .p-project-body { padding: 18px; flex: 1; display: flex; flex-direction: column; }
+  .p-project-title { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
   [data-theme="dark"] .p-project-title { color: #fff; }
-  .p-project-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px; flex: 1; }
-  .p-tags-group { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
-  .p-tag { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px; background: rgba(14,165,233,0.1); color: var(--accent); }
-
-  /* Skills & Education Grid */
-  .p-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  .p-skill-cat { margin-bottom: 14px; }
-  .p-skill-cat h4 { font-size: 13.5px; font-weight: 700; margin-bottom: 8px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+  .p-project-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; flex: 1; }
+  .p-tags-group { display: flex; flex-wrap: wrap; gap: 6px; }
+  .p-tag { font-size: 11.5px; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: rgba(14,165,233,0.1); color: var(--accent); }
+  .p-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .p-skill-cat { margin-bottom: 16px; }
+  .p-skill-cat h4 { font-size: 14px; font-weight: 700; margin-bottom: 10px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
   [data-theme="dark"] .p-skill-cat h4 { color: #fff; }
-  .p-skill-badges { display: flex; flex-wrap: wrap; gap: 7px; }
-  .p-skill-badge { font-size: 12px; padding: 5px 11px; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; font-weight: 600; }
-
-  /* Contact Form */
-  .p-contact-form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .p-skill-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+  .p-skill-badge { font-size: 12.5px; padding: 6px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-weight: 600; }
+  .p-contact-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .p-contact-form .full { grid-column: span 2; }
-  .p-input { width: 100%; padding: 11px 13px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); font-family: inherit; font-size: 13.5px; color: var(--text); }
+  .p-input { width: 100%; padding: 12px 14px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg); font-family: inherit; font-size: 14px; color: var(--text); }
   .p-input:focus { outline: none; border-color: var(--accent); }
-
-  /* Footer */
-  .p-footer { text-align: center; padding: 30px; font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 40px; }
-
-  @media(max-width: 960px) {
+  .p-footer { 
+    text-align: center; padding: 36px 20px; font-size: 13.5px; color: var(--text-muted); 
+    border-top: 1px solid var(--border); margin-top: 48px; 
+  }
+  .p-copyright-tag { font-weight: 700; color: var(--primary); }
+  [data-theme="dark"] .p-copyright-tag { color: var(--gold-l); }
+  @media(max-width: 1024px) {
     .p-wrapper { grid-template-columns: 1fr !important; }
-    .p-nav { padding: 12px 20px; }
-    .p-nav-links { display: none; }
+    .p-sidebar { position: static; max-width: 520px; margin: 0 auto; width: 100%; }
+    .p-nav { padding: 14px 24px; }
     .p-stats-grid { grid-template-columns: 1fr 1fr; }
     .p-two-col { grid-template-columns: 1fr; }
+  }
+  @media(max-width: 768px) {
+    .p-nav-links, .p-nav-actions .p-btn { display: none; }
+    .p-mobile-menu-btn { display: inline-flex; }
+    .p-wrapper { padding: 0 16px; margin: 24px auto; }
+    .p-card { padding: 22px 16px; }
     .p-contact-form { grid-template-columns: 1fr; }
     .p-contact-form .full { grid-column: span 1; }
+    .p-stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .p-stat-box b { font-size: 24px; }
+  }
+  @media print {
+    @page { size: A4; margin: 12mm; }
+    body { background: #fff !important; color: #0F172A !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .p-nav, .p-mobile-menu-btn, .p-mobile-drawer, .p-btn, #themeToggleBtn, #langSwitcherBtn { display: none !important; }
+    .p-wrapper { max-width: 100% !important; margin: 0 !important; padding: 0 !important; display: block !important; }
+    .p-sidebar { position: static !important; width: 100% !important; margin-bottom: 20px !important; }
+    .p-card { box-shadow: none !important; border: 1px solid #E2E8F0 !important; margin-bottom: 16px !important; page-break-inside: avoid !important; }
+    .p-timeline-item { page-break-inside: avoid !important; }
+    .p-footer { margin-top: 20px !important; padding: 16px !important; page-break-inside: avoid !important; }
   }
 </style>
 </head>
 <body>
-
-  <!-- Top Navbar -->
   <nav class="p-nav">
     <div class="p-logo" id="navBrand">Portfolio</div>
     <div class="p-nav-links" id="dynamicNavLinks"></div>
@@ -251,11 +264,12 @@
         <i class="fa-solid fa-globe"></i> <span id="currentLangLabel">العربية</span>
       </button>
       <a href="#contact" class="p-btn p-btn-primary" id="l_startBtn">Start a Project</a>
+      <button class="p-mobile-menu-btn" id="mobileMenuToggle" aria-label="Toggle Mobile Menu"><i class="fa-solid fa-bars"></i></button>
     </div>
   </nav>
+  <div class="p-mobile-drawer" id="mobileDrawer"></div>
 
-  <div class="p-wrapper">
-    <!-- Profile Card -->
+  <div class="p-wrapper" id="portfolioMainWrapper">
     <aside class="p-sidebar">
       <div class="p-profile-card">
         <div class="p-avatar-wrap" id="p_avatar_wrap">
@@ -273,24 +287,16 @@
         <div class="p-social-row" id="p_socials"></div>
       </div>
     </aside>
-
-    <!-- Main Content Area -->
     <main class="p-content">
-      
-      <!-- About Me & 4 Stats Cards -->
       <section class="p-card" id="about">
         <div class="p-section-head" id="head_about"><i class="fa-regular fa-user" style="color:var(--accent);"></i> About Me</div>
-        <p style="color:var(--text-muted); font-size:14px; line-height:1.7;" id="sec_about_text"></p>
+        <p style="color:var(--text-muted); font-size:14.5px; line-height:1.75;" id="sec_about_text"></p>
         <div class="p-stats-grid" id="statsContainer"></div>
       </section>
-
-      <!-- Work Experience Timeline -->
       <section class="p-card" id="experience">
         <div class="p-section-head" id="head_exp"><i class="fa-solid fa-briefcase" style="color:var(--accent);"></i> Work Experience</div>
         <div class="p-timeline" id="expContainer"></div>
       </section>
-
-      <!-- Skills Matrix & Education -->
       <div class="p-two-col">
         <section class="p-card" id="skills">
           <div class="p-section-head" id="head_skills"><i class="fa-solid fa-layer-group" style="color:var(--accent);"></i> Skills</div>
@@ -301,48 +307,43 @@
           <div class="p-section-head" id="head_edu"><i class="fa-solid fa-graduation-cap" style="color:var(--accent);"></i> Education</div>
           <div id="eduContainer">
             <div style="margin-bottom:16px;">
-              <h4 style="font-size:14.5px; color:var(--primary); font-weight:700;" id="edu_deg_title"></h4>
-              <p style="font-size:12.5px; color:var(--text-muted);" id="edu_deg_meta"></p>
+              <h4 style="font-size:15px; color:var(--primary); font-weight:700;" id="edu_deg_title"></h4>
+              <p style="font-size:13px; color:var(--text-muted);" id="edu_deg_meta"></p>
             </div>
             <div>
-              <h4 style="font-size:14.5px; color:var(--primary); font-weight:700;" id="edu_cert_title"></h4>
-              <p style="font-size:12.5px; color:var(--text-muted);" id="edu_cert_meta"></p>
+              <h4 style="font-size:15px; color:var(--primary); font-weight:700;" id="edu_cert_title"></h4>
+              <p style="font-size:13px; color:var(--text-muted);" id="edu_cert_meta"></p>
             </div>
           </div>
         </section>
       </div>
-
-      <!-- Certifications & Courses Section (الدورات والشهادات المعتمدة) -->
       <section class="p-card" id="certs">
         <div class="p-section-head" id="head_certs"><i class="fa-solid fa-certificate" style="color:var(--accent);"></i> Certifications</div>
         <div class="p-certs-grid" id="certsContainer"></div>
       </section>
-
-      <!-- Projects Section -->
       <section class="p-card" id="projects">
         <div class="p-section-head" id="head_projects"><i class="fa-solid fa-diagram-project" style="color:var(--accent);"></i> Projects</div>
         <div class="p-projects-grid" id="projectsContainer"></div>
       </section>
-
-      <!-- Contact Form -->
       <section class="p-card" id="contact">
         <div class="p-section-head" id="head_contact"><i class="fa-regular fa-paper-plane" style="color:var(--accent);"></i> Contact Me</div>
-        <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:18px;" id="contactMeta"></p>
+        <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;" id="contactMeta"></p>
         <form class="p-contact-form" onsubmit="event.preventDefault(); alert(currLang==='ar'?'شكراً لتواصلك!':'Thank you for your message!');">
           <input class="p-input" type="text" id="inp_name" placeholder="Name" required>
           <input class="p-input" type="email" id="inp_email" placeholder="Email" required>
           <textarea class="p-input full" rows="4" id="inp_msg" placeholder="Message..." required></textarea>
-          <button class="p-btn p-btn-primary full" style="padding:13px;" id="btn_sendMsg">Send Message</button>
+          <button class="p-btn p-btn-primary full" style="padding:14px;" id="btn_sendMsg">Send Message</button>
         </form>
       </section>
 
     </main>
   </div>
-
-  <footer class="p-footer" id="footerText"></footer>
+  <footer class="p-footer" id="footerText">
+    <span>© Abdelmoneim. All Rights Reserved.</span>
+  </footer>
 
 <script>
-  var DATA = {"ar":{"hero":{"typed":["مسؤول مبيعات","صانع محتوى","اساسيات البرمجة (HTML)"],"chips":[{"icon":"fa-chart-line","label":"نمو المبيعات"},{"icon":"fa-robot","label":"بناء بالذكاء الاصطناعي"}],"stats":[{"label":"سنوات خبرة","value":5},{"label":"وظائف مهنية","value":5},{"label":"دورة وشهادة","value":17}],"lead":"أجمع بين الخبرة التجارية والفهم العملي للتسويق والمبيعات، والقدرات الإبداعية والتقنية، مما يساعدني على تحويل الأفكار إلى حلول ومحتوى رقمي عملي يركز على احتياجات المستخدم وتحقيق أهداف العمل","title1":"","eyebrow":"مسؤول مبيعات ← صانع محتوى ","brandName":"عبد المنعم محمد عبد المنعم سلطان"},"typed":["مسؤول مبيعات","صانع محتوى","اساسيات البرمجة (HTML)"],"chips":[{"label":"نمو المبيعات","icon":"fa-chart-line"},{"icon":"fa-robot","label":"بناء بالذكاء الاصطناعي"}],"stats":[{"label":"سنوات خبرة","value":5},{"label":"وظائف مهنية","value":5},{"label":"دورة وشهادة","value":17}],"about":{"title":"مسيرة مبيعات قائمة على الثقة...","p1":"اتمتع بخبرة مهنية متنوعة تمتد لأكثر من خمسة سنوات في قطاع التجزئة والمبيعات مع خلفية عملية تجمع بين المبيعات وإدارة علاقات العملاء و التسويق الرقمي و التجارة الإلكترونية و صناعة المحتوى و التصميم الجرافيكي و تحرير الفيديو و وتحليل السوق والمبيعات  .\nكما أمتلك خبرة في التعامل مع المنتجات الإلكترونية وتسويقها عبر القنوات الرقمية إلى جانب القدرة على إعداد المحتوى التسويقي والترويجي وتقديم المنتجات بصورة جذابة تساعد على زيادة التفاعل وتحسين تجربة العميل عبر ادوات الذكاء الصناعى المختلفة.","arc":[{"desc":"جرافيك ديزاين ","title":"نقطة البداية"},{"desc":"صناعة المحتوى","title":"المسار الاول "},{"desc":"الحسابات","title":"المسار الثانى"},{"desc":"مسؤول توريد ","title":"المسار الثالث"},{"desc":"مسؤول مبيعات","title":"المسار الرابع"}],"facts":[{"label":"المقر","value":"القاهرة، مصر"},{"value":null,"label":"الوظيفة الحالية"}]},"facts":[],"arc":[{"title":"نقطة البداية","desc":"مصمم جرافيك "},{"title":"المسار الاول ","desc":"صناعة المحتوى"},{"title":"المسار الثانى","desc":"الحسابات"},{"desc":"مسؤول توريد ","title":"المسار الثالث"},{"title":"المسار الرابع","desc":"مسؤول مبيعات"}],"experience":[{"company":"العربى جروب","bullets":["إدارة علاقات العملاء والعمل على تحقيق أهداف المبيعات الشهرية والسنوية.","تقديم حلول ومنتجات مناسبة للعملاء بناءً على احتياجاتهم وميزانياتهم.","متابعة العملاء وتحسين تجربة الشراء وتعزيز مستوى رضا العملاء.","تطبيق أساليب البيع الإقناعي والتواصل الفعال مع مختلف شرائح العملاء.","متابعة أداء المنتجات وحركة المبيعات والتعرف على احتياجات السوق.","التعاون مع الفرق الداخلية لتحسين كفاءة عمليات البيع وتحقيق نتائج أفضل.","الاستفادة من الأدوات الرقمية والوسائل الحديثة في دعم عمليات البيع والتواصل مع العملاء.","المساهمة في الترويج للمنتجات الإلكترونية وعرض مزاياها بصورة واضحة وجذابة."],"period":"2023 – حتى الان","role":"مسؤول مبيعات "},{"period":"June 2022 – 2023","role":"مسؤول مبيعات ","bullets":["الترويج لمنتجات الشركة والعمل على تحقيق نمو مستمر في المبيعات.","مساعدة العملاء في اختيار المنتجات المناسبة وفقًا لاحتياجاتهم وتفضيلاتهم.","تقديم شرح واضح لمميزات المنتجات ومساعدتهم في اتخاذ قرار الشراء.","بناء علاقات جيدة مع العملاء والمحافظة على مستوى مرتفع من الخدمة.","التعامل مع احتياجات العملاء والاستجابة للاستفسارات والمشكلات المتعلقة بالمنتجات."],"company":"بي.تك"},{"role":"مساعد مدير مخزن","bullets":["الإشراف على العمليات اليومية للمخزن وتنظيم حركة المخزون.","متابعة دقة بيانات المخزون وضمان تنفيذ الطلبات في الوقت المحدد.","التنسيق مع الموردين وفرق الخدمات اللوجستية لتحسين عمليات التوريد.","متابعة حركة المنتجات وتنظيم عمليات الاستلام والتسليم.","المساهمة في تحسين كفاءة العمليات اليومية وضمان انسيابية دورة العمل."],"company":"شركة الانصار للتسويق","period":"February 2020 – February 2022"},{"bullets":["إدخال ومراجعة البيانات الخاصة بالمشروعات بدقة عالية.","تحديث البيانات وتنظيمها وفقًا لمتطلبات العمل.","المساهمة في إعداد التقارير الخاصة بعمليات ومشروعات الشركة.","الحفاظ على دقة وسلامة البيانات والالتزام بمعايير العمل المتبعة."],"company":"اوراسكوم للأنشائات","period":"2018 – 2019","role":"مدخل بيانات"},{"company":"اوميجا للاعلان","period":"2017 – 2018","bullets":["تصميم الاعلانات على الفوتوشوب ."],"role":"مصمم جرافيك "}],"projects":[{"icon":"fa-mobile-screen-button","title":"أعرف منتجك","githubUrl":"#","details":"Contributed to the project concept, user experience planning, and interface design — including product presentation, detailed specifications, product comparison features, and customer needs tracking notes.","link":"https://elaraby-products.blogspot.com/p/const-products-wm1234-name-8-details.html?m=1","featured":true,"id":"proj_1","status":"Completed","img":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1785154108/kqvki2pu6c5i7m51wfjh.png","desc":"اعرف منتجك هو نظام PWA من تصميمى لمساعدة البائعين فى عملية البيع من خلال البحث عن المنتجات و اظهار صورها و تفاصيلها بشكل سريع مع عمل المقارنات مع بعض الأدوات الاخرى لمساعدة البائعين.","category":"PWA","liveUrl":"#","tags":["PWA","UX Design","Sales Enablement","HTML","CSS","JS"],"hidden":false},{"featured":true,"title":"المساعد الذكى للعربى","tags":["شات بوت","تصميم","برمجة",""],"hidden":false,"img":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1785199822/v9axyoentihjueedjj2g.png","category":"AI Tools","desc":"المشاركه فى تصميم ووضع اقتراحات لمشروع مساعد العربى الذكى لمساعده مندوبين البيع فى عملية البيع من خلال نظام مساعد ذكى للبحث عن تفاصيل المنتج و عمل المقارنات و غيرها من الوظاىف","status":"In Progress","liveUrl":"#","githubUrl":"#","details":"Focused on idea development, workflow improvement, and creating smarter user interaction experiences to support automated communication.","id":"proj_2","icon":"fa-robot"},{"status":"Completed","tags":["صناعة فيديو","تصميم"],"desc":"فكرة لشكل و تصميم ديب فريزر تورنيدو الافقى من خلال عمل مقطع دعائى من تصميمى للمشروع","img":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1785200177/jogdh3hdzzigaukegkol.png","title":"مشروع تصميم ديب فريزر تورنيدو الافقى","link":"https://youtu.be/JR4GFcX3gfQ","icon":""}],"skillCats":[{"name":"Sales & Business","icon":"fa-chart-line","skills":[{"label":"Sales & Account Management","value":92},{"label":"E-Commerce Sales Operations","value":85},{"label":"Sales Reporting & Forecasting","value":80},{"label":"Persuasive Communication & Client Engagement","value":90}]},{"icon":"fa-robot","name":"Digital & AI Tools","skills":[{"label":"AI Tools Utilization & Digital Solutions","value":85},{"value":90,"label":"PWA & Digital Product Design"},{"label":"Basic Knowledge of Power BI","value":55},{"label":"Basic Knowledge of ERP & SAP Systems","value":35}]},{"skills":[{"label":"Customer Issue Resolution","value":90},{"label":"Adaptability & Team Collaboration","value":90},{"value":95,"label":"Computer Setup & Troubleshooting"}],"icon":"fa-people-group","name":"Professional & Soft Skills"}],"certsElaraby":["إدارة الأجيال المختلفة","حل المشكلات واتخاذ القرار","إدارة الوقت","مهارات تفاوض متقدمة","التعامل مع الشخصيات الصعبة","إدارة تجربة العملاء","التفكير التصميمي","بناء فرق أفضل","البيع الذكي","مهارات البيع"],"certsAlmentor":["بناء العلامة الشخصية للموظفين","مهارات النجاح المهني","كتابة البريد الإلكتروني الاحترافي","مهارات التسويق الناجح","هندسة الأوامر (Prompt Engineering)","عقلية النمو","تقنية ChatGPT"],"education":{"icdlMeta":"ويندوز، وورد، إكسل، إنترنت","icdlTitle":"شهادة ICDL","degreeMeta":"التخرج 2016 · التقدير: جيد","degreeTitle":"بكالوريوس تجارة — إدارة أعمال"},"contact":{"location":"القاهرة، مصر"},"skills":{"eyebrow":"","title":""}},"en":{"hero":{"brandName":"AbdElMoneim Mohamed AbdElMoneim Sultan","lead":"I am a 31 - year - old professional with over four years of experience in the  retail sec tor. My background spans various areas, including advertising  and graphic design, video editing, computer installation and setup, online  marketing of electronic products, and proficient use of Microsoft Offic...","stats":[{"label":"Years Experience","value":4},{"label":"Professional Roles","value":5},{"label":"Courses & Certificates","value":17}],"chips":[{"label":"Sales Growth Focus","icon":"fa-chart-line"},{"icon":"fa-robot","label":"AI-Powered Builder"}],"title1":"","typed":["Sales Executive","Client Relationship Manager","AI Tools Explorer"],"eyebrow":"Sales Executive → Digital Builder"},"typed":["Sales Executive","Client Relationship Manager","AI Tools Explorer"],"chips":[{"label":"Sales Growth Focus","icon":"fa-chart-line"},{"label":"AI-Powered Builder","icon":"fa-robot"}],"stats":[{"value":5,"label":"Years Experience"},{"label":"Professional Roles","value":5},{"value":17,"label":"Courses & Certificates"}],"about":{"facts":[{"value":"Cairo, Egypt","label":"Based in"},{"value":"Sales Executive","label":"Current Role"}],"p1":"I am a 31-year-old professional with over four years of experience in the \nretail sector. My background spans various areas, including advertising \nand graphic design, video editing, computer installation and setup, online \nmarketing of electronic products, and proficient use of Microsoft Office \napplications. I also have experience working with AI tools and modern \ntechnologies for website and application design and development, \nutilizing available no-code and low-code solutions to create practical and \nuser-focused digital experiences.","title":"About Me","arc":[{"desc":"Finance fundamentals...","title":"Where it started"}]},"facts":[],"arc":[],"experience":[{"period":"2023 – Present","role":"Sales Executive","bullets":["Managing client relationships and driving sales.","Providing tailored product solutions."],"company":"Elaraby Group"},{"period":"June 2022 – 2023","company":"B.Tech","bullets":["Promoted company products and achieved growth."],"role":"Sales Officer"},{"bullets":["Supervised daily warehouse operations.","Coordinated with suppliers."],"company":"Al-Ansar Marketing","role":"Assistant Warehouse Manager","period":"February 2020 – February 2022"},{"period":"2018 – 2019","bullets":["Entered and verified project-related data."],"company":"Orascom Construction","role":"Data Entry Specialist"},{"role":"Accountant","company":"Omega Advertising","bullets":["Prepared and maintained financial records."],"period":"2017 – 2018"}],"projects":[{"tags":["PWA","UX Design","Sales Enablement","HTML","CSS","JS"],"status":"Completed","desc":"Co-designed and developed a Progressive Web App built to support sales representatives during the sales process with smart selling tools.","hidden":false,"img":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1785154108/kqvki2pu6c5i7m51wfjh.png","details":"Contributed to the project concept, user experience planning, and interface design — including product presentation, detailed specifications, product comparison features, and customer needs tracking notes.","link":"https://elaraby-products.blogspot.com/p/const-products-wm1234-name-8-details.html?m=1","category":"PWA","title":"Know Your Product (PWA)","liveUrl":"#","featured":true,"id":"proj_1","githubUrl":"#","icon":"fa-mobile-screen-button"},{"liveUrl":"#","desc":"Contributing to the development of an AI chatbot focused on smarter, more automated customer engagement.","tags":["AI","Chatbot","Workflow Design","Customer Engagement"],"title":"AI-Powered Chatbot","status":"In Progress","id":"proj_2","githubUrl":"#","icon":"fa-robot","details":"Focused on idea development, workflow improvement, and creating smarter user interaction experiences to support automated communication.","category":"AI Tools","hidden":false,"featured":true,"img":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1785199822/v9axyoentihjueedjj2g.png"},{"icon":"","link":"https://youtu.be/JR4GFcX3gfQ","status":"complete ","tags":["VIDEO","tornado","freezer",""],"title":" Tornado Horizontal Deep Freezer Design Project","desc":"\nAn idea for the shape and design of the Tornado horizontal deep freezer, created through a promotional video I designed for the project.","img":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1785200177/jogdh3hdzzigaukegkol.png"}],"skillCats":[{"icon":"fa-chart-line","skills":[{"label":"Sales & Account Management","value":92},{"label":"E-Commerce Sales Operations","value":85},{"label":"Sales Reporting & Forecasting","value":80},{"label":"Persuasive Communication & Client Engagement","value":90}],"name":"Sales & Business"},{"skills":[{"label":"AI Tools Utilization & Digital Solutions","value":85},{"value":90,"label":"PWA & Digital Product Design"},{"label":"Basic Knowledge of Power BI","value":55},{"label":"Basic Knowledge of ERP & SAP Systems","value":35}],"icon":"fa-robot","name":"Digital & AI Tools"},{"name":"Professional & Soft Skills","skills":[{"label":"Customer Issue Resolution","value":90},{"label":"Adaptability & Team Collaboration","value":90},{"value":95,"label":"Computer Setup & Troubleshooting"}],"icon":"fa-people-group"}],"certsElaraby":["Managing Different Generations","Problem Solving & Decision Making","Time Management","Advanced Negotiation Skills","Handling Difficult Characters","Customer Experience Management","Design Thinking","Building Better Teams","Smart Selling","Sales Skills"],"certsAlmentor":["Personal Branding for Employees","Career Success Skills","Professional Email Writing","Successful Marketer Skills","Prompt Engineering","Growth Mindset","ChatGPT Technology"],"education":{"icdlTitle":"ICDL Certified","degreeTitle":"Bachelor of Commerce — Business Administration","degreeMeta":"Graduated May 2016 · Grade: Good","icdlMeta":"Windows, Word, Excel, Internet"},"contact":{"eyebrow":"","sub":"","title":"","location":""},"skills":{"eyebrow":"","title":""}},"global":{"mediaLibrary":["https://res.cloudinary.com/dxkxuajgf/image/upload/v1785154108/kqvki2pu6c5i7m51wfjh.png","https://res.cloudinary.com/dxkxuajgf/image/upload/v1785199822/v9axyoentihjueedjj2g.png","https://res.cloudinary.com/dxkxuajgf/image/upload/v1785200177/jogdh3hdzzigaukegkol.png"],"themeData":{"gold":"#c08b3d","teal":"#1f8a70","goldLight":"#e3b36b","radius":"12","surface":"#121b2e","tealLight":"#38c9a6","mode":"dark","bg":"#0b1220","sectionVisibility":{"skills":true,"education":true,"experience":true,"contact":true,"home":true,"about":true,"projects":true},"font":"'Cairo', sans-serif"},"aboutData":{"profileImg":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1783134219/tgoh4jvbczpu6lsdchou.jpg"},"contactData":{"email":"abdosultan306@gmail.com","phone":"0201114550112","website":"","linkedin":"https://www.linkedin.com/in/abdelmoneim-mohamed-sultan-455751256?utm_source=share_via&utm_content=profile&utm_medium=member_android","cvLink":"https://drive.google.com/file/d/1iozA39jv1_00eJlOWEmTX6k8VRfe3RZe/view?usp=drivesdk"}}};
+  var DATA = {"ar":{"hero":{"eyebrow":"مسؤول مبيعات ← صانع محتوى ","brandName":"عبد المنعم محمد عبد المنعم سلطان","stats":[{"label":"سنوات خبرة","value":5},{"label":"وظائف مهنية","value":5},{"label":"دورة وشهادة","value":17}],"typed":["مسؤول مبيعات","صانع محتوى","اساسيات البرمجة (HTML)"],"lead":"أجمع بين الخبرة التجارية والفهم العملي للتسويق والمبيعات، والقدرات الإبداعية والتقنية، مما يساعدني على تحويل الأفكار إلى حلول ومحتوى رقمي عملي يركز على احتياجات المستخدم وتحقيق أهداف العمل","title1":"","chips":[{"icon":"fa-chart-line","label":"نمو المبيعات"},{"label":"بناء بالذكاء الاصطناعي","icon":"fa-robot"}]},"typed":["مسؤول مبيعات","صانع محتوى","اساسيات البرمجة (HTML)"],"chips":[{"icon":"fa-chart-line","label":"نمو المبيعات"},{"icon":"fa-robot","label":"بناء بالذكاء الاصطناعي"}],"stats":[{"label":"سنوات خبرة","value":5},{"label":"وظائف مهنية","value":5},{"label":"دورة وشهادة","value":17}],"about":{"facts":[{"label":"المقر","value":"القاهرة، مصر"},{"value":null,"label":"الوظيفة الحالية"}],"p1":"اتمتع بخبرة مهنية متنوعة تمتد لأكثر من خمسة سنوات في قطاع التجزئة والمبيعات مع خلفية عملية تجمع بين المبيعات وإدارة علاقات العملاء و التسويق الرقمي و التجارة الإلكترونية و صناعة المحتوى و التصميم الجرافيكي و تحرير الفيديو و وتحليل السوق والمبيعات  .\nكما أمتلك خبرة في التعامل مع المنتجات الإلكترونية وتسويقها عبر القنوات الرقمية إلى جانب القدرة على إعداد المحتوى التسويقي والترويجي وتقديم المنتجات بصورة جذابة تساعد على زيادة التفاعل وتحسين تجربة العميل عبر ادوات الذكاء الصناعى المختلفة.","arc":[{"desc":"جرافيك ديزاين ","title":"نقطة البداية"},{"title":"المسار الاول ","desc":"صناعة المحتوى"},{"desc":"الحسابات","title":"المسار الثانى"},{"title":"المسار الثالث","desc":"مسؤول توريد "},{"desc":"مسؤول مبيعات","title":"المسار الرابع"}],"title":"مسيرة مبيعات قائمة على الثقة..."},"facts":[],"arc":[{"title":"نقطة البداية","desc":"مصمم جرافيك "},{"desc":"صناعة المحتوى","title":"المسار الاول "},{"title":"المسار الثانى","desc":"الحسابات"},{"desc":"مسؤول توريد ","title":"المسار الثالث"},{"desc":"مسؤول مبيعات","title":"المسار الرابع"}],"experience":[{"period":"2023 – حتى الان","role":"مسؤول مبيعات ","bullets":["إدارة علاقات العملاء والعمل على تحقيق أهداف المبيعات الشهرية والسنوية.","تقديم حلول ومنتجات مناسبة للعملاء بناءً على احتياجاتهم وميزانياتهم.","متابعة العملاء وتحسين تجربة الشراء وتعزيز مستوى رضا العملاء.","تطبيق أساليب البيع الإقناعي والتواصل الفعال مع مختلف شرائح العملاء.","متابعة أداء المنتجات وحركة المبيعات والتعرف على احتياجات السوق.","التعاون مع الفرق الداخلية لتحسين كفاءة عمليات البيع وتحقيق نتائج أفضل.","الاستفادة من الأدوات الرقمية والوسائل الحديثة في دعم عمليات البيع والتواصل مع العملاء.","المساهمة في الترويج للمنتجات الإلكترونية وعرض مزاياها بصورة واضحة وجذابة."],"company":"العربى جروب"},{"period":"June 2022 – 2023","bullets":["الترويج لمنتجات الشركة والعمل على تحقيق نمو مستمر في المبيعات.","مساعدة العملاء في اختيار المنتجات المناسبة وفقًا لاحتياجاتهم وتفضيلاتهم.","تقديم شرح واضح لمميزات المنتجات ومساعدتهم في اتخاذ قرار الشراء.","بناء علاقات جيدة مع العملاء والمحافظة على مستوى مرتفع من الخدمة.","التعامل مع احتياجات العملاء والاستجابة للاستفسارات والمشكلات المتعلقة بالمنتجات."],"role":"مسؤول مبيعات ","company":"بي.تك"},{"bullets":["الإشراف على العمليات اليومية للمخزن وتنظيم حركة المخزون.","متابعة دقة بيانات المخزون وضمان تنفيذ الطلبات في الوقت المحدد.","التنسيق مع الموردين وفرق الخدمات اللوجستية لتحسين عمليات التوريد.","متابعة حركة المنتجات وتنظيم عمليات الاستلام والتسليم.","المساهمة في تحسين كفاءة العمليات اليومية وضمان انسيابية دورة العمل."],"company":"شركة الانصار للتسويق","period":"February 2020 – February 2022","role":"مساعد مدير مخزن"},{"period":"2018 – 2019","bullets":["إدخال ومراجعة البيانات الخاصة بالمشروعات بدقة عالية.","تحديث البيانات وتنظيمها وفقًا لمتطلبات العمل.","المساهمة في إعداد التقارير الخاصة بعمليات ومشروعات الشركة.","الحفاظ على دقة وسلامة البيانات والالتزام بمعايير العمل المتبعة."],"role":"مدخل بيانات","company":"اوراسكوم للأنشائات"},{"period":"2017 – 2018","bullets":["تصميم الاعلانات على الفوتوشوب ."],"company":"اوميجا للاعلان","role":"مصمم جرافيك "}],"projects":[{"featured":true,"tags":["PWA","UX Design","Sales Enablement","HTML","CSS","JS"],"icon":"fa-mobile-screen-button","title":"أعرف منتجك","id":"proj_1","liveUrl":"#","hidden":false,"githubUrl":"#","link":"https://elaraby-products.blogspot.com/p/const-products-wm1234-name-8-details.html?m=1","status":"Completed","img":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1785154108/kqvki2pu6c5i7m51wfjh.png","desc":"اعرف منتجك هو نظام PWA من تصميمى لمساعدة البائعين فى عملية البيع من خلال البحث عن المنتجات و اظهار صورها و تفاصيلها بشكل سريع مع عمل المقارنات مع بعض الأدوات الاخرى لمساعدة البائعين.","category":"PWA","details":"Contributed to the project concept, user experience planning, and interface design — including product presentation, detailed specifications, product comparison features, and customer needs tracking notes."},{"title":"المساعد الذكى للعربى","icon":"fa-robot","tags":["شات بوت","تصميم","برمجة",""],"liveUrl":"#","category":"AI Tools","status":"In Progress","githubUrl":"#","img":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1785199822/v9axyoentihjueedjj2g.png","details":"Focused on idea development, workflow improvement, and creating smarter user interaction experiences to support automated communication.","id":"proj_2","featured":true,"hidden":false,"desc":"المشاركه فى تصميم ووضع اقتراحات لمشروع مساعد العربى الذكى لمساعده مندوبين البيع فى عملية البيع من خلال نظام مساعد ذكى للبحث عن تفاصيل المنتج و عمل المقارنات و غيرها من الوظاىف"},{"title":"مشروع تصميم ديب فريزر تورنيدو الافقى","link":"https://youtu.be/JR4GFcX3gfQ","desc":"فكرة لشكل و تصميم ديب فريزر تورنيدو الافقى من خلال عمل مقطع دعائى من تصميمى للمشروع","tags":["صناعة فيديو","تصميم"],"icon":"","status":"Completed","img":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1785200177/jogdh3hdzzigaukegkol.png"}],"skillCats":[{"name":"Sales & Business","icon":"fa-chart-line","skills":[{"label":"Sales & Account Management","value":92},{"label":"E-Commerce Sales Operations","value":85},{"label":"Sales Reporting & Forecasting","value":80},{"label":"Persuasive Communication & Client Engagement","value":90}]},{"skills":[{"label":"AI Tools Utilization & Digital Solutions","value":85},{"value":90,"label":"PWA & Digital Product Design"},{"label":"Basic Knowledge of Power BI","value":55},{"label":"Basic Knowledge of ERP & SAP Systems","value":35}],"name":"Digital & AI Tools","icon":"fa-robot"},{"icon":"fa-people-group","skills":[{"label":"Customer Issue Resolution","value":90},{"label":"Adaptability & Team Collaboration","value":90},{"value":95,"label":"Computer Setup & Troubleshooting"}],"name":"Professional & Soft Skills"}],"certsElaraby":["إدارة الأجيال المختلفة","حل المشكلات واتخاذ القرار","إدارة الوقت","مهارات تفاوض متقدمة","التعامل مع الشخصيات الصعبة","إدارة تجربة العملاء","التفكير التصميمي","بناء فرق أفضل","البيع الذكي","مهارات البيع"],"certsAlmentor":["بناء العلامة الشخصية للموظفين","مهارات النجاح المهني","كتابة البريد الإلكتروني الاحترافي","مهارات التسويق الناجح","هندسة الأوامر (Prompt Engineering)","عقلية النمو","تقنية ChatGPT"],"education":{"degreeMeta":"التخرج 2016 · التقدير: جيد","icdlMeta":"ويندوز، وورد، إكسل، إنترنت","degreeTitle":"بكالوريوس تجارة — إدارة أعمال","icdlTitle":"شهادة ICDL"},"contact":{"location":"القاهرة، مصر"},"skills":{"eyebrow":"","title":""}},"en":{"hero":{"eyebrow":"Sales Executive → Digital Builder","title1":"","typed":["Sales Executive","Client Relationship Manager","AI Tools Explorer"],"stats":[{"label":"Years Experience","value":4},{"label":"Professional Roles","value":5},{"label":"Courses & Certificates","value":17}],"lead":"I am a 31 - year - old professional with over four years of experience in the  retail sec tor. My background spans various areas, including advertising  and graphic design, video editing, computer installation and setup, online  marketing of electronic products, and proficient use of Microsoft Offic...","brandName":"AbdElMoneim Mohamed AbdElMoneim Sultan","chips":[{"label":"Sales Growth Focus","icon":"fa-chart-line"},{"icon":"fa-robot","label":"AI-Powered Builder"}]},"typed":["Sales Executive","Client Relationship Manager","AI Tools Explorer"],"chips":[{"label":"Sales Growth Focus","icon":"fa-chart-line"},{"label":"AI-Powered Builder","icon":"fa-robot"}],"stats":[{"value":5,"label":"Years Experience"},{"label":"Professional Roles","value":5},{"value":17,"label":"Courses & Certificates"}],"about":{"facts":[{"value":"Cairo, Egypt","label":"Based in"},{"value":"Sales Executive","label":"Current Role"}],"arc":[{"title":"Where it started","desc":"Finance fundamentals..."}],"title":"About Me","p1":"I am a 31-year-old professional with over four years of experience in the \nretail sector. My background spans various areas, including advertising \nand graphic design, video editing, computer installation and setup, online \nmarketing of electronic products, and proficient use of Microsoft Office \napplications. I also have experience working with AI tools and modern \ntechnologies for website and application design and development, \nutilizing available no-code and low-code solutions to create practical and \nuser-focused digital experiences."},"facts":[],"arc":[],"experience":[{"company":"Elaraby Group","role":"Sales Executive","bullets":["Managing client relationships and driving sales.","Providing tailored product solutions."],"period":"2023 – Present"},{"company":"B.Tech","role":"Sales Officer","bullets":["Promoted company products and achieved growth."],"period":"June 2022 – 2023"},{"period":"February 2020 – February 2022","role":"Assistant Warehouse Manager","bullets":["Supervised daily warehouse operations.","Coordinated with suppliers."],"company":"Al-Ansar Marketing"},{"role":"Data Entry Specialist","bullets":["Entered and verified project-related data."],"company":"Orascom Construction","period":"2018 – 2019"},{"company":"Omega Advertising","bullets":["Prepared and maintained financial records."],"role":"Accountant","period":"2017 – 2018"}],"projects":[{"desc":"Co-designed and developed a Progressive Web App built to support sales representatives during the sales process with smart selling tools.","details":"Contributed to the project concept, user experience planning, and interface design — including product presentation, detailed specifications, product comparison features, and customer needs tracking notes.","img":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1785154108/kqvki2pu6c5i7m51wfjh.png","link":"https://elaraby-products.blogspot.com/p/const-products-wm1234-name-8-details.html?m=1","id":"proj_1","githubUrl":"#","category":"PWA","status":"Completed","title":"Know Your Product (PWA)","featured":true,"hidden":false,"liveUrl":"#","icon":"fa-mobile-screen-button","tags":["PWA","UX Design","Sales Enablement","HTML","CSS","JS"]},{"img":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1785199822/v9axyoentihjueedjj2g.png","featured":true,"id":"proj_2","desc":"Contributing to the development of an AI chatbot focused on smarter, more automated customer engagement.","liveUrl":"#","hidden":false,"title":"AI-Powered Chatbot","githubUrl":"#","icon":"fa-robot","tags":["AI","Chatbot","Workflow Design","Customer Engagement"],"status":"In Progress","category":"AI Tools","details":"Focused on idea development, workflow improvement, and creating smarter user interaction experiences to support automated communication."},{"icon":"","tags":["VIDEO","tornado","freezer",""],"img":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1785200177/jogdh3hdzzigaukegkol.png","status":"complete ","desc":"\nAn idea for the shape and design of the Tornado horizontal deep freezer, created through a promotional video I designed for the project.","link":"https://youtu.be/JR4GFcX3gfQ","title":" Tornado Horizontal Deep Freezer Design Project"}],"skillCats":[{"icon":"fa-chart-line","name":"Sales & Business","skills":[{"label":"Sales & Account Management","value":92},{"value":85,"label":"E-Commerce Sales Operations"},{"label":"Sales Reporting & Forecasting","value":80},{"label":"Persuasive Communication & Client Engagement","value":90}]},{"icon":"fa-robot","name":"Digital & AI Tools","skills":[{"label":"AI Tools Utilization & Digital Solutions","value":85},{"label":"PWA & Digital Product Design","value":90},{"value":50,"label":"Basic Knowledge of Power BI"},{"value":35,"label":"Basic Knowledge of ERP & SAP Systems"}]},{"icon":"fa-people-group","skills":[{"label":"Customer Issue Resolution","value":90},{"label":"Adaptability & Team Collaboration","value":90},{"label":"Computer Setup & Troubleshooting","value":95}],"name":"Professional & Soft Skills"}],"certsElaraby":["Managing Different Generations","Problem Solving & Decision Making","Time Management","Advanced Negotiation Skills","Handling Difficult Characters","Customer Experience Management","Design Thinking","Building Better Teams","Smart Selling","Sales Skills"],"certsAlmentor":["Personal Branding for Employees","Career Success Skills","Professional Email Writing","Successful Marketer Skills","Prompt Engineering","Growth Mindset","ChatGPT Technology"],"education":{"degreeTitle":"Bachelor of Commerce — Business Administration","icdlMeta":"Windows, Word, Excel, Internet","icdlTitle":"ICDL Certified","degreeMeta":"Graduated May 2016 · Grade: Good"},"contact":{"location":"","eyebrow":"","sub":"","title":""},"skills":{"title":"","eyebrow":""}},"global":{"mediaLibrary":["https://res.cloudinary.com/dxkxuajgf/image/upload/v1785154108/kqvki2pu6c5i7m51wfjh.png","https://res.cloudinary.com/dxkxuajgf/image/upload/v1785199822/v9axyoentihjueedjj2g.png","https://res.cloudinary.com/dxkxuajgf/image/upload/v1785200177/jogdh3hdzzigaukegkol.png"],"themeData":{"sectionVisibility":{"education":true,"about":true,"home":true,"projects":true,"experience":true,"skills":true,"contact":true},"bg":"#0b1220","mode":"dark","teal":"#1f8a70","radius":"12","surface":"#121b2e","gold":"#c08b3d","font":"'Cairo', sans-serif","goldLight":"#e3b36b","tealLight":"#38c9a6"},"aboutData":{"profileImg":"https://res.cloudinary.com/dxkxuajgf/image/upload/v1783134219/tgoh4jvbczpu6lsdchou.jpg"},"contactData":{"website":"","linkedin":"https://www.linkedin.com/in/abdelmoneim-mohamed-sultan-455751256?utm_source=share_via&utm_content=profile&utm_medium=member_android","cvLink":"https://drive.google.com/file/d/1iozA39jv1_00eJlOWEmTX6k8VRfe3RZe/view?usp=drivesdk","email":"abdosultan306@gmail.com","phone":"0201114550112"}}};
   var currLang = "en";
   var isDarkMode = true;
 
@@ -351,7 +352,7 @@
       about: "نبذة عني", experience: "الخبرات العملية", skills: "المهارات", education: "التعليم",
       certs: "الدورات والشهادات", projects: "المشروعات", contact: "تواصل معي", startBtn: "ابدأ مشروعاً", downloadCv: "تحميل السيرة الذاتية",
       contactBtn: "تواصل معي", sendMsg: "أرسل رسالة", nameHolder: "الاسم", emailHolder: "البريد الإلكتروني",
-      msgHolder: "تفاصيل الرسالة...", langToggle: "English", rights: "جميع الحقوق محفوظة.",
+      msgHolder: "تفاصيل الرسالة...", langToggle: "English", rights: "© Abdelmoneim. جميع الحقوق محفوظة.",
       emptyExp: "لا توجد خبرات مسجلة بعد في هذا البورتوفوليو.",
       emptyProj: "لم تتم إضافة أي مشروعات بعد.",
       emptySkills: "لم يتم تحديد أي مهارات بعد.",
@@ -365,7 +366,7 @@
       about: "About Me", experience: "Work Experience", skills: "Skills", education: "Education",
       certs: "Certifications", projects: "Projects", contact: "Contact Me", startBtn: "Start a Project", downloadCv: "Download CV",
       contactBtn: "Contact Me", sendMsg: "Send Message", nameHolder: "Full Name", emailHolder: "Email Address",
-      msgHolder: "Your Message...", langToggle: "العربية", rights: "All Rights Reserved.",
+      msgHolder: "Your Message...", langToggle: "العربية", rights: "© Abdelmoneim. All Rights Reserved.",
       emptyExp: "No experience records added yet.",
       emptyProj: "No projects added yet.",
       emptySkills: "No skills specified yet.",
@@ -384,69 +385,13 @@
     return 'fa-solid ' + code;
   }
 
-  // Fallback Professional PDF CV Generator
+  // Professional PDF Export matching actual visual portfolio layout
   function generateProfessionalPDF() {
-    var d = DATA[currLang] || {};
-    var g = DATA.global || {};
     var isAr = (currLang === 'ar');
-
-    var printWin = window.open('', '_blank');
-    if (!printWin) {
-      alert(isAr ? "يرجى السماح بالنوافذ المنبثقة لتحميل ملف PDF." : "Please allow popups to download CV PDF.");
-      return;
-    }
-
-    var expItems = (d.experience || []).map(function(e) {
-      var bullets = (e.bullets || []).map(function(b) { return '<li>' + b + '</li>'; }).join('');
-      return '<div style="margin-bottom:14px;"><div style="font-weight:700; font-size:14px; color:#1E293B;">' + 
-        (e.role || '') + ' <span style="font-weight:400; color:#64748B;">— ' + (e.company || '') + ' (' + (e.period || '') + ')</span></div>' +
-        '<ul style="margin:4px 0 0 20px; font-size:12.5px; color:#334155;">' + bullets + '</ul></div>';
-    }).join('');
-
-    var eduContent = (d.education && (d.education.degreeTitle || d.education.icdlTitle)) ? 
-      '<div style="margin-bottom:10px;"><div style="font-weight:700; font-size:13.5px; color:#1E293B;">' + (d.education.degreeTitle || '') + '</div><div style="font-size:12px; color:#64748B;">' + (d.education.degreeMeta || '') + '</div></div>' :
-      '<p style="color:#94a3b8; font-size:12px;">' + (isAr ? 'لا توجد مؤهلات' : 'None recorded') + '</p>';
-
-    var skillsContent = (d.skillCats || []).map(function(c) {
-      var sk = (c.skills || []).map(function(s) { return s.label; }).join(', ');
-      return '<div style="margin-bottom:8px;"><b style="font-size:13px; color:#1E293B;">' + c.name + ': </b><span style="font-size:12.5px; color:#475569;">' + sk + '</span></div>';
-    }).join('');
-
-    var certsList = (d.certsElaraby || []).concat(d.certsAlmentor || []);
-    var certsContent = certsList.length ? certsList.map(function(c) {
-      var title = (typeof c === 'object' ? (c.title || c.name || '') : c);
-      return '<div style="margin-bottom:6px; font-size:12.5px; color:#334155;">• <b>' + title + '</b></div>';
-    }).join('') : '';
-
-    var docHtml = '<!DOCTYPE html><html lang="' + currLang + '" dir="' + (isAr ? 'rtl' : 'ltr') + '">' +
-      '<head><meta charset="UTF-8"><title>' + (d.hero && d.hero.brandName ? d.hero.brandName : 'CV') + '</title>' +
-      '<style>@page { size: A4; margin: 15mm; } body { font-family: sans-serif; color: #0F172A; line-height: 1.5; padding: 20px; }' +
-      '.header { border-bottom: 2px solid #0EA5E9; padding-bottom: 14px; margin-bottom: 20px; }' +
-      '.name { font-size: 24px; font-weight: 800; color: #1E293B; margin-bottom: 4px; }' +
-      '.title { font-size: 15px; color: #0EA5E9; font-weight: 600; margin-bottom: 10px; }' +
-      '.contact { font-size: 12px; color: #64748B; display: flex; gap: 14px; flex-wrap: wrap; }' +
-      '.sec-title { font-size: 15px; font-weight: 700; color: #1E293B; border-bottom: 1px solid #E2E8F0; padding-bottom: 4px; margin-bottom: 10px; text-transform: uppercase; }' +
-      'p { font-size: 12.5px; color: #334155; margin-bottom: 6px; }</style></head><body>' +
-      '<div class="header"><div class="name">' + ((d.hero && d.hero.brandName) || '') + '</div>' +
-      '<div class="title">' + ((d.hero && (d.hero.eyebrow || d.hero.title1)) || '') + '</div>' +
-      '<div class="contact">' +
-      ((g.contactData && g.contactData.email) ? '<span>' + g.contactData.email + '</span>' : '') +
-      ((g.contactData && g.contactData.phone) ? '<span>' + g.contactData.phone + '</span>' : '') +
-      ((d.contact && d.contact.location) ? '<span>' + d.contact.location + '</span>' : '') +
-      ((g.contactData && g.contactData.linkedin) ? '<span>' + g.contactData.linkedin + '</span>' : '') +
-      '</div></div>' +
-      '<div style="margin-bottom:22px;"><div class="sec-title">' + (isAr ? 'الملخص المهني' : 'Professional Summary') + '</div><p>' + ((d.about && d.about.p1) || (d.hero && d.hero.lead) || '') + '</p></div>' +
-      '<div style="margin-bottom:22px;"><div class="sec-title">' + (isAr ? 'الخبرات المهنية' : 'Work Experience') + '</div>' + (expItems || '<p style="color:#94a3b8; font-size:12px;">' + (isAr ? 'لا توجد خبرات مسجلة' : 'No experience recorded') + '</p>') + '</div>' +
-      '<div style="margin-bottom:22px;"><div class="sec-title">' + (isAr ? 'التعليم والمؤهلات' : 'Education') + '</div>' + eduContent + '</div>' +
-      (certsContent ? '<div style="margin-bottom:22px;"><div class="sec-title">' + (isAr ? 'الدورات والشهادات' : 'Certifications & Courses') + '</div>' + certsContent + '</div>' : '') +
-      '<div style="margin-bottom:22px;"><div class="sec-title">' + (isAr ? 'المهارات والتقنيات' : 'Key Skills') + '</div>' + (skillsContent || '<p style="color:#94a3b8; font-size:12px;">' + (isAr ? 'لا توجد مهارات مسجلة' : 'No skills recorded') + '</p>') + '</div>' +
-      '</body></html>';
-
-    printWin.document.open();
-    printWin.document.write(docHtml);
-    printWin.document.close();
-    printWin.focus();
-    setTimeout(function() { printWin.print(); }, 400);
+    var originalTitle = document.title;
+    document.title = (DATA[currLang]?.hero?.brandName || 'Portfolio') + ' — ' + (isAr ? 'السيرة الذاتية' : 'Curriculum Vitae');
+    window.print();
+    document.title = originalTitle;
   }
 
   function renderPortfolio(lang) {
@@ -457,7 +402,6 @@
     var d = DATA[lang] || {};
     var g = DATA.global || {};
 
-    // Section Visibility settings from dashboard
     var secVis = (g.themeData && g.themeData.sectionVisibility) || {};
     var showAbout = secVis.about !== false;
     var showExp = secVis.experience !== false;
@@ -473,9 +417,11 @@
     document.getElementById('l_startBtn').innerText = dict.startBtn;
     document.getElementById('currentLangLabel').innerText = dict.langToggle;
 
-    // Dynamic Top Navigation Generation (Respecting visibility & content)
+    // Build Desktop & Mobile Navigation Links
     var navLinksCont = document.getElementById('dynamicNavLinks');
+    var mobileDrawer = document.getElementById('mobileDrawer');
     var navHtml = '';
+
     if(showAbout && (d.about && (d.about.p1 || (d.stats && d.stats.length)))) navHtml += '<a href="#about" class="nav-link">' + dict.about + '</a>';
     if(showExp && (d.experience && d.experience.length)) navHtml += '<a href="#experience" class="nav-link">' + dict.experience + '</a>';
     if(showSkills && (d.skillCats && d.skillCats.length)) navHtml += '<a href="#skills" class="nav-link">' + dict.skills + '</a>';
@@ -483,9 +429,10 @@
     if(showCerts && ((d.certsElaraby && d.certsElaraby.length) || (d.certsAlmentor && d.certsAlmentor.length))) navHtml += '<a href="#certs" class="nav-link">' + dict.certs + '</a>';
     if(showProjects && (d.projects && d.projects.length)) navHtml += '<a href="#projects" class="nav-link">' + dict.projects + '</a>';
     if(showContact) navHtml += '<a href="#contact" class="nav-link">' + dict.contact + '</a>';
-    navLinksCont.innerHTML = navHtml;
 
-    // Visibility toggling of sections
+    navLinksCont.innerHTML = navHtml;
+    mobileDrawer.innerHTML = navHtml + '<div style="margin-top:10px;"><a href="#contact" class="p-btn p-btn-primary" style="width:100%;">' + dict.startBtn + '</a></div>';
+
     if(document.getElementById('about')) document.getElementById('about').style.display = showAbout ? 'block' : 'none';
     if(document.getElementById('experience')) document.getElementById('experience').style.display = showExp ? 'block' : 'none';
     if(document.getElementById('skills')) document.getElementById('skills').style.display = showSkills ? 'block' : 'none';
@@ -524,7 +471,7 @@
       return '<span class="p-chip"><i class="' + getIconCls(c.icon) + '"></i> ' + (c.label || '') + '</span>';
     }).join('');
 
-    // CV Action
+    // CV Download / PDF Trigger
     var cvBtn = document.getElementById('p_cvBtn');
     cvBtn.innerText = dict.downloadCv;
     cvBtn.onclick = function() {
@@ -654,7 +601,18 @@
     document.getElementById('inp_msg').placeholder = dict.msgHolder;
     document.getElementById('btn_sendMsg').innerText = dict.sendMsg;
 
-    document.getElementById('footerText').innerHTML = '© ' + new Date().getFullYear() + ' ' + ((d.hero && d.hero.brandName) ? d.hero.brandName : '') + '. ' + dict.rights;
+    document.getElementById('footerText').innerHTML = '<span>' + dict.rights + '</span>';
+  }
+
+  // Hamburger Mobile Toggle
+  var mobileToggleBtn = document.getElementById('mobileMenuToggle');
+  if (mobileToggleBtn) {
+    mobileToggleBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      var drawer = document.getElementById('mobileDrawer');
+      if (drawer) drawer.classList.toggle('open');
+    });
   }
 
   document.getElementById('langSwitcherBtn').addEventListener('click', function() {
@@ -675,20 +633,78 @@
   themeBtn.addEventListener('click', function() { applyTheme(!isDarkMode); });
   applyTheme(isDarkMode);
 
+  // ========================================================
+  // SELF-CONTAINED INTERNAL ANCHOR NAVIGATION (No Parent Leak)
+  // ========================================================
+  document.addEventListener('click', function(e) {
+    var anchor = e.target.closest('a');
+    if (!anchor) return;
+    var href = anchor.getAttribute('href');
+
+    // Only intercept internal section hash links
+    if (href && href.charAt(0) === '#') {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (href.length > 1) {
+        var targetId = href.substring(1);
+        var targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          var navEl = document.querySelector('.p-nav');
+          var navHeight = navEl ? navEl.offsetHeight + 15 : 80;
+          var elementPosition = targetEl.getBoundingClientRect().top + window.pageYOffset;
+          var offsetPosition = Math.max(0, elementPosition - navHeight);
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+
+      var drawer = document.getElementById('mobileDrawer');
+      if (drawer) drawer.classList.remove('open');
+    }
+  }, true);
+
+  // Close mobile drawer on clicking outside
+  document.addEventListener('click', function(e) {
+    var drawer = document.getElementById('mobileDrawer');
+    if (drawer && drawer.classList.contains('open') && !drawer.contains(e.target) && e.target !== mobileToggleBtn && !mobileToggleBtn.contains(e.target)) {
+      drawer.classList.remove('open');
+    }
+  });
+
+  // Active Nav Link Spy on Scroll
   window.addEventListener('scroll', function() {
-    var sections = document.querySelectorAll('section');
-    var scrollPos = window.scrollY + 100;
+    var sections = document.querySelectorAll('section[id]');
+    var scrollPos = window.pageYOffset + 120;
     sections.forEach(function(sec) {
-      var top = sec.offsetTop;
+      var top = sec.getBoundingClientRect().top + window.pageYOffset;
       var height = sec.offsetHeight;
       var id = sec.getAttribute('id');
       if(scrollPos >= top && scrollPos < top + height) {
-        document.querySelectorAll('.p-nav-links a').forEach(function(a) {
-          a.classList.remove('active');
-          if(a.getAttribute('href') === '#' + id) a.classList.add('active');
+        document.querySelectorAll('.p-nav-links a, .p-mobile-drawer a').forEach(function(a) {
+          if (a.getAttribute('href') === '#' + id) {
+            a.classList.add('active');
+          } else if (a.getAttribute('href') && a.getAttribute('href').indexOf('#') === 0) {
+            a.classList.remove('active');
+          }
         });
       }
     });
+  });
+
+  // Client-Side Anti-Tampering & Copy-Protection Layer
+  document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+  document.addEventListener('dragstart', function(e) { if (e.target.nodeName === 'IMG') e.preventDefault(); });
+  document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+      if (['INPUT', 'TEXTAREA'].indexOf(e.target.nodeName) === -1) { e.preventDefault(); }
+    }
+    if (e.key === 'F12' || ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))) {
+      e.preventDefault();
+    }
   });
 
   renderPortfolio(currLang);
